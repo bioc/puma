@@ -1,0 +1,65 @@
+\name{justmmgMOS}
+\alias{justmmgMOS}
+\alias{just.mmgmos}
+\title{Compute mmgmos Directly from CEL Files}
+\description{
+  This function converts CEL files into an \code{exprReslt} using mmgmos.
+}
+\usage{
+justmmgMOS(..., filenames=character(0),
+          widget=getOption("BioC")$affy$use.widgets,
+          compress=getOption("BioC")$affy$compress.cel,
+          celfile.path=getwd(),
+          sampleNames=NULL,
+          phenoData=NULL,
+          description=NULL,
+          notes="",
+          background=TRUE, gsnorm=c("mean","median","meanlog"), savepar=FALSE, eps=1.0e-6)
+
+just.mmgmos(..., filenames=character(0),
+           phenoData=new("phenoData"),
+           description=NULL,
+           notes="",
+           compress=getOption("BioC")$affy$compress.cel,
+           background=TRUE, gsnorm=c("mean","median","meanlog"), savepar=FALSE, eps=1.0e-6)
+
+}
+\arguments{
+  \item{\dots}{ file names separated by comma.}
+  \item{filenames}{ file names in a character vector.}
+  \item{widget}{a logical specifying if widgets should be used.}
+  \item{compress}{are the CEL files compressed ?}
+  \item{celfile.path}{a character denoting the path \code{ReadAffy} should look for
+          cel files}
+  \item{sampleNames}{a character vector of sample names to be used in
+    the \code{AffyBatch}}
+  \item{phenoData}{ a \code{\link[Biobase]{phenoData}} object}
+  \item{description}{ a \code{\link[Biobase]{MIAME}} object}
+  \item{notes}{ notes }
+  \item{background}{Logical value. If \code{TRUE}, perform background correction before applying mmgmos.}
+  \item{gsnorm}{character. specifying the algorithm of global scaling normalisation.}
+  \item{savepar}{Logical value. If \code{TRUE} the estimated parameters of the model are saved in file par\_mmgmos.txt and phi\_mmgmos.txt.}
+  \item{eps}{Optimisation termination criteria.}
+}
+\details{
+  This method should require much less RAM than the conventional
+  method of first creating an \code{AffyBatch} and then running
+  \code{\link[mmgmos]{mmgmos}}.
+  
+  Note that this expression measure is given to you in log base 2
+  scale. This differs from most of the other expression measure
+  methods.
+
+  The algorithms of global scaling normalisation can be one of "mean", "median" and "meanlog".
+  "mean" and "meanlog" are mean-centered normalisation on raw scale and log scale respectively, and "median" 
+  is median-centered normalisation.
+}
+\value{
+ An \code{exprReslt}.
+}
+\seealso{ Related class \code{\link{exprReslt-class}} and related method \code{\link{mmgmos}}}
+\examples{
+
+}
+\keyword{manip}
+

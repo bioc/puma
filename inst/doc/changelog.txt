@@ -1,0 +1,23 @@
+30 March 2007: puma 1.0.0
+
+First version available from Bioconductor
+
+08 January 2007: puma 0.0.3
+
+Version first tested with R 2.5.0
+
+04 January 2007: puma 0.0.2
+
+An updated version, to be used for beta testing was created.
+
+12 October 2006: puma 0.0.1
+
+The first version of the puma package was created, with a view to becoming part
+of the Bioconductor project.
+
+PRE-HISTORY
+
+Parts of the puma package were originally created by Xuejun Liu as the following
+separate R packages: mmgmos, pplr, pumaclust, as well as Matlab code (by Guido
+Sanguinetti) for NPPCA. This legacy code is still available from the project
+website http://umber.sbs.man.ac.uk/resources/puma/.

@@ -1,0 +1,28 @@
+/****************************************************************************
+*                                                                           *
+*      puma - Propagating Uncertainty in Microarray Analysis                *
+*      Authors: Richard D. Pearson, Xuejun Liu, Magnus Rattray,             *
+*               Marta Milo, Neil D. Lawrence, Guido Sanguinetti             *
+*                                                                           *
+*    puma uses donlp which has the following conditions of use:             *
+*                                                                           *
+* 1. donlp2 is under the exclusive copyright of P. Spellucci                *
+*    (e-mail:spellucci@mathematik.tu-darmstadt.de)                          *
+*    "donlp2" is a reserved name                                            *
+* 2. donlp2 and its constituent parts come with no warranty, whether ex-    *
+*    pressed or implied, that it is free of errors or suitable for any      *
+*    specific purpose.                                                      *
+*    It must not be used to solve any problem, whose incorrect solution     *
+*    could result in injury to a person , institution or property.          *
+*    It is at the users own risk to use donlp2 or parts of it and the       *
+*    author disclaims all liability for such use.                           *
+* 3. donlp2 is distributed "as is". In particular, no maintenance, support  *
+*    or trouble-shooting or subsequent upgrade is implied.                  *
+* 4. The use of donlp2 must be acknowledged, in any publication which       * 
+*    contains                                                               *
+*    results obtained with it or parts of it. Citation of the authors name  *
+*    and netlib-source is suitable.                                         *
+* 5. The free use of donlp2 and parts of it is restricted for research      *
+*    purposes                                                               *
+*    commercial uses require permission and licensing from P. Spellucci.    *
+*****************************************************************************

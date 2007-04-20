@@ -1,0 +1,26 @@
+citHeader("The puma package is based on a large body of methodological research. Citing puma in publications will usually involve citing one or more of the methodology papers that the software is based on as well as citing the software package itself. For the methodology papers, see http://www.bioinf.manchester.ac.uk/resources/puma/.  puma makes use of the donlp2() function by Peter Spellucci. The use of donlp2() must be acknowledged in any publication which contains results obtained with puma or parts of it. Citation of the author's name and netlib-source is suitable. The puma software itself as well as the extension of PPLR to the multi-factorial case (the pumaDE function) can be cited as:")
+
+citEntry(entry="Article",
+  author ="Pearson et al",
+  title ="puma: a Bioconductor package for Propagating Uncertainty in Microarray Analysis",
+  journal =      "in preparation",
+  year =         "2007", 
+  textVersion = paste(
+ "puma: a Bioconductor package for Propagating Uncertainty in Microarray Analysis",
+ "(2007)",
+ "Pearson et al.", 
+  "In preparation")
+)
+
+citEntry(entry="Misc",
+	 author = personList(as.person("P. Spelluci")),
+   	 title =   "ANSI-C version of donlp2()",
+	 howpublished = "http://plato.asu.edu/ftp/donlp2/donlp2_intv_dyn.tar.gz",
+         
+         textVersion = "P. Spelluci. ANSI C-version of donlp2(). http://plato.asu.edu/ftp/donlp2/donlp2_intv_dyn.tar.gz."
+	)
+
+citFooter("This free open-source software implements academic
+research by the authors and co-workers. If you use it,
+please support the project by citing the appropriate
+journal articles.")
