@@ -481,7 +481,7 @@ SEXP mmgmos_c(SEXP PMmat, SEXP MMmat, SEXP ngenes, SEXP probeNames, SEXP phis, S
 	SEXP res=NULL;
 	double *p_phis=NULL;
 	int i, j;
-	char *geneName=NULL;
+	const char *geneName=NULL;
 
 /*	Rprintf("initialparams_mmgmos ");
 */	initialparams_mmgmos();
@@ -552,7 +552,7 @@ SEXP mgmos_c(SEXP PMmat, SEXP MMmat, SEXP ngenes, SEXP probeNames, SEXP phis, SE
 	SEXP res=NULL;
 	double *p_phis=NULL;
 	int i, j;
-	char *geneName=NULL;
+	const char *geneName=NULL;
 
 	initialparams_mmgmos();
 	
