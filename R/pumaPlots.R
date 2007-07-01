@@ -66,9 +66,9 @@ plotWhiskers <- function (
 )
 {
 	if(length(comparisons) != 2)
-		die("Must supply a 2-vector for comparisons (columns to compare)")
+		stop("Must supply a 2-vector for comparisons (columns to compare)")
 	if(max(comparisons) > dim(exprs(eset))[2])
-		die("Maximum comparison must be less than number of samples")
+		stop("Maximum comparison must be less than number of samples")
 	logRatio <- abs(exprs(eset[,comparisons[1]])-exprs(eset[,comparisons[2]]))
 	if(sortMethod[1] == "logRatio")
 	{
@@ -93,10 +93,16 @@ plotWhiskers <- function (
 plotROC <- function (
 	scoresList
 ,	truthValues
+,	includedProbesets=1:length(truthValues)
 ,	legendTitles=1:length(scoresList)
 ,	main = "PUMA ROC plot"
 ,	lty = 1:length(scoresList)
 ,	col = rep(1,length(scoresList))
+,	yaxisStat = "tpr"
+,	xaxisStat = "fpr"
+,	downsampling = 100
+,	showLegend = TRUE
+,	showAUC = TRUE
 ,	...
 )
 {
@@ -106,40 +112,58 @@ plotROC <- function (
 	legend <- NULL
 	for(i in 1:length(scoresList))
 	{
-		predictions[[i]] <- prediction(scoresList[[i]], truthValues)
-		ROCs[[i]] <- performance(predictions[[i]], "tpr", "fpr")
+		predictions[[i]] <- prediction(scoresList[[i]][includedProbesets]
+			,	truthValues[includedProbesets])
+		ROCs[[i]] <- performance(predictions[[i]], yaxisStat, xaxisStat)
 		AUCs[[i]] <- performance(predictions[[i]], "auc")@y.values[[1]]
 		if(i==1)
-			plot(ROCs[[i]], lty=lty[i], main=main, col=col[i], ...)
+			plot(ROCs[[i]], lty=lty[i], main=main, col=col[i], downsampling=downsampling, ...)
 		else
-			plot(ROCs[[i]], lty=lty[i], add=TRUE, col=col[i], ...)
-		legend = c(legend, paste(legendTitles[i],"AUC = ", round(AUCs[[i]],3)))
+			plot(ROCs[[i]], lty=lty[i], add=TRUE, col=col[i], downsampling=downsampling, ...)
+		if(showAUC)
+			legend = c(legend, paste(legendTitles[i],"AUC = ", round(AUCs[[i]],3)))
+		if(!showAUC)
+			legend = c(legend, paste(legendTitles[i]))
 	}
-	legend2(
-		"bottomright"
-	,	legend=legend
-	,	lty=lty
-	,	col=col
-	,	inset=0.05
-	,	seg.len=10
-	,	...
-	)
+	if(showLegend)
+	{
+		legend2(
+			"bottomright"
+		,	legend=legend
+		,	lty=lty
+		,	col=col
+		,	inset=0.05
+		,	seg.len=10
+		# ,	...
+		)
+	}
 }
 
-.plot.pumaPCARes <- function(
-	pumaPCARes
+calcAUC <- function (
+	scores
+,	truthValues
+,	includedProbesets=1:length(truthValues)
+)
+{
+	predictions <- prediction(scores[includedProbesets]
+		,	truthValues[includedProbesets])
+	AUC <- performance(predictions, "auc")@y.values[[1]]
+}
+
+plot.pumaPCARes <- function(
+	x
 ,	...
 ,	firstComponent=1
 ,	secondComponent=2
 ,	useFilenames=FALSE
-,	phenotype = pData(pumaPCARes@phenoData)
+,	phenotype = pData(x@phenoData)
 ,	legend1pos = "topright"
 ,	legend2pos = "bottomright"
 )
 {
 	plot(
-		x=pumaPCARes@model@W[,firstComponent]
-	,	y=pumaPCARes@model@W[,secondComponent]
+		x=x@model@W[,firstComponent]
+	,	y=x@model@W[,secondComponent]
 	,	type=if(useFilenames) "n" else "p"
 	,	xlab=paste("Component", firstComponent)
 	,	ylab=paste("Component", secondComponent)
@@ -156,8 +180,8 @@ plotROC <- function (
 	)
 	if(useFilenames)
 		text(
-			x=pumaPCARes@model@W[,1]
-		,	y=pumaPCARes@model@W[,2]
+			x=x@model@W[,1]
+		,	y=x@model@W[,2]
 		,	labels=rownames(phenotype)
 		)
     if(dim(phenotype)[2] >= 1)

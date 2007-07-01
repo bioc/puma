@@ -11,6 +11,7 @@ pumaComb(
 ,	method="em"
 ,	numOfChunks=1000
 ,	save_r=FALSE
+,	cl=NULL
 ,	parallelCompute=if(
 		"Rmpi" \%in\% installed.packages() & "snow" \%in\% installed.packages()
 	)
@@ -19,20 +20,21 @@ pumaComb(
 )
 }
 \arguments{
-	\item{eset}{ An object of class \code{\link[Biobase]{ExpressionSet}}. }
+	\item{eset}{ An object of class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}}. }
 	\item{design.matrix}{ A design matrix. }
 	\item{method}{ Method "map" uses MAP of a hierarchical Bayesion model with Gamma prior on the between-replicate variance (Gelman et.al. p.285) and shares the same variance across conditions. This method is fast and suitable for the case where there are many conditions.
 
 Method "em" uses variational inference of the same hierarchical Bayesian model as in method "map" but with conjugate prior on between-replicate variance and shares the variance across conditions. This is generaly much slower than "map", but is recommended where there are few conditions (as is usually the case). }
 	\item{numOfChunks}{ An integer defining how many chunks the data is divided into before processing. There is generally no need to change the default value. }
 	\item{save_r}{ Will save an internal variable \code{r} to a file. Used for debugging purposes. }
+	\item{cl}{ A "cluster" object. See \code{\link[snow]{makeCluster}} function from \pkg{snow} package for more details (if available).}
 	\item{parallelCompute}{ Boolean identifying whether processing in parallel should occur. }
 }
 \details{
 It is generally recommended that data is normalised prior to using this function. See the function \code{\link{pumaNormalize}}.
 }
 \value{
-  The result is an \code{\link[Biobase]{ExpressionSet}} object.
+  The result is an \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}} object.
 }
 \references{Gelman,A., Carlin,J.B., Stern,H.S., Rubin,D.B., Bayesian data analysis. London: Chapman & Hall; 1995.
 

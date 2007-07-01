@@ -9,7 +9,7 @@ justmgMOS <- function(
 , description=NULL
 , notes=""
 , background=TRUE
-, gsnorm=c("mean","median","meanlog")
+, gsnorm=c("median", "none", "mean", "meanlog")
 , savepar=FALSE
 , eps=1.0e-6
 )
@@ -46,7 +46,7 @@ just.mgmos <- function(
 , notes=""
 , compress=getOption("BioC")$affy$compress.cel
 , background=TRUE
-, gsnorm=c("mean","median","meanlog")
+, gsnorm=c("median", "none", "mean", "meanlog")
 , savepar=FALSE
 , eps=1.0e-6
 )
@@ -83,6 +83,7 @@ just.mgmos <- function(
       description@preprocessing$affyversion <- library(
                                                  help=affy
                                                )$info[[2]][[2]][2]
+	  description@other <- list(notes)
     }
   ## read the first file to see what we have
   ##if (verbose) cat(1, "reading",filenames[[1]],"...")
@@ -102,8 +103,8 @@ just.mgmos <- function(
 
   ## read pm data into matrix
 
-  pm <- read.probematrix(filenames=filenames,which="pm")$pm
-  mm <- read.probematrix(filenames=filenames,which="mm")$mm
+  pm <- read.probematrix(filenames=unlist(filenames),which="pm")$pm
+  mm <- read.probematrix(filenames=unlist(filenames),which="mm")$mm
 
   ## pass matrix of probe values to mgmos
   ## call mgmos
@@ -227,7 +228,6 @@ just.mgmos <- function(
     , se.exprs=se
     , phenoData=phenoData
     , annotation=annotation
-    , description=description
-    , notes=notes
+    , experimentData=description
     )
 }

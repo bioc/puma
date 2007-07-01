@@ -4,22 +4,20 @@ pumaDE <- function (
 ,	contrast.matrix = createContrastMatrix(eset)
 )
 {
-  p <- matrix(0, dim(exprs(eset))[1], dim(contrast.matrix)[2])
-  genes <- matrix(0, dim(exprs(eset))[1], dim(contrast.matrix)[2])
-  for(i in 1:dim(contrast.matrix)[2])
-  {
-    p[,i] <- pplr(
-                cbind(exprs(eset), assayDataElement(eset,"se.exprs"))
-              , which(contrast.matrix[,i]==-1)
-              , which(contrast.matrix[,i]==1)
-            )[,9]
-    genes[,i] <-  pplr(
-                    cbind(exprs(eset), assayDataElement(eset,"se.exprs"))
-                  , which(contrast.matrix[,i]==-1)
-                  , which(contrast.matrix[,i]==1)
-                  )[,1]
-  }
-  list(p=p, genes=genes)
+	p <- matrix(0, dim(exprs(eset))[1], dim(contrast.matrix)[2]
+		, dimnames=list(rownames(exprs(eset)), colnames(contrast.matrix)))
+	for(i in 1:dim(contrast.matrix)[2])
+	{
+		p[,i] <- pplr(
+	    	cbind(exprs(eset), assayDataElement(eset,"se.exprs"))
+	    ,	which(contrast.matrix[,i]==-1)
+	    ,	which(contrast.matrix[,i]==1)
+		,	sorted=FALSE
+	    )[,9]
+	}
+	new("DEResult", statistic=data.frame(p)
+	,	statisticDescription="Probability of Positive Log Ratio (PPLR)"
+	,	DEMethod="pumaDE")
 }
 
 pumaDEUnsorted <- function (

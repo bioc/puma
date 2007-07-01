@@ -12,8 +12,8 @@ Most analyses of Affymetrix GeneChip data are based on point estimates of expres
 	\tabular{ll}{
 		Package: \tab puma\cr
 		Type: \tab Package\cr
-		Version: \tab 1.1.0\cr
-		Date: \tab 2007-03-26\cr
+		Version: \tab 1.2.1\cr
+		Date: \tab 2007-06-26\cr
 		License: \tab LGPL excluding donlp2\cr
 	}
 	For details of using the package please refer to the Vignette
@@ -39,7 +39,6 @@ Most analyses of Affymetrix GeneChip data are based on point estimates of expres
 	Pearson, R. D., Liu, X., Sanguinetti, G., Milo, M., Lawrence, N. D., Rattray, M. (2007) In preparation.
 }
 \examples{
-	library(puma)
 	data(affybatch.example)
 	pData(affybatch.example) <- data.frame("level"=c("twenty","twenty","ten")
 	    , "batch"=c("A","B","A"), row.names=rownames(pData(affybatch.example)))

@@ -16,13 +16,13 @@ plotWhiskers(
 )
 }
 \arguments{
-	\item{eset}{ An object of class \code{\link[Biobase]{ExpressionSet}}. }
+	\item{eset}{ An object of class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}}. }
 	\item{comparisons}{ A 2-element integer vector specifying the columns of data to be compared. }
 	\item{sortMethod}{ The method used to sort the genes. "logRatio" is fold change. PPLR is Probability of Positive Log Ratio (as determined by the \code{\link{pumaDE}} method). }
-	\item{numGenes}{ ~~Describe \code{numGenes} here~~ }
-	\item{xlim}{ ~~Describe \code{xlim} here~~ }
-	\item{main}{ ~~Describe \code{main} here~~ }
-	\item{highlightedGenes}{ ~~Describe \code{highlightedGenes} here~~ }
+	\item{numGenes}{ Integer. Number of probesets to plot. }
+	\item{xlim}{ The x limits of the plot. See \code{\link{plot.default}}. }
+	\item{main}{ A main title for the plot. See \code{\link{plot.default}}. }
+	\item{highlightedGenes}{ Row numbers of probesets to highlight with an asterisk. }
 }
 \value{
 	This function has no return value. The output is the plot created.

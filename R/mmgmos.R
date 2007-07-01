@@ -2,10 +2,11 @@ mmgmos <- function(
 	object
 ,	background=FALSE
 ,	replaceZeroIntensities=TRUE
-,	gsnorm=c("none","mean","median","meanlog")
+,	gsnorm=c("median", "none", "mean", "meanlog")
 ,	savepar=FALSE
 ,	eps=1.0e-6
 ,	orig.phis = FALSE
+,	addConstant = 0
 )
 {
 
@@ -146,7 +147,7 @@ mmgmos <- function(
 
 	return_exprReslt <- new(
 		"exprReslt"
-	,	exprs=expr
+	,	exprs=log2((2^expr)+addConstant)
 	,	se.exprs=se
   	,	phenoData = new(
 			"AnnotatedDataFrame"

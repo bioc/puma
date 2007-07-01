@@ -16,14 +16,14 @@ pumaNormalize(
 )
 }
 \arguments{
-	\item{eset}{ An object of class \code{\link[Biobase]{ExpressionSet}} }
+	\item{eset}{ An object of class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}}. }
 	\item{arrayScale}{ A method of scale normalisation at the array level. }
 	\item{probesetScale}{ A method of scale normalisation at the probe set level. }
 	\item{probesetNormalisation}{ If not NULL normalises the expression levels to have zero mean and adjusts the variance of the gene expression according to the zero-centered normalisation. }
 	\item{replicates}{ List of integer vectors indicating which arrays are replicates. }
 }
 \value{
-An object of class \code{\link[Biobase]{ExpressionSet}} holding the normalised data.
+An object of class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}} holding the normalised data.
 }
 \author{ Richard D. Pearson }
 \seealso{Methods \code{\link{mmgmos}}, \code{\link{pumaComb}} and \code{\link{pumaDE}}}

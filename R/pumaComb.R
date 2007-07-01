@@ -33,6 +33,7 @@ pumaComb <- function (
 ,	method="em"
 ,	numOfChunks=1000
 ,	save_r=FALSE
+,	cl=NULL
 ,	parallelCompute=if(
 		"Rmpi" %in% installed.packages() & "snow" %in% installed.packages()
 	)
@@ -40,27 +41,30 @@ pumaComb <- function (
 	else FALSE
 )
 {
-	if(!(is(eset, "ExpressionSet") || is(eset, "exprSet")))
+	if(!(is(eset, "ExpressionSet") || is(eset, "exprSet") || is(eset, "ExpressionSetIllumina")))
 		stop("eset is not a valid ExpressionSet object!")
 	if(is.null(design.matrix) && is.null(pData(eset)))
 		stop("ExpressionSet contains no valid phenoData and no design.matrix
 			given!")
-	if(parallelCompute && !exists("cl"))
+	if(parallelCompute && is.null(cl))
 	{
 		# library(Rmpi)
 		library(snow)
-		cl <<- makeCluster(length(system("lamnodes",TRUE,TRUE))-1)
-		clusterEvalQ(cl, library(puma))
+		cl <- makeCluster(length(system("lamnodes",TRUE,TRUE))-1)
+		# clusterEvalQ(cl, library(puma))
 	}
+	if(parallelCompute)
+		clusterEvalQ(cl, library(puma))	
 	if(is.null(design.matrix))
 		design.matrix <- createDesignMatrix(eset)
 	# if(length(names(which(colSums(dm2)==1))) > 1)
 	# 	warning("The following conditions have no replicates", names(which(colSums(dm2)==1)),". While it is possible to use PPLR without any biological replicates, this is not advised.")
 	e <- exprs(eset)
 	se <- assayDataElement(eset,"se.exprs")
+	# se <- se.exprs(eset)
 	numOfGenes <- dim(e)[1]
 	if(numOfChunks > (numOfGenes/10))
-		numOfChunks <- floor(numOfGenes/10)
+		numOfChunks <- max(floor(numOfGenes/10),1)
 	numPerChunk <- c(0, rep(floor(numOfGenes / numOfChunks),numOfChunks))
 	numOfExtras <- numOfGenes - sum(numPerChunk)
 	if(numOfExtras > 0)
@@ -83,7 +87,7 @@ pumaComb <- function (
 		)
 	}
 	cat("Calculating expected completion time\n")
-	if(!exists("cl"))
+	if(is.null(cl))
 	{
 		expectedCompletionTime <-	system.time(
 										rFirst <- list(
@@ -126,7 +130,7 @@ pumaComb <- function (
 	cat(".......20%.......40%.......60%.......80%......100%\n")
 	i <- 0
 	chunksPerDot <- ceiling(numOfChunks / 50)
-	if(!exists("cl") & numOfChunks > 1)
+	if(is.null(cl) & numOfChunks > 1)
     	rl <- lapply(
     			paramsList[2:length(paramsList)]
     		,	function(paramsList) 
@@ -144,9 +148,9 @@ pumaComb <- function (
 					return(b)
 				}
 			)
-	if(!exists("cl") & numOfChunks == 1)
+	if(is.null(cl) & numOfChunks == 1)
 		cat("..................................................")
-    if(exists("cl"))
+    if(!is.null(cl))
     {
     	if(numOfChunks > length(cl))
 			rl <-	clusterApplyLBDots(
@@ -182,14 +186,29 @@ pumaComb <- function (
 	,	dim(design.matrix)[2]
 	)
 	rownames(pData(eset_r)) <- colnames(design.matrix)[design.matrix.ordering]
-	colnames(pData(eset_r)) <- colnames(pData(eset)[1:numOfFactorsToUse(eset)])
+	colnames(pData(eset_r)) <- colnames(pData(eset)[1:numOfFactorsToUse(removeUninformativeFactors(eset))])
 	# colnames(pData(eset_r)) <- colnames(pData(eset))
 	return(eset_r)
+}
+
+removeUninformativeFactors <- function(eset)
+{
+	informativeFactors <- which(
+		apply(
+			as.matrix(pData(eset))
+		,	2
+		,	function(x) length(levels(as.factor(x)))
+		) > 1
+	)
+	phenoData(eset) <- phenoData(eset)[,informativeFactors]
+	return(eset)
 }
 
 numOfFactorsToUse <- function (eset)
 {
 	numOfFactors <- dim(pData(eset))[2]
+	if(numOfFactors == 0)
+		stop("eset has no informative factors! Does eset have an appropriate phenoData slot?")
 	while (
 		length(
 			levels(
@@ -216,9 +235,11 @@ numOfFactorsToUse <- function (eset)
 
 createDesignMatrix <- function (eset)
 {
-	if(!(is(eset, "ExpressionSet") || is(eset, "exprSet")))
+	if(!(is(eset, "ExpressionSet") || is(eset, "exprSet") || is(eset, "ExpressionSetIllumina")))
 		stop("eset is not a valid ExpressionSet object!")
-	numOfFactors <- numOfFactorsToUse(eset)
+	numOfFactors <- numOfFactorsToUse(removeUninformativeFactors(eset))
+	if(numOfFactors == 0)
+		stop("eset has no informative factors! Does eset have an appropriate phenoData slot?")
 	pd <- as.data.frame(pData(eset)[,1:numOfFactors])
 	for (i in 1:numOfFactors)
 	## coerce all columns of pheno data to factors - needed because
@@ -287,11 +308,11 @@ createDesignMatrix <- function (eset)
 
 createContrastMatrix <- function (eset, design=NULL)
 {
-	if(!(is(eset, "ExpressionSet") || is(eset, "exprSet")))
+	if(!(is(eset, "ExpressionSet") || is(eset, "exprSet") || is(eset, "ExpressionSetIllumina")))
 		stop("eset is not a valid ExpressionSet object!")
 	if(is.null(design))
 		design <- createDesignMatrix(eset)
-	numOfFactors <- numOfFactorsToUse(eset)
+	numOfFactors <- numOfFactorsToUse(removeUninformativeFactors(eset))
 	pd <- as.data.frame(pData(eset)[,1:numOfFactors])
 	for (i in 1:numOfFactors)
 	## coerce all columns of pheno data to factors - needed because
@@ -326,7 +347,7 @@ createContrastMatrix <- function (eset, design=NULL)
 	arrayOfNames <- aperm(array(arrayOfNames, rev(lengthsOfLevels)))
 	
 	############################################################################
-	## contrasts where only one factor is changing for fixed levels of all other
+	## 1-1 contrasts where only one factor is changing for fixed levels of all other
 	############################################################################
 	
 	## create a 2n dimensional array each element of which corrresponds to a
@@ -383,6 +404,100 @@ createContrastMatrix <- function (eset, design=NULL)
 						)
 					)
 	rownames(cm) <- arrayOfNames
+
+	############################################################################
+	## 1-other contrasts where only one factor is changing for fixed levels of all other
+	############################################################################
+	
+	if(numOfFactors == 1)
+	{
+		ct <- list()
+		count <- 0
+		contrastNames <- vector()
+		if(lengthsOfLevels[1] > 2)
+		{
+			cm8 <- matrix(0, lengthsOfLevels[1], lengthsOfLevels[1])
+			for(k in 1:lengthsOfLevels[1])
+			{
+				cm8[k,k] <- 1
+				cm8[(1:lengthsOfLevels[1])[-k],k] <- -1
+			}
+			colnames(cm8) <- paste(levelsOfFactors[[1]], "_vs_others", sep="")
+			cm <- cbind(cm,cm8)
+		}
+	}
+	
+	if(numOfFactors > 1)
+	{
+		for(index_Factor in 1:length(lengthsOfLevels))
+		{
+			if(lengthsOfLevels[index_Factor] > 2)
+			{
+				temp <- array(0,dim=lengthsOfLevels[-index_Factor])
+				perms <- which(temp==0, arr.ind=TRUE)
+				ct <- list()
+				count <- 0
+				contrastNames <- vector()
+				for(index_unchangingLevels in 1:(dim(perms)[1]))
+				{
+					for(index_changingLevels in 1:lengthsOfLevels[index_Factor])
+					{
+						count <- count+1
+						ct[[count]] <- array(0,dim=lengthsOfLevels)
+						dims<-vector(length=length(lengthsOfLevels))
+						dims[-index_Factor] <- perms[index_unchangingLevels,]
+						dims[index_Factor] <- index_changingLevels
+						dims_for_names <- dims
+						dimsmat <- t(matrix(dims))
+						ct[[count]][dimsmat] <- 1
+						dimsmat <- matrix(0,lengthsOfLevels[index_Factor],length(lengthsOfLevels))
+						count2 <- 0
+						for(index_changingFactor in
+							(1:lengthsOfLevels[index_Factor])[-index_changingLevels])
+						{
+							dims[index_Factor] <- index_changingFactor
+							dimsmat[index_changingFactor,] <- t(matrix(dims))
+						}
+						ct[[count]][dimsmat] <- -1
+						if(index_Factor == 1)
+							contrastNames[count] <- levelsOfFactors[[1]][dims_for_names[1]]
+						else
+							contrastNames[count] <- levelsOfFactors[[1]][dims_for_names[1]]
+						for(m in 2:numOfFactors)
+						{
+							if(index_Factor == m)
+								contrastNames[count] <- paste(contrastNames[count], "."
+									,  levelsOfFactors[[m]][dims_for_names[m]], sep="")
+							else
+								contrastNames[count] <- paste(contrastNames[count], "."
+									,  levelsOfFactors[[m]][dims_for_names[m]], sep="")
+						}
+						contrastNames[count] <- paste(contrastNames[count], "_vs_", sep="")
+						if(index_Factor == 1)
+							contrastNames[count] <- paste(contrastNames[count]
+								, "others", sep="")
+						else
+							contrastNames[count] <- paste(contrastNames[count]
+								, levelsOfFactors[[1]][dims_for_names[1]], sep="")
+						for(m in 2:numOfFactors)
+						{
+							if(index_Factor == m)
+								contrastNames[count] <- paste(contrastNames[count]
+									, ".",  "others", sep="")
+							else
+								contrastNames[count] <- paste(contrastNames[count]
+									, ".",  levelsOfFactors[[m]][dims_for_names[m]], sep="")
+						}
+					}
+				}
+				## make a matrix out of the list
+				cm7 <- sapply(ct, as.vector)
+				colnames(cm7) <- contrastNames
+				cm <- cbind(cm,cm7)
+			}
+		}
+	}
+	
 
 	############################################################################
 	## contrasts where only one factor is changing for all levels of all other

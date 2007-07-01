@@ -2,8 +2,8 @@
 \alias{mgmos}
 \title{ modified gamma Model for Oligonucleotide Signal }
 \description{
-  This function converts an object of class \code{AffyBatch} into an object of class 
-  \code{exprReslt} using the modified gamma Model for Oligonucleotide Signal 
+  This function converts an object of class \code{\link[affy:AffyBatch-class]{AffyBatch}} into an object of class 
+  \code{\link{exprReslt}} using the modified gamma Model for Oligonucleotide Signal 
   (multi-mgMOS). This function obtains confidence of measures, standard deviation and 5, 
   25, 50, 75 and 95 percentiles, as well as the estimated expression levels.
 }
@@ -12,7 +12,7 @@ mgmos(
 	object
 ,	background=FALSE
 ,	replaceZeroIntensities=TRUE
-,	gsnorm=c("none","mean","median","meanlog")
+,	gsnorm=c("median", "none", "mean", "meanlog")
 ,	savepar=FALSE
 ,	eps=1.0e-6
 )
@@ -28,9 +28,9 @@ mgmos(
 \details{
   The obtained expression measures are in log base 2 scale.
   
-  The algorithms of global scaling normalisation can be one of "mean", "median" and "meanlog".
+  The algorithms of global scaling normalisation can be one of "median", "none", "mean", "meanlog".
   "mean" and "meanlog" are mean-centered normalisation on raw scale and log scale respectively, and "median" 
-  is median-centered normalisation.
+  is median-centered normalisation. "none" will result in no global scaling normalisation being applied.
   
   There are 4*n columns in file par\_mgmos.txt, n is the number of chips. Every 4 columns are parameters for a chip. 
   Among every 4 columns, the first one is for 'alpha' values, the 2nd one is for 'a' values, 

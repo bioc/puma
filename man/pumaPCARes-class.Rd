@@ -2,7 +2,7 @@
 \docType{class}
 \alias{pumaPCARes-class}
 \alias{pumaPCARes}
-\alias{plot}
+\alias{plot, pumaPCARes-method}
 
 \title{Class pumaPCARes}
 \description{

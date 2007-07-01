@@ -1,6 +1,6 @@
 .First.lib <- function(lib, pkgname, where) {
   ## load the compiled code
-  library.dynam(pkgname, pkgname, lib)
+  library.dynam("puma", pkgname, lib)
 
   if(.Platform$OS.type == "windows" && require(Biobase) && interactive()
         && .Platform$GUI ==  "Rgui"){

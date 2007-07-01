@@ -2,8 +2,8 @@
 \alias{mmgmos}
 \title{ Multi-chip modified gamma Model for Oligonucleotide Signal }
 \description{
-  This function converts an object of class \code{AffyBatch} into an object of class 
-  \code{exprReslt} using the Multi-chip modified gamma Model for Oligonucleotide Signal 
+  This function converts an object of class \code{\link[affy:AffyBatch-class]{AffyBatch}} into an object of class 
+  \code{\link{exprReslt}} using the Multi-chip modified gamma Model for Oligonucleotide Signal 
   (multi-mgMOS). This function obtains confidence of measures, standard deviation and 5, 
   25, 50, 75 and 95 percentiles, as well as the estimated expression levels.
 }
@@ -12,10 +12,11 @@ mmgmos(
 	object
 ,	background=FALSE
 ,	replaceZeroIntensities=TRUE
-,	gsnorm=c("none","mean","median","meanlog")
+,	gsnorm=c("median", "none", "mean", "meanlog")
 ,	savepar=FALSE
 ,	eps=1.0e-6
 ,	orig.phis = FALSE
+,	addConstant = 0
 )
 }
 \arguments{
@@ -26,13 +27,14 @@ mmgmos(
   \item{savepar}{Logical value. If \code{TRUE} the estimated parameters of the model are saved in file par\_mmgmos.txt and phi\_mmgmos.txt. }
   \item{eps}{Optimisation termination criteria.}
   \item{orig.phis}{Logical value. If \code{TRUE}, use phi values created from hgu95a array.}
+  \item{addConstant}{numeric. This is an experimental feature and should not generally be changed from the default value. }
 }
 \details{
   The obtained expression measures are in log base 2 scale.
    
-  The algorithms of global scaling normalisation can be one of "mean", "median" and "meanlog".
+  The algorithms of global scaling normalisation can be one of "median", "none", "mean", "meanlog".
   "mean" and "meanlog" are mean-centered normalisation on raw scale and log scale respectively, and "median" 
-  is median-centered normalisation.
+  is median-centered normalisation. "none" will result in no global scaling normalisation being applied.
  
   There are 2*n+2 columns in file par\_mmgmos.txt, n is the number of chips. The first n columns are 'alpha' values for n chips, the next n columns are 'a' values for n 
   chips, column 2*n+1 is 'c' values and the final column is values for 'd'. The file phi\_mmgmos.txt keeps the final optimal value of 'phi'.
