@@ -281,8 +281,8 @@ limmaRes <- calculateLimma(eset_estrogen_rma)
 The results of these commands are ranked gene lists. Suppose we are particularly interested in the interaction term. We saw above that this was the seventh contrast identified by \Rpackage{puma}. The following commands will identify the gene deemed to be most likely to be differentially expressed due to the interaction term by our two methods
 
 <<>>=
-topLimmaIntGene <- limmaRes$genes[1,7]
-toppumaDEIntGene <- pumaDERes$genes[1,7]
+topLimmaIntGene <- topGenes(limmaRes, contrast=7)
+toppumaDEIntGene <- topGenes(pumaDERes, contrast=7)
 @
 
 Let's look first at the gene determined by RMA/limma to be most likely to be differentially expressed due to the interaction term
@@ -328,8 +328,44 @@ plotErrorBars(eset_estrogen_mmgmos_normd, toppumaDEIntGene)
 
 Finally, figure \ref{topgene_mmgmospumade} shows the gene determined by multi-mgMOS/PPLR to be most likely to be differentially expressed due to the interaction term. For this gene, there appears to be lower expression of this gene due to the combination of the estrogen=absent and time=48 conditions. Unlike with the gene shown in \ref{topgene_mmgmoslimma}, however, there is no overlap in the error bars between the genes in this condition, and those in other conditions. Hence, this would appear to be a better candidate for a DE gene.
 
-
-
+% \newpage
+% \section{Comparison of methods using the Golden spike-in data set}
+% \label{section:Golden spike-in}
+% 
+% The ``Golden spike-in'' data set of Choe et al has been used to validate many different methods for summarising Affymetrix data sets. Choe et al originally used this data set to show that a modified form of MAS5.0 outperforms RMA, GCRMA and dChip. Liu et al used the data set to show that mmgmos can outperform the modified MAS5.0 method of Choe. Hochreiter et al used the data set to show that FARMS outperforms RMA, MAS5.0 and MBEI (and that RMA outperforms MAS5.0 and MBEI). Hein and Richardson 2006 used the data set to show BGX outperforms MAS5.0 and RMA. Chen used the data to show that DFW outperforms RMA, MAS5.0 MBEI, PLIER, FARMS and Choe's modified version of MAS5.0, and had similar performance to GCRMA. All of these papers used some form of Reciever-Operator Characteristic (ROC) curve in their analyses. The confusing, and seemingly contradictory results, make it difficult for typical Affymetrix users to decide between methods.
+% 
+% The reason for the differing results arise from the different choices made at various stages of the analysis pipeline. We broadly summarise these as the following six choices, each of which can have a significant influence over results:
+% \begin{enumerate}
+% \item Summary statistic used (e.g. RMA, GCRMA, MAS5.0, etc.). Note that Choe et al broke this particular choice down to four separate sub-choices of methods for background correction, normalization, PM adjustment, and expression summary.
+% \item Post-summarisation normalisation method. Choe et al compared no further normalisation against the use of a loess normalization based on the known invariant probesets.
+% \item Differential expression (DE) method. Choe et al compared T-test, Cyber-T and SAM.
+% \item Direction of differential expression. Choe et al used only a 1-sided test for up-regulation.
+% \item Choice of known positives. Choe et al used all spike-in probesets with fold-change (FC) greater than 1.
+% \item Choice of known negatives. Choe et al used all invariant probesets. This included both probesets that were spiked in at equal quantities, as well as the so-called ``empty'' probesets.
+% \end{enumerate}
+% 
+% Table \ref{Golden spike-in analysis choices} shows the choices we believe were made in various studies of the data set.
+% 
+% \begin{table}
+% \begin{tabular}{|p{1.5cm}||p{3cm}|p{2.5cm}|p{2cm}|p{1cm}|p{1.5cm}|p{1.5cm}|}
+% \hline
+% &summ&norm&DE&dir&pos&neg\\
+% \hline
+% \hline Choe et al 2005 & CP, MAS5.0, RMA, GCRMA, MBEI plus many variants of these & none, loess\_invariant & Ttest, CyberT, SAM & up & FC>1 & invariant \\
+% \hline Liu et al 2006 & CP, mmgMos & loess\_invariant & CyberT, PPLR & up & FC>1 & invariant \\
+% \hline Hochreiter et al 2006 & MAS5.0, RMA, MBEI q-FARMS and l-FARMS & none? & SAM? & up? & FC>1? & invariant? \\
+% \hline Hein and Richardson 2006 & MAS5.0, RMA and BGX & & & & & \\
+% \hline Chen et al 2007 & CP, MAS5.0, RMA, GCRMA, MBEI, PLIER, q-FARMS? and DFW & none & FC & either & FC>1 and FC=x(for all x) & invariant \\
+% \hline
+% \end{tabular}
+% \caption{Analysis choices of various studies of ``Golden Spike-in'' data sets
+% \label{Golden spike-in analysis choices}} 
+% \end{table}
+% 
+% In addition to the studies identified in Table \ref{Golden spike-in analysis choices}, Lemieux 2006 and Hess and Iyer 2007 report results of ``probe-level'' methods for detecting differential expression. We do not consider these approaches here (but maybe we should?). Also need to point out that Lemieux is really not applicable to real data sets.
+% 
+% The real strength of the Choe data set is its use in validating differential expression methods. The large number of DE probesets (1,331) in the data set make this in many ways preferable to the Affymetrix spike-in data sets, which have very few probesets that are differentially expressed. There have been criticisms of the data sets from Dabney and Storey 2006, Irizarry et al 2006 and Gaile and Miecznikowski 2007. The main criticisms of Dabnet and Storey and Gaile and Miecznikowski center around non-uniform p-value distributions and the fact that this invalidates false discovery rate (FDR) methods. However, the tool that has been used most extensively for comparing methods on this data set is the ROC chart. This only takes into account the rank order of DE probesets, and hence is not affected by concerns about FDRs.
+% 
 
 
 % Commented out as affybatch.example doesn't seem to be fixed yet in Affy package. Also not a great case study
@@ -883,7 +919,7 @@ The \puma  package has been designed to be as easy to use as possible, while not
 
 It is important to recognise that the automatic creation of design and contrast matrices will only happen if appropriate information about the levels of each factor is available for each array in the experimental design. This data should be held in an \Robject{AnnotatedDataFrame} class. The easiest way of doing this is to ensure that the \Robject{affybatch} object holding the raw CEL file data has an appropriate phenoData slot. This information will then be passed through to any \Robject{ExpressionSet} object created, for example through the use of \Rfunction{mmgmos}. The \Robject{phenoData} slot of an \Robject{ExpressionSet} object can also be manipulated directly if necessary.
 
-Design and contrast matrices are dependent on the experimental design. The simplest experimental designs have just one factor, and hence the \Robject{phenoData} slot will have a matrix with just one column. In this case, each unique value in that column will be treated as a distinct level of the factor, and hence \Rfunction{pumaComb} will group arrays according to these levels. If there are just two levels of the factor, e.g. A and B, the contrast matrix will also be very simple, with the only contrast of interest being A vs B. For factors with more than two levels, a contrast matrix will be created which reflects all possible combinations of levels. For example, if we have three levels A, B and C, the contrasts of interest will be A vs B, A vs C and B vs C.
+Design and contrast matrices are dependent on the experimental design. The simplest experimental designs have just one factor, and hence the \Robject{phenoData} slot will have a matrix with just one column. In this case, each unique value in that column will be treated as a distinct level of the factor, and hence \Rfunction{pumaComb} will group arrays according to these levels. If there are just two levels of the factor, e.g. A and B, the contrast matrix will also be very simple, with the only contrast of interest being A vs B. For factors with more than two levels, a contrast matrix will be created which reflects all possible combinations of levels. For example, if we have three levels A, B and C, the contrasts of interest will be A vs B, A vs C and B vs C. In addition, from \puma version 1.2.1, the following additional contrasts will be created: A vs other (i.e. A vs B \& C), B vs other and C vs other.
 
 If we now consider the case of two or more factors, things become more complicated. There are now two cases to be considered: factorial experiments, and non-factorial experiments. A factorial experiment is one where all the combinations of the levels of each factor are tested by at least one array (though ideally we would have a number of biological replicates for each combination of factor levels). The \Robject{estrogen} case study (Section \ref{section:Introductory example}) is an example of a factorial experiment. A non-factorial experiment is one where at least one combination of levels is not tested. If we treat the example used in the \Robject{puma-package} help page as a two-factor experiment (with factors ``level'' and ``batch''), we can see that this is not a factorial experiment as we have no array to test the conditions ``level=ten'' and ``batch=B''. We will treat the factorial and non-factorial cases separately in the following sections.
 
@@ -896,6 +932,10 @@ For factorial experiments, the design matrix will use all columns from the \Robj
 \subsection{Non-factorial designs}
 
 For non-factorial designed experiments, we will simply ignore columns (right to left) from the \Robject{phenoData} slot until we have a factorial design or a single factor. We can see this in the example used in the \Robject{puma-package} help page. Here we have ignored the ``batch'' factor, and modelled the experiment as a single-factor experiment (with that single factor being ``level'').
+
+\subsection{Further help}
+
+There are examples of the automated creation of design and contrast matrices for increasingly complex experimental designs in the help pages for \Robject{createDesignMatrix} and \Robject{createContrastMatrix}.
 
 \newpage
 \bibliographystyle{plainnat}

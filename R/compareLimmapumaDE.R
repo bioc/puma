@@ -20,15 +20,15 @@ compareLimmapumaDE <- function (
 )
 {
 	numberOfContrasts <- dim(contrastMatrix)[2]
-	numberOfGenes <- dim(limmaRes[[1]])[1]
-	if(numberOfGenes != dim(pumaDERes[[1]])[1])
+	numberOfGenes <- numberOfGenes(limmaRes)
+	if(numberOfGenes != numberOfGenes(pumaDERes))
 	{ stop("Different numbers of genes") }
 	for(i in 1:numberOfContrasts)
 	{
 		genes_to_plot <- as.integer(
 			c(
-				pumaDERes[[2]][1:numberToCompareForContrasts,i]
-			,	limmaRes[[2]][1:numberToCompareForContrasts,i]
+				topGenes(pumaDERes,numberOfGenes=numberToCompareForContrasts,contrast=i)
+			,	topGenes(limmaRes,numberOfGenes=numberToCompareForContrasts,contrast=i)
 			)
 		)
 		if(plotContrasts)
@@ -106,15 +106,15 @@ compareLimmapumaDE <- function (
 			print("Position of limma top matches in pumaDE list")
 			print(
 				match(
-					as.integer(limmaRes[[2]][1:numberToCompareForContrasts,i])
-				,	pumaDERes[[2]][,i]
+					topGenes(limmaRes,numberOfGenes=numberToCompareForContrasts,contrast=i)
+				,	topGenes(pumaDERes,numberOfGenes=numberOfGenes,contrast=i)
 				)
 			)
 			print("PPLR of limma top matches")
 			print(
-				pumaDERes[[1]][match(
-					as.integer(limmaRes[[2]][1:numberToCompareForContrasts,i])
-				,	pumaDERes[[2]][,i]
+				statistic(pumaDERes)[match(
+					topGenes(limmaRes,numberOfGenes=numberToCompareForContrasts,contrast=i)
+				,	topGenes(pumaDERes,numberOfGenes=numberOfGenes,contrast=i)
 				)
 				,i]
 			)
@@ -125,9 +125,9 @@ compareLimmapumaDE <- function (
 	for(i in 1:numberOfContrasts)
 	{
 		topLimma <- rep(0, numberOfGenes)
-		topLimma[limmaRes[[2]][1:numberToCompareForVenn,i]] <- 1
+		topLimma[topGenes(limmaRes,numberOfGenes=numberToCompareForVenn,contrast=i)] <- 1
 		toppumaDE <- rep(0, numberOfGenes)
-		toppumaDE[pumaDERes[[2]][1:numberToCompareForVenn,i]] <- 1
+		toppumaDE[topGenes(pumaDERes,numberOfGenes=numberToCompareForVenn,contrast=i)] <- 1
 		results[[i]] <- cbind (topLimma, toppumaDE)
 	}
 	if(plotVenn)

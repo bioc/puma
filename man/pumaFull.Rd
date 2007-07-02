@@ -17,13 +17,13 @@ pumaFull (
 
 }
 \arguments{
-	\item{affybatch}{ ~~Describe \code{affybatch} here~~ }
-	\item{data_dir}{ ~~Describe \code{data_dir} here~~ }
-	\item{load_affybatch}{ ~~Describe \code{load_affybatch} here~~ }
-	\item{calculate_eset}{ ~~Describe \code{calculate_eset} here~~ }
-	\item{calculate_pumaPCAs}{ ~~Describe \code{calculate_pumaPCAs} here~~ }
-	\item{calculate_bcomb}{ ~~Describe \code{calculate_bcomb} here~~ }
-	\item{mmgmosComparisons}{ ~~Describe \code{mmgmosComparisons} here~~ }
+	\item{affybatch}{ An object of class \code{\link[affy]{AffyBatch}}. }
+	\item{data_dir}{ A character string specifying where data files are stored. }
+	\item{load_affybatch}{ Boolean. Load a pre-existing AffyBatch object? Note that this has to be named "affybatch.rda" and be in the \code{data_dir} directory. }
+	\item{calculate_eset}{ Boolean. Calculate ExpressionSet from \code{affybatch} object? If FALSE, files named "eset\_mmgmos.rda" and "eset\_rma.rda" must be available in the \code{data\_dir} directory. }
+	\item{calculate_pumaPCAs}{ Boolean. Calculate pumaPCA from \code{eset\_mmgmos} object? If FALSE, a file named "pumaPCA\_results.rda" must be available in the \code{data\_dir} directory. }
+	\item{calculate_bcomb}{ Boolean. Calculate pumaComb from \code{eset\_mmgmos} object? If FALSE, files named "eset\_comb.rda" and "eset\_normd\_comb.rda" must be available in the \code{data\_dir} directory. }
+	\item{mmgmosComparisons}{ Boolean. If TRUE, will compare mmgmos with default settings, with mmgmos used with background correction. }
 }
 \value{
   No return values. Various objects are saved as .rda files during the execution of this function, and various PDF files are created.

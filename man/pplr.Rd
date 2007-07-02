@@ -2,18 +2,19 @@
 \alias{pplr}
 \title{ Probability of positive log-ratio }
 \description{
-WARNING - this function description needs to be updated! If you see this message please email me.
+WARNING - this function is generally not expected to be used, but is intended as an internal function. It is included for backwards compatibility with the \pkg{pplr} package, but may be deprecated and then hidden in future. Users should generally use \code{\link{pumaDE}} instead.
 
   This function calculates the probability of positive log-ratio (PPLR) between any two specified conditions in the input data, mean and standard deviation of gene expression level for each condition.
 }
 \usage{
-pplr(e, control, experiment)
+pplr(e, control, experiment, sorted=TRUE)
 }
 \arguments{
   \item{e}{ a data frame containing the mean and standard deviation of gene expression 
   levels for each condition. }
   \item{control}{ an integer denoting the control condition. }
   \item{experiment}{ an integer denoting the experiment condition. }
+  \item{sorted}{ Boolean. Should PPLR values be sorted by value? If FALSE, PPLR values are returned in same order as supplied.}
 }
 \details{
   The input of 'e' should be a data frame comprising of 2*n components, where n is 
@@ -36,7 +37,7 @@ pplr(e, control, experiment)
 \references{ Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2005) Probe-level variances improve accuracy in detecting differential
 gene expression, technical report available upon request.}
 \author{ Xuejun Liu, Marta Milo, Neil D. Lawrence, Magnus Rattray }
-\seealso{ Related method \code{\link[pplr]{bcomb}} }
+\seealso{ Related methods \code{\link{pumaDE}} and \code{\link{bcomb}} }
 \examples{
   data(exampleE)
   data(exampleStd)

@@ -1,6 +1,6 @@
 create_eset_r <- function(eset, r)
 {
-	numOfFactors <- numOfFactorsToUse(eset)
+	numOfFactors <- numOfFactorsToUse(removeUninformativeFactors(eset))
 	pData_eset <- as.data.frame(unique(pData(eset)[,1:numOfFactors]))
 	rownames(pData_eset) <- colnames(r)[1:(dim(r)[2]/2)]
 	eset_r <- new(
@@ -11,14 +11,17 @@ create_eset_r <- function(eset, r)
 			"AnnotatedDataFrame"
 		,	data=pData_eset
 		,	varMetadata=data.frame(
-				matrix(
-					varMetadata(eset)[1:numOfFactors,]
-				,	dimnames=list(
-						rownames(varMetadata(eset))[1:1]
-					,	"labelDescription"
-					)
-				)
+				labelDescription=varLabels(phenoData(eset))[1:numOfFactors]
 			)
+				# ,	varMetadata=data.frame(
+		# 		matrix(
+		# 			varMetadata(eset)[1:numOfFactors,]
+		# 		,	dimnames=list(
+		# 				rownames(varMetadata(eset))[1:1]
+		# 			,	"labelDescription"
+		# 			)
+		# 		)
+		# 	)
 		)
 	)
   # pData(eset_r) <- pData_eset

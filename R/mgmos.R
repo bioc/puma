@@ -2,7 +2,7 @@ mgmos <- function(
 	object
 ,	background=FALSE
 ,	replaceZeroIntensities=TRUE
-,	gsnorm=c("none","mean","median","meanlog")
+,	gsnorm=c("median", "none", "mean", "meanlog")
 ,	savepar=FALSE
 ,	eps=1.0e-6
 )

@@ -1,11 +1,11 @@
-\name{calculateLimma}
-\alias{calculateLimma}
-\title{Calculate differential expression between conditions using limma}
+\name{calculateFC}
+\alias{calculateFC}
+\title{Calculate differential expression between conditions using FC}
 \description{
-Runs a default analysis using the \pkg{limma} package. Automatically creates design and contrast matrices if not specified. This function is useful for comparing \pkg{limma} results with those of other differential expression (DE) methods such as \code{\link{pumaDE}}.
+Automatically creates design and contrast matrices if not specified. This function is useful for comparing fold change results with those of other differential expression (DE) methods such as \code{\link{pumaDE}}.
 }
 \usage{
-calculateLimma(
+calculateFC(
 	eset
 ,	design.matrix = createDesignMatrix(eset)
 ,	contrast.matrix = createContrastMatrix(eset)
@@ -23,15 +23,15 @@ The \code{eset} argument must be supplied, and must be a valid \code{\link[Bioba
   An object of class \code{\link{DEResult}}.
 }
 \author{ Richard D. Pearson }
-\seealso{Related methods \code{\link{pumaDE}}, \code{\link{calculateTtest}}, \code{\link{calculateFC}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}} and class \code{\link{DEResult}}}
+\seealso{Related methods \code{\link{pumaDE}}, \code{\link{calculateLimma}}, \code{\link{calculateTtest}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}} and class \code{\link{DEResult}}}
 \examples{
 	library(puma)
 	data(affybatch.example)
 	pData(affybatch.example) <- data.frame("level"=c("twenty","twenty","ten")
 	    , "batch"=c("A","B","A"), row.names=rownames(pData(affybatch.example)))
 	eset_rma <- rma(affybatch.example)
-	limmaRes <- calculateLimma(eset_rma)
-	topGeneIDs(limmaRes,numberOfGenes=6)
-	plotErrorBars(eset_rma, topGenes(limmaRes))
+	FCRes <- calculateFC(eset_rma)
+	topGeneIDs(FCRes,numberOfGenes=6)
+	plotErrorBars(eset_rma, topGenes(FCRes))
 }
 \keyword{manip}

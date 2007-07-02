@@ -36,7 +36,7 @@ orig_pplr(e, control, experiment)
 \references{ Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2005) Probe-level variances improve accuracy in detecting differential
 gene expression, technical report available upon request.}
 \author{ Xuejun Liu, Marta Milo, Neil D. Lawrence, Magnus Rattray }
-\seealso{ Related method \code{\link[pplr]{bcomb}} }
+\seealso{ Related method \code{\link{bcomb}} }
 \examples{
   data(exampleE)
   data(exampleStd)

@@ -2,7 +2,7 @@
 \alias{pumaDE}
 \title{Calculate differential expression between conditions}
 \description{
-The function generates lists of genes ranked by probability of differential expression (DE).
+The function generates lists of genes ranked by probability of differential expression (DE). This uses the PPLR method.
 }
 \usage{
 pumaDE(
@@ -12,7 +12,7 @@ pumaDE(
 )
 }
 \arguments{
-	\item{eset}{ An object of class \code{\link[Biobase]{ExpressionSet}}. }
+	\item{eset}{ An object of class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}}. }
 	\item{design.matrix}{ A design matrix }
 	\item{contrast.matrix}{ A contrast matrix }
 }
@@ -22,10 +22,10 @@ A separate list will be created for each contrast of interest.
 While it is possible to run this function on data from individual arrays, it is generally recommended that this function is run on the output of the function \code{\link{pumaComb}} (which combines information from replicates).
 }
 \value{
-  A list with two elements. The first element (\code{p}) is a matrix of PPLR values. Each column represent one contrast. Within each column the PPLR values are ordered. The second element (\code{genes}) is a matrix of row numbers, which can be used to map PPLR values back to probe sets.
+	An object of class \code{\link{DEResult-class}}.
 }
 \author{ Richard D. Pearson }
-\seealso{Related methods \code{\link{pumaComb}}, \code{\link{mmgmos}}, \code{\link{pplr}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}}}
+\seealso{Related methods \code{\link{calculateLimma}}, \code{\link{calculateFC}}, \code{\link{calculateTtest}}, \code{\link{pumaComb}}, \code{\link{mmgmos}}, \code{\link{pplr}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}}}
 \examples{
 	library(puma)
 	data(affybatch.example)

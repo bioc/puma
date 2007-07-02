@@ -9,7 +9,7 @@ justmmgMOS <- function(
 , description=NULL
 , notes=""
 , background=TRUE
-, gsnorm=c("mean","median","meanlog")
+, gsnorm=c("median", "none", "mean", "meanlog")
 , savepar=FALSE
 , eps=1.0e-6
 )
@@ -46,7 +46,7 @@ just.mmgmos <- function(
 , notes=""
 , compress=getOption("BioC")$affy$compress.cel
 , background=TRUE
-, gsnorm=c("mean","median","meanlog")
+, gsnorm=c("median", "none", "mean", "meanlog")
 , savepar=FALSE
 , eps=1.0e-6
 )
@@ -83,6 +83,7 @@ just.mmgmos <- function(
       description@preprocessing$affyversion <- library(
                                                  help=affy
                                                )$info[[2]][[2]][2]
+	  description@other <- list(notes)
     }
   ## read the first file to see what we have
   ##if (verbose) cat(1, "reading",filenames[[1]],"...")
@@ -102,8 +103,8 @@ just.mmgmos <- function(
 
   ## read pm data into matrix
 
-  pm <- read.probematrix(filenames=filenames,which="pm")$pm
-  mm <- read.probematrix(filenames=filenames,which="mm")$mm
+  pm <- read.probematrix(filenames=unlist(filenames),which="pm")$pm
+  mm <- read.probematrix(filenames=unlist(filenames),which="mm")$mm
 
   ## pass matrix of probe values to mmgmos
   ## call mmgmos
@@ -112,7 +113,7 @@ just.mmgmos <- function(
 
   cdf <- cleancdfname(cdfName(tmp))
   phiname <- paste(substr(cdf,1,nchar(cdf)-3), "phis", sep="")
-  if(phiname %in% do.call("data", list(package="mmgmos"))$results[, 3])
+  if(phiname %in% do.call("data", list(package="puma"))$results[, 3])
   {
       do.call("data", list(phiname))
       phis <- eval(parse(text=phiname))
@@ -236,7 +237,6 @@ just.mmgmos <- function(
     , se.exprs=se
     , phenoData=phenoData
     , annotation=annotation
-    , description=description
-    , notes=notes
+    , experimentData=description
     )
 }

@@ -36,7 +36,7 @@ plotErrorBars(
 )
 }
 \arguments{
-	\item{eset}{ An object of class \code{\link[Biobase]{ExpressionSet}}. This is the main object being plotted. }
+	\item{eset}{ An object of class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}}. This is the main object being plotted. }
 	\item{probesets}{ A vector of integers indicating the probesets to be plotted. These integers refer to the row numbers of the \code{eset}. }
 	\item{arrays}{ A vector of integers indicating the arrays to be shown on plots. }
 	\item{xlab}{ Character string of title to appear on x-axis }
@@ -52,7 +52,7 @@ plotErrorBars(
 	\item{showErrorBars}{ Boolean indicating whether error bars should be shown on plots. }
 	\item{plotColours}{ A vector of colours to plot. }
 	\item{log.it}{ Boolean indicating whether expression values should be logged. }
-	\item{eset_comb}{ An object of class \code{\link[Biobase]{ExpressionSet}}. This is a secondary object to be plotted on the same charts as \code{eset}. This should be an object created using \code{\link{pumaComb}} which holds the values created by combining information from the replicates of each condition. }
+	\item{eset_comb}{ An object of class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}}. This is a secondary object to be plotted on the same charts as \code{eset}. This should be an object created using \code{\link{pumaComb}} which holds the values created by combining information from the replicates of each condition. }
 	\item{jitterWidth}{ Numeric indicating the x-axis distance between replicates of the same condition. }
 	\item{qtpcrData}{ A 2-column matrix of qRT-PCR values (or other data to be plotted on the same charts). }
 	\item{\dots}{ Additional arguments to be passed to \code{\link[graphics]{plot}}. }

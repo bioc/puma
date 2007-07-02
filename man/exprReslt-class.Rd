@@ -1,5 +1,7 @@
 \name{exprReslt-class}
 \docType{class}
+\alias{class:exprReslt}
+\alias{exprReslt}
 \alias{exprReslt-class}
 \alias{se.exprs}
 \alias{se.exprs<-}
@@ -33,7 +35,7 @@
 \description{This is a class representation for Affymetrix GeneChip probe level data. 
   The main component are the intensities, estimated expression levels and the confidence 
   of expression levels from multiple arrays 
-  of the same \code{CDF} type. In extends \code{\link[Biobase]{ExpressionSet}}.}
+  of the same \code{CDF} type. In extends \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}}.}
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("exprReslt", ...)}.
 }
@@ -114,7 +116,7 @@ Class \code{"ExpressionSet"}, directly.
 \author{ Xuejun Liu, Magnus Rattray, Marta Milo, Neil D. Lawrence, Richard D. Pearson }
 
 \seealso{
-  Related method \code{\link{mmgmos}} and related class \code{\link[Biobase]{ExpressionSet}}.
+  Related method \code{\link{mmgmos}} and related class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}}.
 }
 \examples{
 ## load example data from package Affy

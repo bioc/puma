@@ -2,7 +2,7 @@
 \alias{normalisation.gs}
 \title{ Global scaling normalisation }
 \description{
-This function is only included for backwards compatibility with the \pkg{pplr} package. This function is now superseded by \code{\link{pumaNormalize}}.
+This function is only included for backwards compatibility with the \pkg{pplr} package. This function is now superceded by \code{\link{pumaNormalize}}.
 
 This function does the global scaling normalisation.
 }

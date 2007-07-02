@@ -3,7 +3,7 @@
 \title{Combining replicates for each condition}
 \description{
 This function calculates the combined signal for each condition from replicates  using Bayesian models. The inputs are gene expression levels and the probe-level standard deviation associated with expression measurement for each gene on each chip. The outputs include gene expression levels and standard deviation for each condition.
-This function was originally part of the \pkg{pplr} package. Although this function can be called directly, it is recommended to use the \code{\link[puma]{pumaComb}} function instead, which can work directly on \code{\link[Biobase:ExpressionSet-class]{ExpressionSet}} objects, and can automatically determine which arrays are replicates.
+This function was originally part of the \pkg{pplr} package. Although this function can be called directly, it is recommended to use the \code{\link[puma]{pumaComb}} function instead, which can work directly on \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}} objects, and can automatically determine which arrays are replicates.
 }
 \usage{
 bcomb(e, se, replicates, method=c("map","em"), 
@@ -35,7 +35,7 @@ bcomb(e, se, replicates, method=c("map","em"),
 Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2005) Probe-level variances improve accuracy in detecting differential
 gene expression, technical report available upon request.}
 \author{ Xuejun Liu, Marta Milo, Neil D. Lawrence, Magnus Rattray }
-\seealso{Related methods \code{\link{pumaComb}}, \code{\link[mmgmos]{mmgmos}} and \code{\link[pplr]{pplr}}}
+\seealso{Related methods \code{\link{pumaComb}}, \code{\link{mmgmos}} and \code{\link{pplr}}}
 \examples{
   data(exampleE)
   data(exampleStd)
