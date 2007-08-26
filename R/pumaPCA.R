@@ -5,7 +5,10 @@ pumaPCA <- function
  								dim(exprs(eset))[[2]]-1
 							else
 								3
-,   sampleSize          =	1000	## Set to integer or FALSE for all
+,   sampleSize          =	if(dim(exprs(eset))[1] <= 1000)
+								 dim(exprs(eset))[[1]]
+							else
+								1000	## Set to integer or FALSE for all
 ,   initPCA             =	TRUE	## Initialise parameters with PCA
 ,   randomOrder         =	FALSE	## Update parameters in random order
 ,   optimMethod         =	"BFGS"  ## ?optim for details of methods
