@@ -1,8 +1,8 @@
 Package: puma
 Type: Package
 Title: Propagating Uncertainty in Microarray Analysis
-Version: 1.2.1
-Date: 2007-07-02
+Version: 1.2.2
+Date: 2007-08-26
 Author: Richard D. Pearson, Xuejun Liu, Magnus Rattray, Marta Milo, Neil D.
     Lawrence, Guido Sanguinetti
 Maintainer: Richard Pearson <richard.pearson@postgrad.manchester.ac.uk>

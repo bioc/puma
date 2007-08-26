@@ -13,6 +13,7 @@ plotROC(
 ,	main = "PUMA ROC plot"
 ,	lty = 1:length(scoresList)
 ,	col = rep(1,length(scoresList))
+,	lwd = rep(1,length(scoresList))
 ,	yaxisStat = "tpr"
 ,	xaxisStat = "fpr"
 ,	downsampling = 100
@@ -29,6 +30,7 @@ plotROC(
 	\item{main}{ Main plot title }
 	\item{lty}{ Line types. }
 	\item{col}{ Colours. }
+	\item{lwd}{ Line widths. }
 	\item{yaxisStat}{Character string identifying what is to be plotted on the y-axis. The default is "tpr" for True Positive Rate. See \code{\link[ROCR:performance]{performance}} function from \pkg{ROCR} package.}
 	\item{xaxisStat}{Character string identifying what is to be plotted on the x-axis. The default is "fpr" for False Positive Rate. See \code{\link[ROCR:performance]{performance}} function from \pkg{ROCR} package.}
 	\item{downsampling}{See details for \code{\link[ROCR:plot.performance]{plot.performance}} from the \pkg{ROCR} package. }

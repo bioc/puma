@@ -50,7 +50,9 @@ pumaComb <- function (
 	{
 		# library(Rmpi)
 		library(snow)
-		cl <- makeCluster(length(system("lamnodes",TRUE,TRUE))-1)
+		cl <- getMPIcluster()
+		if(is.null(cl))
+			cl <- makeCluster(length(system("lamnodes",TRUE,TRUE))-1)
 		# clusterEvalQ(cl, library(puma))
 	}
 	if(parallelCompute)
@@ -808,4 +810,4 @@ createContrastMatrix <- function (eset, design=NULL)
 
 	return(cm)
 }
-	
+

@@ -98,6 +98,7 @@ plotROC <- function (
 ,	main = "PUMA ROC plot"
 ,	lty = 1:length(scoresList)
 ,	col = rep(1,length(scoresList))
+,	lwd = rep(1,length(scoresList))
 ,	yaxisStat = "tpr"
 ,	xaxisStat = "fpr"
 ,	downsampling = 100
@@ -117,9 +118,9 @@ plotROC <- function (
 		ROCs[[i]] <- performance(predictions[[i]], yaxisStat, xaxisStat)
 		AUCs[[i]] <- performance(predictions[[i]], "auc")@y.values[[1]]
 		if(i==1)
-			plot(ROCs[[i]], lty=lty[i], main=main, col=col[i], downsampling=downsampling, ...)
+			plot(ROCs[[i]], lty=lty[i], main=main, col=col[i], lwd=lwd[i], downsampling=downsampling, ...)
 		else
-			plot(ROCs[[i]], lty=lty[i], add=TRUE, col=col[i], downsampling=downsampling, ...)
+			plot(ROCs[[i]], lty=lty[i], add=TRUE, col=col[i], lwd=lwd[i], downsampling=downsampling, ...)
 		if(showAUC)
 			legend = c(legend, paste(legendTitles[i],"AUC = ", round(AUCs[[i]],3)))
 		if(!showAUC)
