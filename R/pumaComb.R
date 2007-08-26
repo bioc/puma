@@ -810,4 +810,4 @@ createContrastMatrix <- function (eset, design=NULL)
 
 	return(cm)
 }
-	
+
