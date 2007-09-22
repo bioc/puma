@@ -5,7 +5,9 @@ pumaDE <- function (
 )
 {
 	p <- matrix(0, dim(exprs(eset))[1], dim(contrast.matrix)[2]
-		, dimnames=list(rownames(exprs(eset)), colnames(contrast.matrix)))
+	,	dimnames=list(rownames(exprs(eset)), colnames(contrast.matrix)))
+	fold.change <- matrix(0, dim(exprs(eset))[1], dim(contrast.matrix)[2]
+	,	dimnames=list(rownames(exprs(eset)), colnames(contrast.matrix)))
 	for(i in 1:dim(contrast.matrix)[2])
 	{
 		p[,i] <- pplr(
@@ -14,9 +16,18 @@ pumaDE <- function (
 	    ,	which(contrast.matrix[,i]==1)
 		,	sorted=FALSE
 	    )[,9]
+		plus_contrasts <- which(contrast.matrix[,i]==1)
+		minus_contrasts <- which(contrast.matrix[,i]==-1)
+		plus_arrays <- as.matrix(
+			which(design.matrix[,plus_contrasts]==1,arr.ind=TRUE))[,1]
+		minus_arrays <- as.matrix(
+			which(design.matrix[,minus_contrasts]==1,arr.ind=TRUE))[,1]
+		fold.change[,i] <-	rowMeans(log2((2^as.matrix(exprs(eset)[,plus_arrays]))+1)) -
+			rowMeans(log2((2^as.matrix(exprs(eset)[,minus_arrays]))+1))
 	}
-	new("DEResult", statistic=data.frame(p)
+	new("DEResult", statistic=p
 	,	statisticDescription="Probability of Positive Log Ratio (PPLR)"
+	,	FC=fold.change
 	,	DEMethod="pumaDE")
 }
 
