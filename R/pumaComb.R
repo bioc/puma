@@ -55,7 +55,7 @@ pumaComb <- function (
 			cl <- makeCluster(length(system("lamnodes",TRUE,TRUE))-1)
 		# clusterEvalQ(cl, library(puma))
 	}
-	if(parallelCompute)
+	if(!is.null(cl))
 		clusterEvalQ(cl, library(puma))	
 	if(is.null(design.matrix))
 		design.matrix <- createDesignMatrix(eset)
