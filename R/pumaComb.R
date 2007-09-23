@@ -188,7 +188,7 @@ pumaComb <- function (
 	,	dim(design.matrix)[2]
 	)
 	rownames(pData(eset_r)) <- colnames(design.matrix)[design.matrix.ordering]
-	colnames(pData(eset_r)) <- colnames(pData(eset)[1:numOfFactorsToUse(removeUninformativeFactors(eset))])
+	varLabels(eset_r) <- colnames(pData(eset)[1:numOfFactorsToUse(removeUninformativeFactors(eset))])
 	# colnames(pData(eset_r)) <- colnames(pData(eset))
 	return(eset_r)
 }
