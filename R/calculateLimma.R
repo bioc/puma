@@ -11,7 +11,7 @@ calculateLimma <- function (
 	fit2 <- eBayes(fit2)
 	p.value <- fit2$p.value
 	fold.change <- fit2$coefficients
-	new("DEResult", statistic=data.frame(p.value), FC=data.frame(fold.change)
+	new("DEResult", statistic=p.value, FC=fold.change
 	, statisticDescription="limma p.value", DEMethod="calculateLimma")
 }
 
@@ -37,7 +37,7 @@ calculateFC <- function (
 			rowMeans(as.matrix(exprs(eset)[,minus_arrays]))
 	}
 	p <- abs(fold.change)
-	new("DEResult", statistic=data.frame(p), FC=data.frame(fold.change)
+	new("DEResult", statistic=p, FC=fold.change
 	, statisticDescription="abs(fold change)", DEMethod="calculateFC")
 }
 
@@ -62,7 +62,7 @@ calculateTtest <- function (
 		fold.change[,i] <-	rowMeans(as.matrix(exprs(eset)[,plus_arrays])) -
 			rowMeans(as.matrix(exprs(eset)[,minus_arrays]))
 	}
-	new("DEResult", statistic=data.frame(p), FC=data.frame(fold.change)
+	new("DEResult", statistic=p, FC=fold.change
 	, statisticDescription="T-test p.value", DEMethod="calculateTtest")
 }
 
