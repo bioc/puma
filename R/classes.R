@@ -64,16 +64,51 @@ setClass("pumaPCARes"
 #               .plot.pumaPCARes(x,...)
 #           })
 
+setGeneric("write.reslts", function(x,...) standardGeneric("write.reslts"))
+
+setMethod(
+	"write.reslts"
+,	signature(x="pumaPCARes")
+,	function(
+		x
+	,	file = "tmp"
+	,	append = FALSE
+	,	quote = FALSE
+	,	sep = ","
+	,	eol = "\n"
+	,	na = "NA"
+	,	dec = "."
+	,	row.names = TRUE
+	,	col.names = NA
+	,	qmethod = c("escape", "double")
+	)
+	{
+		write.table(
+			x@model@W
+		,	file = paste(file,".csv",sep="")
+		,	append = append
+		,	quote = quote
+		,	sep = sep
+		,	eol = eol
+		,	na = na
+		,	dec = dec
+		,	row.names = rownames(pData(x@phenoData))
+		,	col.names = col.names
+		,	qmethod = qmethod
+		)
+	}
+)
+
 setClass("DEResult"
 ,	representation(
-		statistic="data.frame"
-	,	FC="data.frame"
+		statistic="matrix"
+	,	FC="matrix"
 	,	statisticDescription="character"
 	,	DEMethod="character"
 	)
 ,	prototype(
-		statistic=data.frame()
-	,	FC=data.frame()
+		statistic=matrix()
+	,	FC=matrix()
 	,	statisticDescription="unknown"
 	,	DEMethod="unknown"
 	)
@@ -95,9 +130,9 @@ setMethod("statistic", "DEResult", function(object) object@statistic)
 # if( !isGeneric("statistic<-"))
   setGeneric("statistic<-", function(object, value) standardGeneric("statistic<-"))
 
-setReplaceMethod("statistic", signature=c("DEResult", "data.frame"),
+setReplaceMethod("statistic", signature=c("DEResult", "matrix"),
                  function(object, value) {
-                   object@statistic <- as.data.frame(value)
+                   object@statistic <- as.matrix(value)
 					return(object)
                  })
 
@@ -109,9 +144,9 @@ setMethod("FC", "DEResult", function(object) object@FC)
 # if( !isGeneric("FC<-"))
   setGeneric("FC<-", function(object, value) standardGeneric("FC<-"))
 
-setReplaceMethod("FC", signature=c("DEResult", "data.frame"),
+setReplaceMethod("FC", signature=c("DEResult", "matrix"),
                  function(object, value) {
-                   object@FC <- as.data.frame(value)
+                   object@FC <- as.matrix(value)
 					return(object)
                  })
 
@@ -235,7 +270,7 @@ setMethod("numberOfContrasts", "DEResult",
 	})
 
 # if( !isGeneric("write.reslts") )
-	setGeneric("write.reslts", function(x,...) standardGeneric("write.reslts"))
+	# setGeneric("write.reslts", function(x,...) standardGeneric("write.reslts"))
 setMethod(
 	"write.reslts"
 ,	signature(x="DEResult")
@@ -529,4 +564,35 @@ setMethod(
 	}
 )
 
-
+setMethod(
+	"write.reslts"
+,	signature(x="ExpressionSet")
+,	function(
+		x
+	,	file = "tmp"
+	,	append = FALSE
+	,	quote = FALSE
+	,	sep = ","
+	,	eol = "\n"
+	,	na = "NA"
+	,	dec = "."
+	,	row.names = TRUE
+	,	col.names = NA
+	,	qmethod = c("escape", "double")
+	)
+	{
+		write.table(
+			exprs(x)
+		,	file = paste(file,"_exprs.csv",sep="")
+		,	append = append
+		,	quote = quote
+		,	sep = sep
+		,	eol = eol
+		,	na = na
+		,	dec = dec
+		,	row.names = row.names
+		,	col.names = col.names
+		,	qmethod = qmethod
+		)
+	}
+)
