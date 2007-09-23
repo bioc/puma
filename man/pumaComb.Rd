@@ -43,8 +43,8 @@ gene expression, technical report available upon request.}
 \author{ Xuejun Liu, Marta Milo, Neil D. Lawrence, Magnus Rattray }
 \seealso{Related methods \code{\link{pumaNormalize}}, \code{\link{bcomb}}, \code{\link{mmgmos}} and \code{\link{pumaDE}}}
 \examples{
-	library(puma)
 	data(affybatch.example)
+	varLabels(affybatch.example) <- c("level")
 	pData(affybatch.example) <- data.frame("level"=c("twenty","twenty","ten")
 	    , "batch"=c("A","B","A"), row.names=rownames(pData(affybatch.example)))
 	eset_mmgmos <- mmgmos(affybatch.example)

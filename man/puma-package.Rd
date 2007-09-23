@@ -40,6 +40,7 @@ Most analyses of Affymetrix GeneChip data are based on point estimates of expres
 }
 \examples{
 	data(affybatch.example)
+	varLabels(affybatch.example) <- "level"
 	pData(affybatch.example) <- data.frame("level"=c("twenty","twenty","ten")
 	    , "batch"=c("A","B","A"), row.names=rownames(pData(affybatch.example)))
 	eset_mmgmos <- mmgmos(affybatch.example)

@@ -30,6 +30,7 @@
 \alias{prctwfive,exprReslt-method}
 \alias{prctwfive<-,exprReslt-method}
 \alias{write.reslts,exprReslt-method}
+\alias{write.reslts,ExpressionSet-method}
 
 \title{Class exprReslt}
 \description{This is a class representation for Affymetrix GeneChip probe level data. 

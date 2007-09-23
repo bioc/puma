@@ -13,7 +13,7 @@ pumaClust(e=NULL, se=NULL, efile=NULL, sefile=NULL,
       iter.max=100, nstart=10, eps=1.0e-6, del0=0.01)
 }
 \arguments{
-  \item{e}{ data frame containing the expression level for each gene on each chip. }
+  \item{e}{ either a valid \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}} object, or a data frame containing the expression level for each gene on each chip. }
   \item{se}{ data frame containing the standard deviation of gene expression levels. }
   \item{efile}{ character, the name of the file which contains gene expression measurements. }
   \item{sefile}{ character, the name of the file which contains the standard deviation of gene expression measurements. }
@@ -26,7 +26,7 @@ pumaClust(e=NULL, se=NULL, efile=NULL, sefile=NULL,
   \item{del0}{ numeric, optimisation parameter. }
 }
 \details{
-  The input data is specified either by e and se, or by efile and sefile.
+  The input data is specified either as an \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}} object (in which case se, efile and sefile will be ignored), or by e and se, or by efile and sefile.
  
 }
 \value{

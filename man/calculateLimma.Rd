@@ -25,8 +25,8 @@ The \code{eset} argument must be supplied, and must be a valid \code{\link[Bioba
 \author{ Richard D. Pearson }
 \seealso{Related methods \code{\link{pumaDE}}, \code{\link{calculateTtest}}, \code{\link{calculateFC}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}} and class \code{\link{DEResult}}}
 \examples{
-	library(puma)
 	data(affybatch.example)
+	varLabels(affybatch.example) <- c("level")
 	pData(affybatch.example) <- data.frame("level"=c("twenty","twenty","ten")
 	    , "batch"=c("A","B","A"), row.names=rownames(pData(affybatch.example)))
 	eset_rma <- rma(affybatch.example)

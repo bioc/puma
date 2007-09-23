@@ -76,8 +76,8 @@ pumaPCA(
 \author{ Richard D. Pearson }
 \seealso{Related methods \code{\link{pumaDE}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}}}
 \examples{
-	library(puma)
 	data(affybatch.example)
+	varLabels(affybatch.example) <- c("level")
 	pData(affybatch.example) <- data.frame("level"=c("twenty","twenty","ten")
 	    , "batch"=c("A","B","A"), row.names=rownames(pData(affybatch.example)))
 	eset_mmgmos <- mmgmos(affybatch.example)

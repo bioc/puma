@@ -1,8 +1,9 @@
 \name{pumaPCARes-class}
 \docType{class}
-\alias{pumaPCARes-class}
+\alias{class:pumaPCARes}
 \alias{pumaPCARes}
-\alias{plot, pumaPCARes-method}
+\alias{pumaPCARes-class}
+\alias{write.reslts,pumaPCARes-method}
 
 \title{Class pumaPCARes}
 \description{
@@ -29,6 +30,7 @@ Objects can be created by calls of the form \code{new("pumaPCARes", ...)}.
 \section{Methods}{
 	\describe{
 		\item{plot}{\code{signature(x="pumaPCARes-class")}: plots two principal components on a scatter plot.}
+		\item{write.reslts}{\code{signature(x = "pumaPCARes-class")}: writes the principal components for each array to a file. It takes the same arguments as \code{\link{write.table}}. The argument "file" does not need to set any extension. The file name and extension "csv" will be added automatically. The default file name is "tmp". }
 	}
 }
 \author{ Richard D. Pearson }
