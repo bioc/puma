@@ -1,9 +1,15 @@
 "pumaClust" <-
 function (e = NULL, se = NULL, efile = NULL, sefile = NULL, subset = NULL, 
-    gsnorm = FALSE, clusters, iter.max = 100, nstart = 10, eps = 1e-06, 
+    gsnorm = FALSE, clusters = 10, iter.max = 100, nstart = 10, eps = 1e-06, 
     del0 = 0.01) 
 {
-    if (length(e) == 0) {
+    if(class(e)=="exprReslt" || class(e)=="ExpressionSet")
+	{
+		se <- assayDataElement(e,"se.exprs")
+		e <- exprs(e)
+	}
+
+	if (length(e) == 0) {
         e <- read.csv(efile, check.names = FALSE, row.names = 1)
     }
     dim_e <- dim(e)
