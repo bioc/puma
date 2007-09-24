@@ -12,11 +12,7 @@ pumaComb(
 ,	numOfChunks=1000
 ,	save_r=FALSE
 ,	cl=NULL
-,	parallelCompute=if(
-		"Rmpi" \%in\% installed.packages() & "snow" \%in\% installed.packages()
-	)
-	as.logical(length(grep("origin",system("lamnodes",TRUE,TRUE))))
-	else FALSE
+,	parallelCompute=FALSE
 )
 }
 \arguments{
@@ -31,7 +27,7 @@ Method "em" uses variational inference of the same hierarchical Bayesian model a
 	\item{parallelCompute}{ Boolean identifying whether processing in parallel should occur. }
 }
 \details{
-It is generally recommended that data is normalised prior to using this function. See the function \code{\link{pumaNormalize}}.
+It is generally recommended that data is normalised prior to using this function. Note that the default behaviour of mmgmos is to normalise data so this shouldn't generally be an issue. See the function \code{\link{pumaNormalize}} for more details on normalisation.
 }
 \value{
   The result is an \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}} object.

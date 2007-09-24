@@ -34,11 +34,12 @@ pumaComb <- function (
 ,	numOfChunks=1000
 ,	save_r=FALSE
 ,	cl=NULL
-,	parallelCompute=if(
-		"Rmpi" %in% installed.packages() & "snow" %in% installed.packages()
-	)
-	as.logical(length(grep("origin",system("lamnodes",TRUE,TRUE))))
-	else FALSE
+,	parallelCompute=FALSE
+# ,	parallelCompute=if(
+# 		"Rmpi" %in% installed.packages() & "snow" %in% installed.packages()
+# 	)
+# 	as.logical(length(grep("origin",system("lamnodes",TRUE,TRUE))))
+# 	else FALSE
 )
 {
 	if(!(is(eset, "ExpressionSet") || is(eset, "exprSet") || is(eset, "ExpressionSetIllumina")))
