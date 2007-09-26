@@ -124,6 +124,28 @@ For non-factorial designed experiments, we will simply ignore columns (right to 
 	eset15 <- new("ExpressionSet", exprs=matrix(0,100,6))
 	pData(eset15) <- data.frame("fac1"=c("a","a","a","a","b","b"), "fac2"=c(1,1,2,2,1,1))
 
+	# "pseduo 2 factor" data set - second factor is informative
+	eset16 <- new("ExpressionSet", exprs=matrix(0,100,8))
+	pData(eset16) <- data.frame("fac1"=c("a","a","b","b"), "fac2"=c(1,1,1,1))
+
+	# "pseduo 2 factor" data set - first factor is informative
+	eset17 <- new("ExpressionSet", exprs=matrix(0,100,8))
+	pData(eset17) <- data.frame("fac1"=c("a","a","a","a"), "fac2"=c(1,1,2,2))
+
+	# "pseudo 3 factor" data set - first factor is uninformative so actually a 2x2 factorial
+	eset18 <- new("ExpressionSet", exprs=matrix(0,100,8))
+	pData(eset18) <- data.frame(
+		"fac1"=c("a","a","a","a","a","a","a","a")
+	,	"fac2"=c(1,1,2,2,1,1,2,2)
+	,	"fac3"=c("X","Y","X","Y","X","Y","X","Y") )
+
+	# "pseudo 3 factor" data set - first and third factors are uninformative so actually a single factor
+	eset19 <- new("ExpressionSet", exprs=matrix(0,100,8))
+	pData(eset19) <- data.frame(
+		"fac1"=c("a","a","a","a","a","a","a","a")
+	,	"fac2"=c(1,1,2,2,1,1,2,2)
+	,	"fac3"=c("X","X","X","X","X","X","X","X") )
+
 	createDesignMatrix(eset1)
 	createDesignMatrix(eset2)
 	createDesignMatrix(eset3)

@@ -243,7 +243,7 @@ createDesignMatrix <- function (eset)
 	numOfFactors <- numOfFactorsToUse(removeUninformativeFactors(eset))
 	if(numOfFactors == 0)
 		stop("eset has no informative factors! Does eset have an appropriate phenoData slot?")
-	pd <- as.data.frame(pData(eset)[,1:numOfFactors])
+	pd <- as.data.frame(pData(removeUninformativeFactors(eset))[,1:numOfFactors])
 	for (i in 1:numOfFactors)
 	## coerce all columns of pheno data to factors - needed because
 	## read.phenoData doesn't treat numerics as factors
