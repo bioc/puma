@@ -5,18 +5,19 @@
 To appear
 }
 \usage{
-createContrastMatrix(eset, design=NULL)
+createContrastMatrix(eset, design=NULL, others=FALSE)
 }
 \arguments{
 	\item{eset}{ An object of class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}}. }
 	\item{design}{ A design matrix }
+	\item{others}{ A Boolean specifying whether to create vs\_other contrasts. }
 }
 \details{
 The \pkg{puma} package has been designed to be as easy to use as possible, while not compromising on power and flexibility. One of the most difficult tasks for many users, particularly those new to microarray analysis, or statistical analysis in general, is setting up design and contrast matrices. The \pkg{puma} package will automatically create such matrices, and we believe the way this is done will suffice for most users' needs.
 
 It is important to recognise that the automatic creation of design and contrast matrices will only happen if appropriate information about the levels of each factor is available for each array in the experimental design. This data should be held in an \code{\link[Biobase:class.AnnotatedDataFrame]{AnnotatedDataFrame}} class. The easiest way of doing this is to ensure that the \code{\link[Biobase:class.AnnotatedDataFrame]{AnnotatedDataFrame}} object holding the raw CEL file data has an appropriate \code{phenoData} slot. This information will then be passed through to any \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}} object created, for example through the use of \code{\link{mmgmos}}. The \code{phenoData} slot of an \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}} object can also be manipulated directly if necessary.
 
-Design and contrast matrices are dependent on the experimental design. The simplest experimental designs have just one factor, and hence the \code{phenoData} slot will have a matrix with just one column. In this case, each unique value in that column will be treated as a distinct level of the factor, and hence \code{\link{pumaComb}} will group arrays according to these levels. If there are just two levels of the factor, e.g. A and B, the contrast matrix will also be very simple, with the only contrast of interest being A vs B. For factors with more than two levels, a contrast matrix will be created which reflects all possible combinations of levels. For example, if we have three levels A, B and C, the contrasts of interest will be A vs B, A vs C and B vs C. In addition, the following additional contrasts will be created: A vs other (i.e. A vs B \& C), B vs other and C vs other.
+Design and contrast matrices are dependent on the experimental design. The simplest experimental designs have just one factor, and hence the \code{phenoData} slot will have a matrix with just one column. In this case, each unique value in that column will be treated as a distinct level of the factor, and hence \code{\link{pumaComb}} will group arrays according to these levels. If there are just two levels of the factor, e.g. A and B, the contrast matrix will also be very simple, with the only contrast of interest being A vs B. For factors with more than two levels, a contrast matrix will be created which reflects all possible combinations of levels. For example, if we have three levels A, B and C, the contrasts of interest will be A vs B, A vs C and B vs C. In addition, if the \code{others} argument is set to TRUE, the following additional contrasts will be created: A vs other (i.e. A vs B \& C), B vs other and C vs other. Note that these additional contrasts are experimental, and not currently recommended for use in calculating differential expression.
 
 If we now consider the case of two or more factors, things become more complicated. There are now two cases to be considered: factorial experiments, and non-factorial experiments. A factorial experiment is one where all the combinations of the levels of each factor are tested by at least one array (though ideally we would have a number of biological replicates for each combination of factor levels). The \code{estrogen} case study from the package vignette is an example of a factorial experiment.
 
