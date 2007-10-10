@@ -248,7 +248,7 @@ createDesignMatrix <- function (eset)
 	## coerce all columns of pheno data to factors - needed because
 	## read.phenoData doesn't treat numerics as factors
 	{
-		pd[,i] <- as.factor(pd[,i])
+		pd[,i] <- factor(pd[,i])
 	}
 	# levelsOfFactors <- rev(lapply(pd,levels))
 	levelsOfFactors <- lapply(pd,levels)
@@ -309,7 +309,7 @@ createDesignMatrix <- function (eset)
 	return(design.matrix)
 }
 
-createContrastMatrix <- function (eset, design=NULL)
+createContrastMatrix <- function (eset, design=NULL, others=FALSE)
 {
 	if(!(is(eset, "ExpressionSet") || is(eset, "exprSet") || is(eset, "ExpressionSetIllumina")))
 		stop("eset is not a valid ExpressionSet object!")
@@ -321,7 +321,7 @@ createContrastMatrix <- function (eset, design=NULL)
 	## coerce all columns of pheno data to factors - needed because
 	## read.phenoData doesn't treat numerics as factors
 	{
-		pd[,i] <- as.factor(pd[,i])
+		pd[,i] <- factor(pd[,i])
 	}
 	# levelsOfFactors <- rev(lapply(pd,levels))
 	levelsOfFactors <- lapply(pd,levels)
@@ -412,95 +412,97 @@ createContrastMatrix <- function (eset, design=NULL)
 	## 1-other contrasts where only one factor is changing for fixed levels of all other
 	############################################################################
 	
-	if(numOfFactors == 1)
+	if(others)
 	{
-		ct <- list()
-		count <- 0
-		contrastNames <- vector()
-		if(lengthsOfLevels[1] > 2)
+		if(numOfFactors == 1)
 		{
-			cm8 <- matrix(0, lengthsOfLevels[1], lengthsOfLevels[1])
-			for(k in 1:lengthsOfLevels[1])
+			ct <- list()
+			count <- 0
+			contrastNames <- vector()
+			if(lengthsOfLevels[1] > 2)
 			{
-				cm8[k,k] <- 1
-				cm8[(1:lengthsOfLevels[1])[-k],k] <- -1
-			}
-			colnames(cm8) <- paste(levelsOfFactors[[1]], "_vs_others", sep="")
-			cm <- cbind(cm,cm8)
-		}
-	}
-	
-	if(numOfFactors > 1)
-	{
-		for(index_Factor in 1:length(lengthsOfLevels))
-		{
-			if(lengthsOfLevels[index_Factor] > 2)
-			{
-				temp <- array(0,dim=lengthsOfLevels[-index_Factor])
-				perms <- which(temp==0, arr.ind=TRUE)
-				ct <- list()
-				count <- 0
-				contrastNames <- vector()
-				for(index_unchangingLevels in 1:(dim(perms)[1]))
+				cm8 <- matrix(0, lengthsOfLevels[1], lengthsOfLevels[1])
+				for(k in 1:lengthsOfLevels[1])
 				{
-					for(index_changingLevels in 1:lengthsOfLevels[index_Factor])
+					cm8[k,k] <- 1
+					cm8[(1:lengthsOfLevels[1])[-k],k] <- -1
+				}
+				colnames(cm8) <- paste(levelsOfFactors[[1]], "_vs_others", sep="")
+				cm <- cbind(cm,cm8)
+			}
+		}
+	
+		if(numOfFactors > 1)
+		{
+			for(index_Factor in 1:length(lengthsOfLevels))
+			{
+				if(lengthsOfLevels[index_Factor] > 2)
+				{
+					temp <- array(0,dim=lengthsOfLevels[-index_Factor])
+					perms <- which(temp==0, arr.ind=TRUE)
+					ct <- list()
+					count <- 0
+					contrastNames <- vector()
+					for(index_unchangingLevels in 1:(dim(perms)[1]))
 					{
-						count <- count+1
-						ct[[count]] <- array(0,dim=lengthsOfLevels)
-						dims<-vector(length=length(lengthsOfLevels))
-						dims[-index_Factor] <- perms[index_unchangingLevels,]
-						dims[index_Factor] <- index_changingLevels
-						dims_for_names <- dims
-						dimsmat <- t(matrix(dims))
-						ct[[count]][dimsmat] <- 1
-						dimsmat <- matrix(0,lengthsOfLevels[index_Factor],length(lengthsOfLevels))
-						count2 <- 0
-						for(index_changingFactor in
-							(1:lengthsOfLevels[index_Factor])[-index_changingLevels])
+						for(index_changingLevels in 1:lengthsOfLevels[index_Factor])
 						{
-							dims[index_Factor] <- index_changingFactor
-							dimsmat[index_changingFactor,] <- t(matrix(dims))
-						}
-						ct[[count]][dimsmat] <- -1
-						if(index_Factor == 1)
-							contrastNames[count] <- levelsOfFactors[[1]][dims_for_names[1]]
-						else
-							contrastNames[count] <- levelsOfFactors[[1]][dims_for_names[1]]
-						for(m in 2:numOfFactors)
-						{
-							if(index_Factor == m)
-								contrastNames[count] <- paste(contrastNames[count], "."
-									,  levelsOfFactors[[m]][dims_for_names[m]], sep="")
+							count <- count+1
+							ct[[count]] <- array(0,dim=lengthsOfLevels)
+							dims<-vector(length=length(lengthsOfLevels))
+							dims[-index_Factor] <- perms[index_unchangingLevels,]
+							dims[index_Factor] <- index_changingLevels
+							dims_for_names <- dims
+							dimsmat <- t(matrix(dims))
+							ct[[count]][dimsmat] <- 1
+							dimsmat <- matrix(0,lengthsOfLevels[index_Factor],length(lengthsOfLevels))
+							count2 <- 0
+							for(index_changingFactor in
+								(1:lengthsOfLevels[index_Factor])[-index_changingLevels])
+							{
+								dims[index_Factor] <- index_changingFactor
+								dimsmat[index_changingFactor,] <- t(matrix(dims))
+							}
+							ct[[count]][dimsmat] <- -1
+							if(index_Factor == 1)
+								contrastNames[count] <- levelsOfFactors[[1]][dims_for_names[1]]
 							else
-								contrastNames[count] <- paste(contrastNames[count], "."
-									,  levelsOfFactors[[m]][dims_for_names[m]], sep="")
-						}
-						contrastNames[count] <- paste(contrastNames[count], "_vs_", sep="")
-						if(index_Factor == 1)
-							contrastNames[count] <- paste(contrastNames[count]
-								, "others", sep="")
-						else
-							contrastNames[count] <- paste(contrastNames[count]
-								, levelsOfFactors[[1]][dims_for_names[1]], sep="")
-						for(m in 2:numOfFactors)
-						{
-							if(index_Factor == m)
+								contrastNames[count] <- levelsOfFactors[[1]][dims_for_names[1]]
+							for(m in 2:numOfFactors)
+							{
+								if(index_Factor == m)
+									contrastNames[count] <- paste(contrastNames[count], "."
+										,  levelsOfFactors[[m]][dims_for_names[m]], sep="")
+								else
+									contrastNames[count] <- paste(contrastNames[count], "."
+										,  levelsOfFactors[[m]][dims_for_names[m]], sep="")
+							}
+							contrastNames[count] <- paste(contrastNames[count], "_vs_", sep="")
+							if(index_Factor == 1)
 								contrastNames[count] <- paste(contrastNames[count]
-									, ".",  "others", sep="")
+									, "others", sep="")
 							else
 								contrastNames[count] <- paste(contrastNames[count]
-									, ".",  levelsOfFactors[[m]][dims_for_names[m]], sep="")
+									, levelsOfFactors[[1]][dims_for_names[1]], sep="")
+							for(m in 2:numOfFactors)
+							{
+								if(index_Factor == m)
+									contrastNames[count] <- paste(contrastNames[count]
+										, ".",  "others", sep="")
+								else
+									contrastNames[count] <- paste(contrastNames[count]
+										, ".",  levelsOfFactors[[m]][dims_for_names[m]], sep="")
+							}
 						}
 					}
+					## make a matrix out of the list
+					cm7 <- sapply(ct, as.vector)
+					colnames(cm7) <- contrastNames
+					cm <- cbind(cm,cm7)
 				}
-				## make a matrix out of the list
-				cm7 <- sapply(ct, as.vector)
-				colnames(cm7) <- contrastNames
-				cm <- cbind(cm,cm7)
 			}
 		}
 	}
-	
 
 	############################################################################
 	## contrasts where only one factor is changing for all levels of all other
