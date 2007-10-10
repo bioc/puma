@@ -10,14 +10,14 @@ pumaDE <- function (
 	,	dimnames=list(rownames(exprs(eset)), colnames(contrast.matrix)))
 	for(i in 1:dim(contrast.matrix)[2])
 	{
-		p[,i] <- pplr(
-	    	cbind(exprs(eset), assayDataElement(eset,"se.exprs"))
-	    ,	which(contrast.matrix[,i]==-1)
-	    ,	which(contrast.matrix[,i]==1)
-		,	sorted=FALSE
-	    )[,9]
 		plus_contrasts <- which(contrast.matrix[,i]==1)
 		minus_contrasts <- which(contrast.matrix[,i]==-1)
+		p[,i] <- pplr(
+	    	cbind(exprs(eset), assayDataElement(eset,"se.exprs"))
+	    ,	as.matrix(which(design.matrix[,minus_contrasts]==1,arr.ind=TRUE))[,1]
+	    ,	as.matrix(which(design.matrix[,plus_contrasts]==1,arr.ind=TRUE))[,1]
+		,	sorted=FALSE
+	    )[,9]
 		plus_arrays <- as.matrix(
 			which(design.matrix[,plus_contrasts]==1,arr.ind=TRUE))[,1]
 		minus_arrays <- as.matrix(
