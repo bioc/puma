@@ -2067,6 +2067,7 @@ void o8opti(void)
                    LLOGICAL *cont ) ;
 
     static IINTEGER  l,l0,i,j,k,csssig,csirup,csreg,cschgx;
+	int local_n;
     static IINTEGER  csmdph;
     static DDOUBLE   delsig,delx,sum,term;
     static DDOUBLE   umin,term1,scfh,unorm;
@@ -2794,7 +2795,8 @@ end inactive */
     }
     if ( scf != zero ) 
     {
-        for (i = 1 ; i <= n ; i++) 
+		local_n = n;
+		for (i = 1 ; i <= local_n ; i++)
         {
             o8opti_yx[i] = scf*gradf[i];
             for (j = 1 ; j <= nlin+nonlin ; j++) 
