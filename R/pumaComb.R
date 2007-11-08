@@ -178,18 +178,20 @@ pumaComb <- function (
 	if(numOfChunks > 1)
 		for (i in 2:numOfChunks)
 			r <- rbind(r,rl[[i]])
+	colnames(r) <- c(paste("M", colnames(design.matrix)), paste("Std", colnames(design.matrix)))
 	if(save_r)
 		save(r, file="r.rda")
-	eset_r <- create_eset_r(eset,r)
-	colnames(exprs(eset_r)) <- paste("M", colnames(design.matrix), sep="_")
+	eset_r <- create_eset_r(eset, r, design.matrix)
+	# colnames(exprs(eset_r)) <- paste("M", colnames(design.matrix), sep="_")
 	# colnames(assayDataElement(eset_r,"se.exprs")) <- paste("Std", colnames(design.matrix), sep="_")
-	design.matrix.ordering <- replace(
-		which(unique(design.matrix)==1)%%(dim(design.matrix)[2])
-	,	which(unique(design.matrix)==1)%%(dim(design.matrix)[2])==0
-	,	dim(design.matrix)[2]
-	)
-	rownames(pData(eset_r)) <- colnames(design.matrix)[design.matrix.ordering]
-	varLabels(eset_r) <- colnames(pData(eset)[1:numOfFactorsToUse(removeUninformativeFactors(eset))])
+	# design.matrix.ordering <- replace(
+	# 	which(unique(design.matrix)==1)%%(dim(design.matrix)[2])
+	# ,	which(unique(design.matrix)==1)%%(dim(design.matrix)[2])==0
+	# ,	dim(design.matrix)[2]
+	# )
+	# design.matrix.ordering <- which(unique(design.matrix)==1, arr.ind=TRUE)[,1][which(unique(design.matrix)==1, arr.ind=TRUE)[,1]]
+	# rownames(pData(eset_r)) <- colnames(design.matrix)[design.matrix.ordering]
+	# varLabels(eset_r) <- colnames(pData(eset)[1:numOfFactorsToUse(removeUninformativeFactors(eset))])
 	# colnames(pData(eset_r)) <- colnames(pData(eset))
 	return(eset_r)
 }

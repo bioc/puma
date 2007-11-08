@@ -52,7 +52,7 @@ pumaPCA(
 \arguments{
 	\item{eset}{ An object of class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}}. }
 	\item{latentDim}{ An integer specifying the number of latent dimensions (kind of like the number of principal components). }
-	\item{sampleSize}{ An integer specifying the number of probesets to sample, or FALSE (the default), meaning use all the data. }
+	\item{sampleSize}{ An integer specifying the number of probesets to sample (default is 1000), or FALSE, meaning use all the data. }
 	\item{initPCA}{ A boolean indicating whether to initialise using standard PCA (the default, and generally quicker and recommended).  }
 	\item{randomOrder}{ A boolean indicating whether the parameters should be updated in a random order (this is generally not recommended, and the default is FALSE). }
 	\item{optimMethod}{ See ?optim for details of methods. }
