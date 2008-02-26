@@ -10,7 +10,6 @@ pumaNormalize <- function (
 {
 	if(!(
 		is(eset, "ExpressionSet") ||
-		is(eset, "exprSet") ||
 		is(eset, "exprReslt")
 	))
 		stop("eset is not a valid ExpressionSet object!")

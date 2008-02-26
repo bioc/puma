@@ -42,7 +42,7 @@ pumaComb <- function (
 # 	else FALSE
 )
 {
-	if(!(is(eset, "ExpressionSet") || is(eset, "exprSet") || is(eset, "ExpressionSetIllumina")))
+	if(!(is(eset, "ExpressionSet") || is(eset, "ExpressionSetIllumina")))
 		stop("eset is not a valid ExpressionSet object!")
 	if(is.null(design.matrix) && is.null(pData(eset)))
 		stop("ExpressionSet contains no valid phenoData and no design.matrix
@@ -240,7 +240,7 @@ numOfFactorsToUse <- function (eset)
 
 createDesignMatrix <- function (eset)
 {
-	if(!(is(eset, "ExpressionSet") || is(eset, "exprSet") || is(eset, "ExpressionSetIllumina")))
+	if(!(is(eset, "ExpressionSet") || is(eset, "ExpressionSetIllumina")))
 		stop("eset is not a valid ExpressionSet object!")
 	numOfFactors <- numOfFactorsToUse(removeUninformativeFactors(eset))
 	if(numOfFactors == 0)
@@ -313,7 +313,7 @@ createDesignMatrix <- function (eset)
 
 createContrastMatrix <- function (eset, design=NULL, others=FALSE)
 {
-	if(!(is(eset, "ExpressionSet") || is(eset, "exprSet") || is(eset, "ExpressionSetIllumina")))
+	if(!(is(eset, "ExpressionSet") || is(eset, "ExpressionSetIllumina")))
 		stop("eset is not a valid ExpressionSet object!")
 	if(is.null(design))
 		design <- createDesignMatrix(eset)
