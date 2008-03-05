@@ -41,7 +41,7 @@ justmmgMOS <- function(
 just.mmgmos <- function(
   ...
 , filenames=character(0)
-, phenoData=new("phenoData")
+, phenoData=new("AnnotatedDataFrame")
 , description=NULL
 , notes=""
 , compress=getOption("BioC")$affy$compress.cel

@@ -6,7 +6,7 @@
   This function converts CEL files into an \code{\link{exprReslt}} using mmgmos.
 }
 \usage{
-justmmgMOS(..., filenames=character(0),
+justmmgMOS(\dots, filenames=character(0),
           widget=getOption("BioC")$affy$use.widgets,
           compress=getOption("BioC")$affy$compress.cel,
           celfile.path=getwd(),
@@ -16,29 +16,28 @@ justmmgMOS(..., filenames=character(0),
           notes="",
           background=TRUE, gsnorm=c("median", "none", "mean", "meanlog"), savepar=FALSE, eps=1.0e-6)
 
-just.mmgmos(..., filenames=character(0),
-           phenoData=new("phenoData"),
+just.mmgmos(\dots, filenames=character(0),
+           phenoData=new("AnnotatedDataFrame"),
            description=NULL,
            notes="",
            compress=getOption("BioC")$affy$compress.cel,
            background=TRUE, gsnorm=c("median", "none", "mean", "meanlog"), savepar=FALSE, eps=1.0e-6)
-
 }
 \arguments{
-  \item{\dots}{ file names separated by comma.}
-  \item{filenames}{ file names in a character vector.}
+  \item{\dots}{file names separated by comma.}
+  \item{filenames}{file names in a character vector.}
   \item{widget}{a logical specifying if widgets should be used.}
-  \item{compress}{are the CEL files compressed ?}
+  \item{compress}{are the CEL files compressed?}
   \item{celfile.path}{a character denoting the path \code{\link[affy:read.affybatch]{ReadAffy}} should look for
-          cel files}
+          cel files.}
   \item{sampleNames}{a character vector of sample names to be used in
-    the \code{\link[affy:AffyBatch-class]{AffyBatch}}}
-  \item{phenoData}{ a \code{\link[Biobase]{phenoData}} object}
-  \item{description}{ a \code{\link[Biobase:class.MIAME]{MIAME}} object}
+    the \code{\link[affy:AffyBatch-class]{AffyBatch}}.}
+  \item{phenoData}{an \code{\link[Biobase]{AnnotatedDataFrame}} object}
+  \item{description}{a \code{\link[Biobase:class.MIAME]{MIAME}} object}
   \item{notes}{ notes }
-  \item{background}{Logical value. If \code{TRUE}, perform background correction before applying mmgmos.}
+  \item{background}{Logical value. If \code{TRUE}, then perform background correction before applying mmgmos.}
   \item{gsnorm}{character. specifying the algorithm of global scaling normalisation.}
-  \item{savepar}{Logical value. If \code{TRUE} the estimated parameters of the model are saved in file par\_mmgmos.txt and phi\_mmgmos.txt.}
+  \item{savepar}{Logical value. If \code{TRUE}, the the estimated parameters of the model are saved in file par\_mmgmos.txt and phi\_mmgmos.txt.}
   \item{eps}{Optimisation termination criteria.}
 }
 \details{
@@ -46,9 +45,8 @@ just.mmgmos(..., filenames=character(0),
   method of first creating an \code{\link[affy:AffyBatch-class]{AffyBatch}} and then running
   \code{\link{mmgmos}}.
   
-  Note that this expression measure is given to you in log base 2
-  scale. This differs from most of the other expression measure
-  methods.
+  Note that this expression measure is given to you in log base 2 scale. This differs from
+  most of the other expression measure methods.
 
   The algorithms of global scaling normalisation can be one of "median", "none", "mean", "meanlog".
   "mean" and "meanlog" are mean-centered normalisation on raw scale and log scale respectively, and "median" 
@@ -57,9 +55,7 @@ just.mmgmos(..., filenames=character(0),
 \value{
  An \code{exprReslt}.
 }
-\seealso{ Related class \code{\link{exprReslt-class}} and related method \code{\link{mmgmos}}}
+\seealso{Related class \code{\link{exprReslt-class}} and related method \code{\link{mmgmos}}}
 \examples{
-
 }
 \keyword{manip}
-
