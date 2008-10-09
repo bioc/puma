@@ -345,12 +345,12 @@ setClass("exprReslt"
 	 
 ##define a generic for obtaining the data
 # if( !isGeneric("se.exprs") )
-	setGeneric("se.exprs", function(object) standardGeneric("se.exprs"))
+#	setGeneric("se.exprs", function(object) standardGeneric("se.exprs"))
 setMethod("se.exprs", "exprReslt", function(object) assayDataElement(object,"se.exprs"))
 
 # if( !isGeneric("se.exprs<-") )
-	setGeneric("se.exprs<-", function(object, value)
-		standardGeneric("se.exprs<-"))
+#	setGeneric("se.exprs<-", function(object, value)
+#		standardGeneric("se.exprs<-"))
 
 setReplaceMethod("se.exprs", "exprReslt",
                  function(object, value) {
