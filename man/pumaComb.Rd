@@ -39,11 +39,11 @@ gene expression, technical report available upon request.}
 \author{ Xuejun Liu, Marta Milo, Neil D. Lawrence, Magnus Rattray }
 \seealso{Related methods \code{\link{pumaNormalize}}, \code{\link{bcomb}}, \code{\link{mmgmos}} and \code{\link{pumaDE}}}
 \examples{
-	data(affybatch.example)
-	varLabels(affybatch.example) <- c("level")
-	pData(affybatch.example) <- data.frame("level"=c("twenty","twenty","ten")
-	    , "batch"=c("A","B","A"), row.names=rownames(pData(affybatch.example)))
-	eset_mmgmos <- mmgmos(affybatch.example)
+	data(Dilution)
+	varLabels(Dilution) <- c("level")
+	pData(Dilution) <- data.frame("level"=c("twenty","twenty","ten")
+	    , "batch"=c("A","B","A"), row.names=rownames(pData(Dilution)))
+	eset_mmgmos <- mmgmos(Dilution)
 	pData(eset_mmgmos)
 	exprs(eset_mmgmos)[1:3,]
 	eset_comb <- pumaComb(eset_mmgmos)

@@ -39,11 +39,11 @@ Most analyses of Affymetrix GeneChip data are based on point estimates of expres
 	Pearson, R. D., Liu, X., Sanguinetti, G., Milo, M., Lawrence, N. D., Rattray, M. (2007) In preparation.
 }
 \examples{
-	data(affybatch.example)
-	varLabels(affybatch.example) <- "level"
-	pData(affybatch.example) <- data.frame("level"=c("twenty","twenty","ten")
-	    , "batch"=c("A","B","A"), row.names=rownames(pData(affybatch.example)))
-	eset_mmgmos <- mmgmos(affybatch.example)
+	data(Dilution)
+	varLabels(Dilution) <- "level"
+	pData(Dilution) <- data.frame("level"=c("twenty","twenty","ten")
+	    , "batch"=c("A","B","A"), row.names=rownames(pData(Dilution)))
+	eset_mmgmos <- mmgmos(Dilution)
 	pumapca_mmgmos <- pumaPCA(eset_mmgmos)
 	plot(pumapca_mmgmos)
 	eset_mmgmos_normd <- pumaNormalize(eset_mmgmos)

@@ -37,11 +37,11 @@ For non-factorial designed experiments, we will simply ignore columns (right to 
 \examples{
 	# This is a simple example based on a real data set. Note that this is an "unbalanced" design, the "level" factor has two replicates of the "twenty" condition, but only one replicate of the "ten" condition. Also note that the second factor, "batch" is not used in the design or contrast matrices, as we don't have every combination of the levels of "level" and "batch" (there is no array for level=twenty and batch=B).
 		
-	data(affybatch.example)
-	varLabels(affybatch.example) <- c("level")
-	pData(affybatch.example) <- data.frame("level"=c("twenty","twenty","ten")
-	    , "batch"=c("A","B","A"), row.names=rownames(pData(affybatch.example)))
-	eset_mmgmos <- mmgmos(affybatch.example)
+	data(Dilution)
+	varLabels(Dilution) <- c("level")
+	pData(Dilution) <- data.frame("level"=c("twenty","twenty","ten")
+	    , "batch"=c("A","B","A"), row.names=rownames(pData(Dilution)))
+	eset_mmgmos <- mmgmos(Dilution)
 	createDesignMatrix(eset_mmgmos)
 	
 	# The following shows a set of 15 synthetic data sets with increasing complexity. We first create the data sets, then look at the design matrices.

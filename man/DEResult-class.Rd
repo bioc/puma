@@ -106,11 +106,11 @@
 }
 \examples{
 ## Create an example DEResult object
-data(affybatch.example)
-varLabels(affybatch.example) <- "level"
-pData(affybatch.example) <- data.frame("level"=c("twenty","twenty","ten")
-    , "batch"=c("A","B","A"), row.names=rownames(pData(affybatch.example)))
-eset_mmgmos <- mmgmos(affybatch.example)
+data(Dilution)
+varLabels(Dilution) <- "level"
+pData(Dilution) <- data.frame("level"=c("twenty","twenty","ten")
+    , "batch"=c("A","B","A"), row.names=rownames(pData(Dilution)))
+eset_mmgmos <- mmgmos(Dilution)
 eset_comb <- pumaComb(eset_mmgmos)
 esetDE <- pumaDE(eset_comb)
 

@@ -28,11 +28,11 @@ An object of class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}} hold
 \author{ Richard D. Pearson }
 \seealso{Methods \code{\link{mmgmos}}, \code{\link{pumaComb}} and \code{\link{pumaDE}}}
 \examples{
-	data(affybatch.example)
-	varLabels(affybatch.example) <- c("level")
-	pData(affybatch.example) <- data.frame("level"=c("twenty","twenty","ten")
-	    , "batch"=c("A","B","A"), row.names=rownames(pData(affybatch.example)))
-	eset_mmgmos <- mmgmos(affybatch.example)
+	data(Dilution)
+	varLabels(Dilution) <- c("level")
+	pData(Dilution) <- data.frame("level"=c("twenty","twenty","ten")
+	    , "batch"=c("A","B","A"), row.names=rownames(pData(Dilution)))
+	eset_mmgmos <- mmgmos(Dilution)
 	apply(exprs(eset_mmgmos),2,median)
 	eset_mmgmos_normd <- pumaNormalize(eset_mmgmos)
 	apply(exprs(eset_mmgmos_normd),2,median)

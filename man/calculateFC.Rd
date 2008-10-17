@@ -25,11 +25,11 @@ The \code{eset} argument must be supplied, and must be a valid \code{\link[Bioba
 \author{ Richard D. Pearson }
 \seealso{Related methods \code{\link{pumaDE}}, \code{\link{calculateLimma}}, \code{\link{calculateTtest}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}} and class \code{\link{DEResult}}}
 \examples{
-	data(affybatch.example)
-	varLabels(affybatch.example) <- c("level")
-	pData(affybatch.example) <- data.frame("level"=c("twenty","twenty","ten")
-	    , "batch"=c("A","B","A"), row.names=rownames(pData(affybatch.example)))
-	eset_rma <- rma(affybatch.example)
+	data(Dilution)
+	varLabels(Dilution) <- c("level")
+	pData(Dilution) <- data.frame("level"=c("twenty","twenty","ten")
+	    , "batch"=c("A","B","A"), row.names=rownames(pData(Dilution)))
+	eset_rma <- rma(Dilution)
 	FCRes <- calculateFC(eset_rma)
 	topGeneIDs(FCRes,numberOfGenes=6)
 	plotErrorBars(eset_rma, topGenes(FCRes))

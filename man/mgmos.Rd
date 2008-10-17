@@ -56,11 +56,11 @@ http://plato.la.asu.edu/donlp2.html}
 \seealso{ Related class \code{\link{exprReslt-class}} and related method \code{\link{mmgmos}}}
 \examples{
 ## load example data from package Affy
-data(affybatch.example)
+data(Dilution)
 
 ## use method mmgmos to calculate the expressiong levels and related confidence 
 ## of the measures for the example data
 ## NEXT LINE COMMENTED OUT TEMPORARILIY 31/10/2006 BUT NEEDS DEBUGGING!
-eset<-mgmos(affybatch.example)
+eset<-mgmos(Dilution)
 }
 \keyword{manip}
