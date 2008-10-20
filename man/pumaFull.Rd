@@ -31,10 +31,8 @@ pumaFull (
 \author{ Richard D. Pearson }
 \seealso{Related methods \code{\link{pumaDE}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}}}
 \examples{
-	data(Dilution)
-	varLabels(Dilution) <- c("level")
-	pData(Dilution) <- data.frame("level"=c("twenty","twenty","ten")
-	    , "batch"=c("A","B","A"), row.names=rownames(pData(Dilution)))
-	pumaFull(Dilution)
+##	Code commented out to ensure checks run quickly
+#	data(Dilution)
+#	pumaFull(Dilution)
 }
 \keyword{manip}

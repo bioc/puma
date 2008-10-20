@@ -22,11 +22,10 @@ This is the method to plot objects of class pumaPCARes. It will produce a scatte
   \item{legend2pos}{String indicating where to put legend for second factor}
 }
 \examples{
-	data(Dilution)
-	varLabels(Dilution) <- c("level")
-	pData(Dilution) <- data.frame("level"=c("twenty","twenty","ten")
-	    , "batch"=c("A","B","A"), row.names=rownames(pData(Dilution)))
-	eset_mmgmos <- mmgmos(Dilution)
+	#	Next 2 lines commented out to save time in package checks, and saved version used
+	#	data(Dilution)
+	#	eset_mmgmos <- mmgmos(Dilution)
+	data(eset_mmgmos)
 	pumapca_mmgmos <- pumaPCA(eset_mmgmos)
 	plot(pumapca_mmgmos)
 }

@@ -76,11 +76,11 @@ pumaPCA(
 \author{ Richard D. Pearson }
 \seealso{Related methods \code{\link{pumaDE}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}}}
 \examples{
-	data(Dilution)
-	varLabels(Dilution) <- c("level")
-	pData(Dilution) <- data.frame("level"=c("twenty","twenty","ten")
-	    , "batch"=c("A","B","A"), row.names=rownames(pData(Dilution)))
-	eset_mmgmos <- mmgmos(Dilution)
+	#	Next 2 lines commented out to save time in package checks, and saved version used
+	#	data(Dilution)
+	#	eset_mmgmos <- mmgmos(Dilution)
+	data(eset_mmgmos)
+
 	pumapca_mmgmos <- pumaPCA(eset_mmgmos)
 	plot(pumapca_mmgmos)
 }

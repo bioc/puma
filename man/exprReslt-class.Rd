@@ -121,13 +121,12 @@ Class \code{"ExpressionSet"}, directly.
 }
 \examples{
 ## load example data from package Affy
-data(Dilution)
+#	Next 2 lines commented out to save time in package checks, and saved version used
+#	data(Dilution)
+#	eset_mmgmos <- mmgmos(Dilution)
+data(eset_mmgmos)
 
-## use method mmgmos to calculate the expressiong levels and related confidences 
-## of the measures for Dilution
-eset<-mmgmos(Dilution)
-
-## save the expression resluts into files
-write.reslts(eset, file="example")
+## save the expression results into files
+write.reslts(eset_mmgmos, file="example")
 }
 \keyword{classes}

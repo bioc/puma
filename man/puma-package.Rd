@@ -36,18 +36,17 @@ Most analyses of Affymetrix GeneChip data are based on point estimates of expres
 	
 	Liu, X. Lin, K., Andersen, B. Rattray, M. (2007) Including probe-level uncertainty in model-based gene expression clustering, BMC Bioinformatics, 8(98).
 	
-	Pearson, R. D., Liu, X., Sanguinetti, G., Milo, M., Lawrence, N. D., Rattray, M. (2007) In preparation.
+	Pearson, R. D., Liu, X., Sanguinetti, G., Milo, M., Lawrence, N. D., Rattray, M. (2008) In preparation.
 }
 \examples{
-	data(Dilution)
-	varLabels(Dilution) <- "level"
-	pData(Dilution) <- data.frame("level"=c("twenty","twenty","ten")
-	    , "batch"=c("A","B","A"), row.names=rownames(pData(Dilution)))
-	eset_mmgmos <- mmgmos(Dilution)
+	#	Next 2 lines commented out to save time in package checks, and saved version used
+	#	data(Dilution)
+	#	eset_mmgmos <- mmgmos(Dilution)
+	data(eset_mmgmos)
 	pumapca_mmgmos <- pumaPCA(eset_mmgmos)
 	plot(pumapca_mmgmos)
-	eset_mmgmos_normd <- pumaNormalize(eset_mmgmos)
-	eset_comb <- pumaComb(eset_mmgmos_normd)
+	eset_mmgmos_100 <- eset_mmgmos[1:100,]
+	eset_comb <- pumaComb(eset_mmgmos_100)
 	esetDE <- pumaDE(eset_comb)
 }
 \keyword{ package }

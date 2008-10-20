@@ -5,12 +5,12 @@
 To appear
 }
 \usage{
-createContrastMatrix(eset, design=NULL, others=FALSE)
+createContrastMatrix(eset, design=NULL)
 }
 \arguments{
 	\item{eset}{ An object of class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}}. }
 	\item{design}{ A design matrix }
-	\item{others}{ A Boolean specifying whether to create vs\_other contrasts. }
+%	\item{others}{ A Boolean specifying whether to create vs\_other contrasts. }
 }
 \details{
 The \pkg{puma} package has been designed to be as easy to use as possible, while not compromising on power and flexibility. One of the most difficult tasks for many users, particularly those new to microarray analysis, or statistical analysis in general, is setting up design and contrast matrices. The \pkg{puma} package will automatically create such matrices, and we believe the way this is done will suffice for most users' needs.
@@ -42,11 +42,10 @@ For non-factorial designed experiments, we will simply ignore columns (right to 
 \examples{
 # This is a simple example based on a real data set. Note that this is an "unbalanced" design, the "level" factor has two replicates of the "twenty" condition, but only one replicate of the "ten" condition. Also note that the second factor, "batch" is not used in the design or contrast matrices, as we don't have every combination of the levels of "level" and "batch" (there is no array for level=twenty and batch=B).
 
-	data(Dilution)
-	varLabels(Dilution) <- c("level")
-	pData(Dilution) <- data.frame("level"=c("twenty","twenty","ten")
-	    , "batch"=c("A","B","A"), row.names=rownames(pData(Dilution)))
-	eset_mmgmos <- mmgmos(Dilution)
+	#	Next 2 lines commented out to save time in package checks, and saved version used
+	#	data(Dilution)
+	#	eset_mmgmos <- mmgmos(Dilution)
+	data(eset_mmgmos)
 	createContrastMatrix(eset_mmgmos)
 
 # The following shows a set of 15 synthetic data sets with increasing complexity. We first create the data sets, then look at the contrast matrices.

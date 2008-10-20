@@ -30,11 +30,5 @@ classElts <- c(rep(FALSE,1000), rep(TRUE,1000))
 print(calcAUC(scores_a, classElts))
 print(calcAUC(scores_b, classElts))
 
-## The function is currently defined as
-function (scores, truthValues, includedProbesets = 1:length(truthValues)) 
-{
-    predictions <- prediction(scores[includedProbesets], truthValues[includedProbesets])
-    AUC <- performance(predictions, "auc")@y.values[[1]]
-  }
 }
 \keyword{manip}

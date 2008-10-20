@@ -39,14 +39,30 @@ gene expression, technical report available upon request.}
 \author{ Xuejun Liu, Marta Milo, Neil D. Lawrence, Magnus Rattray }
 \seealso{Related methods \code{\link{pumaNormalize}}, \code{\link{bcomb}}, \code{\link{mmgmos}} and \code{\link{pumaDE}}}
 \examples{
-	data(Dilution)
-	varLabels(Dilution) <- c("level")
-	pData(Dilution) <- data.frame("level"=c("twenty","twenty","ten")
-	    , "batch"=c("A","B","A"), row.names=rownames(pData(Dilution)))
-	eset_mmgmos <- mmgmos(Dilution)
+	#	Next 2 lines commented out to save time in package checks, and saved version used
+	#	data(Dilution)
+	#	eset_mmgmos <- mmgmos(Dilution)
+	data(eset_mmgmos)
+
+	#	Next line shows that eset_mmgmos has 4 arrays, each of which is a different
+	#   condition (the experimental design is a 2x2 factorial, with both liver and
+	#	scanner factors)
 	pData(eset_mmgmos)
+	
+	#	Next line shows expression levels of first 3 probe sets
 	exprs(eset_mmgmos)[1:3,]
-	eset_comb <- pumaComb(eset_mmgmos)
+
+	#	Next line used so eset_mmgmos only has information about the liver factor
+	#	The scanner factor will thus be ignored, and the two arrays of each level
+	#	of the liver factor will be treated as replicates
+	pData(eset_mmgmos) <- pData(eset_mmgmos)[,1,drop=FALSE]
+
+	#	To save time we'll just use 100 probe sets for the example
+	eset_mmgmos_100 <- eset_mmgmos[1:100,]
+	eset_comb <- pumaComb(eset_mmgmos_100)
+	
+	#	We can see that the resulting ExpressionSet object has just two conditions
+	#	and 1 expression level for each condition
 	pData(eset_comb)
 	exprs(eset_comb)[1:3,]
 }

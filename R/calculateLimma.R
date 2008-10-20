@@ -4,6 +4,8 @@ calculateLimma <- function (
 ,	contrast.matrix = createContrastMatrix(eset)
 )
 {
+	require(limma)
+	
 	numOfGenes <- length(featureNames(eset))
 	numOfContrasts <- dim(contrast.matrix)[2]
 	fit <- lmFit(eset, design.matrix)
@@ -21,7 +23,7 @@ calculateFC <- function (
 ,	contrast.matrix = createContrastMatrix(eset)
 )
 {
-    p <- matrix(0, dim(exprs(eset))[1], dim(contrast.matrix)[2]
+	p <- matrix(0, dim(exprs(eset))[1], dim(contrast.matrix)[2]
 	, dimnames=list(rownames(exprs(eset)), colnames(contrast.matrix)))
     fold.change <- matrix(0, dim(exprs(eset))[1], dim(contrast.matrix)[2]
 	, dimnames=list(rownames(exprs(eset)), colnames(contrast.matrix)))

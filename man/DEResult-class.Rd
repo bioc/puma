@@ -106,12 +106,20 @@
 }
 \examples{
 ## Create an example DEResult object
-data(Dilution)
-varLabels(Dilution) <- "level"
-pData(Dilution) <- data.frame("level"=c("twenty","twenty","ten")
-    , "batch"=c("A","B","A"), row.names=rownames(pData(Dilution)))
-eset_mmgmos <- mmgmos(Dilution)
-eset_comb <- pumaComb(eset_mmgmos)
+#	Next 2 lines commented out to save time in package checks, and saved version used
+#	data(Dilution)
+#	eset_mmgmos <- mmgmos(Dilution)
+data(eset_mmgmos)
+
+#	Next line used so eset_mmgmos only has information about the liver factor
+#	The scanner factor will thus be ignored, and the two arrays of each level
+#	of the liver factor will be treated as replicates
+pData(eset_mmgmos) <- pData(eset_mmgmos)[,1,drop=FALSE]
+
+#	To save time we'll just use 100 probe sets for the example
+eset_mmgmos_100 <- eset_mmgmos[1:100,]
+eset_comb <- pumaComb(eset_mmgmos_100)
+
 esetDE <- pumaDE(eset_comb)
 
 ## Use some of the methods

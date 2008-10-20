@@ -26,10 +26,11 @@ The \code{eset} argument must be supplied, and must be a valid \code{\link[Bioba
 \seealso{Related methods \code{\link{pumaDE}}, \code{\link{calculateLimma}}, \code{\link{calculateTtest}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}} and class \code{\link{DEResult}}}
 \examples{
 	data(Dilution)
-	varLabels(Dilution) <- c("level")
-	pData(Dilution) <- data.frame("level"=c("twenty","twenty","ten")
-	    , "batch"=c("A","B","A"), row.names=rownames(pData(Dilution)))
 	eset_rma <- rma(Dilution)
+	#	Next line used so eset_rma only has information about the liver factor
+	#	The scanner factor will thus be ignored, and the two arrays of each level
+	#	of the liver factor will be treated as replicates
+	pData(eset_rma) <- pData(eset_rma)[,1, drop=FALSE]
 	FCRes <- calculateFC(eset_rma)
 	topGeneIDs(FCRes,numberOfGenes=6)
 	plotErrorBars(eset_rma, topGenes(FCRes))

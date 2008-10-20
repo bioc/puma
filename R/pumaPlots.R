@@ -107,6 +107,8 @@ plotROC <- function (
 ,	...
 )
 {
+	require(ROCR)
+	
 	predictions <- list()
 	ROCs <- list()
 	AUCs <- list()
@@ -146,6 +148,8 @@ calcAUC <- function (
 ,	includedProbesets=1:length(truthValues)
 )
 {
+	require(ROCR)
+	
 	predictions <- prediction(scores[includedProbesets]
 		,	truthValues[includedProbesets])
 	AUC <- performance(predictions, "auc")@y.values[[1]]
