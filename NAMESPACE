@@ -1,0 +1,9 @@
+useDynLib("puma")
+
+importFrom(Biobase,
+	se.exprs,
+	"se.exprs<-"
+)
+
+##export everything that does not start with a .
+exportPattern("^[^\\.]")
