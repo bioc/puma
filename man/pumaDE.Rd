@@ -29,9 +29,11 @@ While it is possible to run this function on data from individual arrays, it is 
 \author{ Richard D. Pearson }
 \seealso{Related methods \code{\link{calculateLimma}}, \code{\link{calculateFC}}, \code{\link{calculateTtest}}, \code{\link{pumaComb}}, \code{\link{mmgmos}}, \code{\link{pplr}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}}}
 \examples{
-	#	Next 2 lines commented out to save time in package checks, and saved version used
+	#	Next 4 lines commented out to save time in package checks, and saved version used
+    # if (require(affydata)) {
 	#	data(Dilution)
 	#	eset_mmgmos <- mmgmos(Dilution)
+	# }
 	data(eset_mmgmos)
 
 	#	Next line shows that eset_mmgmos has 4 arrays, each of which is a different

@@ -62,9 +62,11 @@ plotErrorBars(
 }
 \author{ Richard D. Pearson }
 \examples{
-	#	Next 2 lines commented out to save time in package checks, and saved version used
+	#	Next 4 lines commented out to save time in package checks, and saved version used
+    # if (require(affydata)) {
 	#	data(Dilution)
 	#	eset_mmgmos <- mmgmos(Dilution)
+	# }
 	data(eset_mmgmos)
 	plotErrorBars(eset_mmgmos)
 	plotErrorBars(eset_mmgmos,1:6)
