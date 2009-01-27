@@ -39,9 +39,11 @@ Most analyses of Affymetrix GeneChip data are based on point estimates of expres
 	Pearson, R. D., Liu, X., Sanguinetti, G., Milo, M., Lawrence, N. D., Rattray, M. (2008) In preparation.
 }
 \examples{
-	#	Next 2 lines commented out to save time in package checks, and saved version used
+	#	Next 4 lines commented out to save time in package checks, and saved version used
+    # if (require(affydata)) {
 	#	data(Dilution)
 	#	eset_mmgmos <- mmgmos(Dilution)
+	# }
 	data(eset_mmgmos)
 	pumapca_mmgmos <- pumaPCA(eset_mmgmos)
 	plot(pumapca_mmgmos)

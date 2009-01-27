@@ -120,10 +120,12 @@ Class \code{"ExpressionSet"}, directly.
   Related method \code{\link{mmgmos}} and related class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}}.
 }
 \examples{
-## load example data from package Affy
-#	Next 2 lines commented out to save time in package checks, and saved version used
+## load example data from package affydata
+#	Next 4 lines commented out to save time in package checks, and saved version used
+# if (require(affydata)) {
 #	data(Dilution)
 #	eset_mmgmos <- mmgmos(Dilution)
+# }
 data(eset_mmgmos)
 
 ## save the expression results into files

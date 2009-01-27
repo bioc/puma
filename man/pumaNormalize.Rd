@@ -28,9 +28,11 @@ An object of class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}} hold
 \author{ Richard D. Pearson }
 \seealso{Methods \code{\link{mmgmos}}, \code{\link{pumaComb}} and \code{\link{pumaDE}}}
 \examples{
-	#	Next 2 lines commented out to save time in package checks, and saved version used
+	#	Next 4 lines commented out to save time in package checks, and saved version used
+    # if (require(affydata)) {
 	#	data(Dilution)
 	#	eset_mmgmos <- mmgmos(Dilution)
+	# }
 	data(eset_mmgmos)
 	apply(exprs(eset_mmgmos),2,median)
 	eset_mmgmos_normd <- pumaNormalize(eset_mmgmos)

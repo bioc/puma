@@ -1,13 +1,13 @@
 Package: puma
 Type: Package
 Title: Propagating Uncertainty in Microarray Analysis
-Version: 1.8.0
+Version: 1.8.1
 Date: 2008-10-21
 Author: Richard D. Pearson, Xuejun Liu, Magnus Rattray, Marta Milo, Neil D.
     Lawrence, Guido Sanguinetti
 Maintainer: Richard Pearson <richard.pearson@postgrad.manchester.ac.uk>
-Depends: R (>= 2.6.0), Biobase, affy, methods
-Suggests: pumadata, snow, limma, annotate, ROCR
+Depends: R (>= 2.6.0), Biobase, affy, graphics, grDevices, methods, stats, utils
+Suggests: pumadata, affydata, snow, limma, annotate, ROCR
 Description: Most analyses of Affymetrix GeneChip data are based on point estimates of expression levels and ignore the uncertainty of such estimates. By propagating uncertainty to downstream analyses we can improve results from microarray analyses. For the first time, the puma package makes a suite of uncertainty propagation methods available to a general audience. puma also offers improvements in terms of scope and speed of execution over previously available uncertainty propagation methods. Included are summarisation, differential expression detection, clustering and PCA methods, together with useful plotting and data manipulation functions.
 License: LGPL excluding donlp2
 biocViews: Microarray, OneChannel, Preprocessing, Statistics, DifferentialExpression, Clustering

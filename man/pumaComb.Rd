@@ -39,9 +39,11 @@ gene expression, technical report available upon request.}
 \author{ Xuejun Liu, Marta Milo, Neil D. Lawrence, Magnus Rattray }
 \seealso{Related methods \code{\link{pumaNormalize}}, \code{\link{bcomb}}, \code{\link{mmgmos}} and \code{\link{pumaDE}}}
 \examples{
-	#	Next 2 lines commented out to save time in package checks, and saved version used
+	#	Next 4 lines commented out to save time in package checks, and saved version used
+    # if (require(affydata)) {
 	#	data(Dilution)
 	#	eset_mmgmos <- mmgmos(Dilution)
+	# }
 	data(eset_mmgmos)
 
 	#	Next line shows that eset_mmgmos has 4 arrays, each of which is a different

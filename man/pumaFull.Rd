@@ -32,7 +32,7 @@ pumaFull (
 \seealso{Related methods \code{\link{pumaDE}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}}}
 \examples{
 ##	Code commented out to ensure checks run quickly
-#	data(Dilution)
+#	if (require(affydata)) data(Dilution)
 #	pumaFull(Dilution)
 }
 \keyword{manip}

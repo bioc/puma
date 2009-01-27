@@ -106,9 +106,11 @@
 }
 \examples{
 ## Create an example DEResult object
-#	Next 2 lines commented out to save time in package checks, and saved version used
+#	Next 4 lines commented out to save time in package checks, and saved version used
+# if (require(affydata)) {
 #	data(Dilution)
 #	eset_mmgmos <- mmgmos(Dilution)
+# }
 data(eset_mmgmos)
 
 #	Next line used so eset_mmgmos only has information about the liver factor

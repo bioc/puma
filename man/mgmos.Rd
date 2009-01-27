@@ -56,8 +56,8 @@ http://plato.la.asu.edu/donlp2.html}
 \seealso{ Related class \code{\link{exprReslt-class}} and related method \code{\link{mmgmos}}}
 \examples{
 ## Code commented out to speed up checks
-## load example data from package Affy
-#data(Dilution)
+## load example data from package affydata
+# if (require(affydata)) data(Dilution)
 
 ## use method mgMOS to calculate the expression levels and related confidence 
 ## of the measures for the example data

@@ -25,6 +25,7 @@ The \code{eset} argument must be supplied, and must be a valid \code{\link[Bioba
 \author{ Richard D. Pearson }
 \seealso{Related methods \code{\link{pumaDE}}, \code{\link{calculateTtest}}, \code{\link{calculateFC}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}} and class \code{\link{DEResult}}}
 \examples{
+if (require(affydata)) {
 	data(Dilution)
 	eset_rma <- rma(Dilution)
 	#	Next line used so eset_rma only has information about the liver factor
@@ -34,5 +35,6 @@ The \code{eset} argument must be supplied, and must be a valid \code{\link[Bioba
 	limmaRes <- calculateLimma(eset_rma)
 	topGeneIDs(limmaRes,numberOfGenes=6)
 	plotErrorBars(eset_rma, topGenes(limmaRes))
+}
 }
 \keyword{manip}
