@@ -288,11 +288,11 @@ SEXP pumaclust_c(SEXP Mmat, SEXP Stdmat, SEXP clusters, SEXP centers, SEXP clsig
 	Rprintf("Clustering is performing ");
 	workout();  
 
-	SET_VECTOR_ELT(res, 0, CIndex);
-	SET_VECTOR_ELT(res, 1, Centers);
-	SET_VECTOR_ELT(res, 2, ClusterSig);
-	SET_VECTOR_ELT(res, 3, pjPerData);
-	SET_VECTOR_ELT(res, 4, BIC);
+	SET_STRING_ELT(res, 0, CIndex);
+	SET_STRING_ELT(res, 1, Centers);
+	SET_STRING_ELT(res, 2, ClusterSig);
+	SET_STRING_ELT(res, 3, pjPerData);
+	SET_STRING_ELT(res, 4, BIC);
 /*	freemem_pumaclust();
 */	Rprintf("Done.\n");
 	UNPROTECT(7);

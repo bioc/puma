@@ -1,0 +1,16 @@
+\BOOKMARK [1][-]{section.1}{Abstract}{}
+\BOOKMARK [1][-]{section.2}{Citing puma }{}
+\BOOKMARK [1][-]{section.3}{Introduction}{}
+\BOOKMARK [1][-]{section.4}{Introductory example analysis - estrogen}{}
+\BOOKMARK [2][-]{subsection.4.1}{Installing the puma package}{section.4}
+\BOOKMARK [2][-]{subsection.4.2}{Loading in the data}{section.4}
+\BOOKMARK [2][-]{subsection.4.3}{Determining expression levels}{section.4}
+\BOOKMARK [2][-]{subsection.4.4}{Determining gross differences between arrays}{section.4}
+\BOOKMARK [2][-]{subsection.4.5}{Identifying differentially expressed \(DE\) genes}{section.4}
+\BOOKMARK [1][-]{section.5}{puma for limma users}{}
+\BOOKMARK [1][-]{section.6}{Parallel processing with puma}{}
+\BOOKMARK [1][-]{section.7}{Session info}{}
+\BOOKMARK [1][-]{appendix.A}{Automatic creation of design and contrast matrices}{}
+\BOOKMARK [2][-]{subsection.A.1}{Factorial experiments}{appendix.A}
+\BOOKMARK [2][-]{subsection.A.2}{Non-factorial designs}{appendix.A}
+\BOOKMARK [2][-]{subsection.A.3}{Further help}{appendix.A}
