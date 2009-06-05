@@ -516,15 +516,15 @@ SEXP mmgmos_c(SEXP PMmat, SEXP MMmat, SEXP ngenes, SEXP probeNames, SEXP phis, S
 	for (i=0; i<in_param.conds; i++)
 		in_param.replicates[i] = 1;
 	
-	geneName = CHAR(VECTOR_ELT(probeNames,0));
+	geneName = CHAR(STRING_ELT(probeNames,0));
 	j = 0;
 	for (i=0; i<in_param.probes; i++)
 	{
-		if (!strcmp(geneName, CHAR(VECTOR_ELT(probeNames,i))))
+		if (!strcmp(geneName, CHAR(STRING_ELT(probeNames,i))))
 			in_param.probesets[j]++;
 		else
 		{
-			geneName = CHAR(VECTOR_ELT(probeNames,i));
+			geneName = CHAR(STRING_ELT(probeNames,i));
 			j++;
 			in_param.probesets[j] = 1;
 		}
@@ -582,15 +582,15 @@ SEXP mgmos_c(SEXP PMmat, SEXP MMmat, SEXP ngenes, SEXP probeNames, SEXP phis, SE
 	for (i=0; i<in_param.genes; i++)
 		in_param.probesets[i] = 0;
 	
-	geneName = CHAR(VECTOR_ELT(probeNames,0));
+	geneName = CHAR(STRING_ELT(probeNames,0));
 	j = 0;
 	for (i=0; i<in_param.probes; i++)
 	{
-		if (!strcmp(geneName, CHAR(VECTOR_ELT(probeNames,i))))
+		if (!strcmp(geneName, CHAR(STRING_ELT(probeNames,i))))
 			in_param.probesets[j]++;
 		else
 		{
-			geneName = CHAR(VECTOR_ELT(probeNames,i));
+			geneName = CHAR(STRING_ELT(probeNames,i));
 			j++;
 			in_param.probesets[j] = 1;
 		}
