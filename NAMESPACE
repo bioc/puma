@@ -1,9 +1,19 @@
 useDynLib("puma")
 
-importFrom(Biobase,
-	se.exprs,
-	"se.exprs<-"
-)
+importMethodsFrom(affy, barplot, boxplot, cdfName, hist, mm, "mm<-",
+                  pm, "pm<-", pmindex, probeNames)
+
+importFrom(affy, AllButCelsForReadAffy, cleancdfname, read.probematrix,
+           ReadAffy, rma)
+
+importClassesFrom(Biobase, AnnotatedDataFrame, AssayData, eSet, ExpressionSet,
+                  MIAME, Versioned, VersionedBiobase, Versions)
+
+importMethodsFrom(Biobase, "annotation<-", "description<-", exprs, "exprs<-",
+                  featureNames, geneNames, notes, "notes<-", pData, phenoData,
+                  "phenoData<-", sampleNames, se.exprs, "se.exprs<-", varLabels)
+
+importFrom(Biobase, assayDataElement, "assayDataElement<-")
 
 ##export everything that does not start with a .
 exportPattern("^[^\\.]")
