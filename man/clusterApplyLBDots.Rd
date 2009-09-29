@@ -2,7 +2,9 @@
 \alias{clusterApplyLBDots}
 \title{clusterApplyLB with dots to indicate progress}
 \description{
-This is basically the \code{\link[snow:clusterApplyLB]{clusterApplyLB}} function from the \pkg{snow} package, but with dots displayed to indicate progress.
+This is basically the \code{\link[snow:snow-cluster]{clusterApplyLB}}
+function from the \pkg{snow} package, but with dots displayed to
+indicate progress. 
 }
 \usage{
 clusterApplyLBDots(cl, x, fun, ...)

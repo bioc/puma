@@ -56,7 +56,8 @@ http://plato.la.asu.edu/donlp2.html}
 
 \author{Xuejun Liu, Magnus Rattray, Marta Milo, Neil D. Lawrence}
 
-\seealso{ Related class \code{\link{exprReslt-class}} and related method \code{\link[mmgmos]{mgmos}}}
+\seealso{ Related class \code{\link{exprReslt-class}} and related method
+  \code{\link{mgmos}}} 
 \examples{
 ## Code can be commented out to speed up checks, but left in for now for debugging (June 1, 2009)
 ## load example data from package affydata

@@ -23,18 +23,28 @@ pumaComb(
 Method "em" uses variational inference of the same hierarchical Bayesian model as in method "map" but with conjugate prior on between-replicate variance and shares the variance across conditions. This is generaly much slower than "map", but is recommended where there are few conditions (as is usually the case). }
 	\item{numOfChunks}{ An integer defining how many chunks the data is divided into before processing. There is generally no need to change the default value. }
 	\item{save_r}{ Will save an internal variable \code{r} to a file. Used for debugging purposes. }
-	\item{cl}{ A "cluster" object. See \code{\link[snow]{makeCluster}} function from \pkg{snow} package for more details (if available).}
+	\item{cl}{ A "cluster" object. See
+	\code{\link[snow:snow-startstop]{makeCluster}} function from
+	\pkg{snow} package for more details (if available).} 
 	\item{parallelCompute}{ Boolean identifying whether processing in parallel should occur. }
 }
 \details{
-It is generally recommended that data is normalised prior to using this function. Note that the default behaviour of mmgmos is to normalise data so this shouldn't generally be an issue. See the function \code{\link{pumaNormalize}} for more details on normalisation.
+It is generally recommended that data is normalised prior to using this
+	function. Note that the default behaviour of mmgmos is to
+	normalise data so this shouldn't generally be an issue. See the
+	function \code{\link{pumaNormalize}} for more details on
+	normalisation. 
 }
 \value{
-  The result is an \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}} object.
+  The result is an
+	\code{\link[Biobase:class.ExpressionSet]{ExpressionSet}}
+	object. 
 }
-\references{Gelman,A., Carlin,J.B., Stern,H.S., Rubin,D.B., Bayesian data analysis. London: Chapman & Hall; 1995.
+\references{Gelman,A., Carlin,J.B., Stern,H.S., Rubin,D.B., Bayesian
+	data analysis. London: Chapman & Hall; 1995. 
 
-Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2005) Probe-level variances improve accuracy in detecting differential
+Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2005) Probe-level
+variances improve accuracy in detecting differential 
 gene expression, technical report available upon request.}
 \author{ Xuejun Liu, Marta Milo, Neil D. Lawrence, Magnus Rattray }
 \seealso{Related methods \code{\link{pumaNormalize}}, \code{\link{bcomb}}, \code{\link{mmgmos}} and \code{\link{pumaDE}}}

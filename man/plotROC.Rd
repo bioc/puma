@@ -33,7 +33,9 @@ plotROC(
 	\item{lwd}{ Line widths. }
 	\item{yaxisStat}{Character string identifying what is to be plotted on the y-axis. The default is "tpr" for True Positive Rate. See \code{\link[ROCR:performance]{performance}} function from \pkg{ROCR} package.}
 	\item{xaxisStat}{Character string identifying what is to be plotted on the x-axis. The default is "fpr" for False Positive Rate. See \code{\link[ROCR:performance]{performance}} function from \pkg{ROCR} package.}
-	\item{downsampling}{See details for \code{\link[ROCR:plot.performance]{plot.performance}} from the \pkg{ROCR} package. }
+	\item{downsampling}{See details for
+	  \code{\link[ROCR:plot-methods]{plot.performance}} from the
+	  \pkg{ROCR} package. } 
 	\item{showLegend}{Boolean. Should legend be displayed?}
 	\item{showAUC}{Boolean. Should AUC values be included in legend?}
 	\item{\dots}{ Other parameters to be passed to \code{plot}. }
