@@ -7,10 +7,10 @@
 \usage{
 license.puma()
 }
-\arguments{
-}
-\details{
-}
+%\arguments{
+%}
+%\details{
+%}
 \value{
 Null.
 
@@ -18,8 +18,8 @@ Null.
 \author{
 Richard Pearson (based on the license.cosmo function from the cosmo package)
 }
-\seealso{
-}
+%\seealso{
+%}
 \examples{
 license.puma()
 }

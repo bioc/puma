@@ -32,9 +32,9 @@ just.mmgmos(\dots, filenames=character(0),
           cel files.}
   \item{sampleNames}{a character vector of sample names to be used in
     the \code{\link[affy:AffyBatch-class]{AffyBatch}}.}
-  \item{phenoData}{an
-           \code{\link[Biobase:class.AnnotatedDataFrame]{AnnotatedDataFrame}}
-           object} 
+   \item{phenoData}{an
+          \code{\link[Biobase:class.AnnotatedDataFrame]{AnnotatedDataFrame}}
+          object.} 
   \item{description}{a \code{\link[Biobase:class.MIAME]{MIAME}} object}
   \item{notes}{ notes }
   \item{background}{Logical value. If \code{TRUE}, then perform background correction before applying mmgmos.}
@@ -58,6 +58,5 @@ just.mmgmos(\dots, filenames=character(0),
  An \code{exprReslt}.
 }
 \seealso{Related class \code{\link{exprReslt-class}} and related method \code{\link{mmgmos}}}
-\examples{
-}
+
 \keyword{manip}

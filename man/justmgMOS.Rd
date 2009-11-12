@@ -32,7 +32,7 @@ just.mgmos(\dots, filenames=character(0),
           cel files.}
   \item{sampleNames}{a character vector of sample names to be used in
     the \code{\link[affy:AffyBatch-class]{AffyBatch}}.}
-  \item{phenoData}{an
+ \item{phenoData}{an
           \code{\link[Biobase:class.AnnotatedDataFrame]{AnnotatedDataFrame}}
           object.} 
   \item{description}{a \code{\link[Biobase:class.MIAME]{MIAME}} object.}
@@ -58,6 +58,5 @@ just.mgmos(\dots, filenames=character(0),
  An \code{exprReslt}.
 }
 \seealso{Related class \code{\link{exprReslt-class}} and related method \code{\link{mgmos}}}
-\examples{
-}
+
 \keyword{manip}

@@ -56,15 +56,14 @@ http://plato.la.asu.edu/donlp2.html}
 
 \author{Xuejun Liu, Magnus Rattray, Marta Milo, Neil D. Lawrence}
 
-\seealso{ Related class \code{\link{exprReslt-class}} and related method
-  \code{\link{mgmos}}} 
+\seealso{ Related class \code{\link{exprReslt-class}} and related method \code{\link[mmgmos]{mgmos}}}
 \examples{
-## Code can be commented out to speed up checks, but left in for now for debugging (June 1, 2009)
+## Code commented out to speed up checks
 ## load example data from package affydata
-if (require(affydata)) data(Dilution)
+# if (require(affydata)) data(Dilution)
 
 ## use method mmgMOS to calculate the expression levels and related confidence 
 ## of the measures for the example data
-eset<-mmgmos(Dilution)
+#eset<-mmgmos(Dilution)
 }
 \keyword{manip}

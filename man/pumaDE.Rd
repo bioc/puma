@@ -27,7 +27,7 @@ While it is possible to run this function on data from individual arrays, it is 
 	An object of class \code{\link{DEResult-class}}.
 }
 \author{ Richard D. Pearson }
-\seealso{Related methods \code{\link{calculateLimma}}, \code{\link{calculateFC}}, \code{\link{calculateTtest}}, \code{\link{pumaComb}}, \code{\link{mmgmos}}, \code{\link{pplr}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}}}
+\seealso{Related methods \code{\link{calculateLimma}}, \code{\link{calculateFC}}, \code{\link{calculateTtest}}, \code{\link{pumaComb}}, \code{\link{pumaCombImproved}}, \code{\link{mmgmos}}, \code{\link{pplr}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}}}
 \examples{
 	#	Next 4 lines commented out to save time in package checks, and saved version used
     # if (require(affydata)) {
@@ -52,12 +52,18 @@ While it is possible to run this function on data from individual arrays, it is 
 	#	To save time we'll just use 100 probe sets for the example
 	eset_mmgmos_100 <- eset_mmgmos[1:100,]
 	eset_comb <- pumaComb(eset_mmgmos_100)
+        eset_combimproved <- pumaCombImproved(eset_mmgmos_100)
 
 	pumaDEResults <- pumaDE(eset_comb)
+        pumaDEResults_improved <- pumaDE(eset_combimproved)
 
 	topGeneIDs(pumaDEResults,6) # Gives probeset identifiers
+	topGeneIDs(pumaDEResults_improved,6)
 	topGenes(pumaDEResults,6) # Gives row numbers
+        topGenes(pumaDEResults_improved,6)
 	statistic(pumaDEResults)[topGenes(pumaDEResults,6),] # PPLR scores of top six genes
+	statistic(pumaDEResults_improved)[topGenes(pumaDEResults_improved,6),] 
 	FC(pumaDEResults)[topGenes(pumaDEResults,6),] # Fold-change of top six genes
+	FC(pumaDEResults_improved)[topGenes(pumaDEResults_improved,6),] 
 }
 \keyword{manip}

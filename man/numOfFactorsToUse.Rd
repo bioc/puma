@@ -14,11 +14,9 @@ numOfFactorsToUse(eset)
   An integer denoting the number of factors to be used.
 }
 \author{ Richard D. Pearson }
-\seealso{Related methods \code{\link{createDesignMatrix}} and
-  \code{\link{createContrastMatrix}}} 
+\seealso{Related methods \code{\link{createDesignMatrix}} and  \code{\link{createContrastMatrix}}}
 \examples{
-    #	Next 4 lines commented out to save time in package
-    # checks, and saved version used 
+	#	Next 4 lines commented out to save time in package checks, and saved version used
     # if (require(affydata)) {
 	#	data(Dilution)
 	#	eset_mmgmos <- mmgmos(Dilution)

@@ -17,7 +17,7 @@ clusterNormE(x)
   The return vector is in the same format as the input x.
 }
 \author{ Xuejun Liu,  Magnus Rattray }
-\seealso{ See Also as \code{\link{pumaClust}} }
+\seealso{ See Also as \code{\link{pumaClust}} and \code{\link{pumaClustii}} }
 \examples{
 data(Clust.exampleE)
 Clust.exampleE.centered<-t(apply(Clust.exampleE, 1, clusterNormE))

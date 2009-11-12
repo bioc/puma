@@ -17,3 +17,4 @@
 #define MAX_NUM_REPLICATE 100
 #define LOWBOUND 0.00001
 #define POSI_INF 1.0e20
+#define NEG_INF -1.0e100

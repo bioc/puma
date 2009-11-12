@@ -42,8 +42,8 @@ void allocatemem_pumaclust();
 void freemem_pumaclust();
 
 void calMU(double **mujd, double *clsig, int nstart);
-double mean(double *x, int len);
-double var(double *x, int len);
-double fmaxn(double *x, int n);
+ double mean(double *x, int len);
+ double var(double *x, int len);
+ double fmaxn(double *x, int n);
 
 SEXP pumaclust_c(SEXP Mmat, SEXP Stdmat, SEXP clusters, SEXP centers, SEXP clsig, SEXP eps, SEXP del0);

@@ -33,8 +33,8 @@ orig_pplr(e, control, experiment)
   \item{stat}{A statistic value which is -mean/(sqrt(2)*standard deviation).}
   \item{PPLR}{Probability of positive log-ratio.}
 }
-\references{ Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2005) Probe-level variances improve accuracy in detecting differential
-gene expression, technical report available upon request.}
+\references{Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2006)  Probe-level variances improve accuracy in detecting differential
+gene expression, Bioinformatics, 22(17):2107-13.}
 \author{ Xuejun Liu, Marta Milo, Neil D. Lawrence, Magnus Rattray }
 \seealso{ Related method \code{\link{bcomb}} }
 \examples{

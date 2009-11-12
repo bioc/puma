@@ -32,8 +32,8 @@ bcomb(e, se, replicates, method=c("map","em"),
 }
 \references{Gelman,A., Carlin,J.B., Stern,H.S., Rubin,D.B., Bayesian data analysis. London: Chapman & Hall; 1995.
 
-Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2005) Probe-level variances improve accuracy in detecting differential
-gene expression, technical report available upon request.}
+Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2006) Probe-level variances improve accuracy in detecting differential
+gene expression, Bioinformatics, 22:2107-2113.}
 \author{ Xuejun Liu, Marta Milo, Neil D. Lawrence, Magnus Rattray }
 \seealso{Related methods \code{\link{pumaComb}}, \code{\link{mmgmos}} and \code{\link{pplr}}}
 \examples{

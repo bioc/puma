@@ -42,13 +42,13 @@ pumaClust(e=NULL, se=NULL, efile=NULL, sefile=NULL,
 \references{
 Liu,X., Lin,K.K., Andersen,B., and Rattray,M. (2006) 
 Propagating probe-level uncertainty in model-based gene expression clustering, 
-technical report available upon request.
+BMC Bioinformatics, 8(98).
 
 Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2005) A tractable probabilistic model for 
 Affymetrix probe-level analysis across multiple chips, Bioinformatics, 21(18):3637-3644.
 }
 \author{ Xuejun Liu, Magnus Rattray }
-\seealso{ Related method \code{\link{mmgmos}}}
+\seealso{ Related method \code{\link{mmgmos}} and \code{\link[puma]{pumaClustii}}}
 \examples{
   data(Clust.exampleE)
   data(Clust.exampleStd)

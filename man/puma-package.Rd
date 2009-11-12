@@ -12,16 +12,16 @@ Most analyses of Affymetrix GeneChip data are based on point estimates of expres
 	\tabular{ll}{
 		Package: \tab puma\cr
 		Type: \tab Package\cr
-		Version: \tab 1.2.1\cr
-		Date: \tab 2007-06-26\cr
+		Version: \tab 2.0.0\cr
+		Date: \tab 2009-09-26\cr
 		License: \tab LGPL excluding donlp2\cr
 	}
 	For details of using the package please refer to the Vignette
 }
 \author{
-	Richard Pearson, Xuejun Liu, Guido Sanguinetti, Marta Milo, Neil D. Lawrence, Magnus Rattray
+	Richard Pearson, Xuejun Liu, Guido Sanguinetti, Marta Milo, Neil D. Lawrence, Magnus Rattray, Li Zhang
 
-	Maintainer: Richard Pearson <richard.pearson@postgrad.manchester.ac.uk>
+	Maintainer: Richard Pearson <richard.pearson@postgrad.manchester.ac.uk>, Li Zhang <leo.zhang@nuaa.edu.cn>
 }
 \references{
 	Milo, M., Niranjan, M., Holley, M. C., Rattray, M. and Lawrence, N. D. (2004) A probabilistic approach for summarising oligonucleotide gene expression data, technical report available upon request.
@@ -35,8 +35,14 @@ Most analyses of Affymetrix GeneChip data are based on point estimates of expres
 	Liu, X., Milo, M., Lawrence, N. D. and Rattray, M. (2006) Probe-level measurement error improves accuracy in detecting differential gene expression, Bioinformatics, 22(17):2107-2113.
 	
 	Liu, X. Lin, K., Andersen, B. Rattray, M. (2007) Including probe-level uncertainty in model-based gene expression clustering, BMC Bioinformatics, 8(98).
-	
-	Pearson, R. D., Liu, X., Sanguinetti, G., Milo, M., Lawrence, N. D., Rattray, M. (2008) In preparation.
+
+	Pearson, R. D., Liu, X., Sanguinetti, G., Milo, M., Lawrence, N. D., Rattray, M. (2008)  puma: a Bioconductor package for Propagating Uncertainty in Microarray Analysis, BMC Bioinformatics, 2009, 10:211.
+
+        Zhang,L. and Liu,X. (2009) An improved probabilistic model for finding differential gene expression, technical report available request.	
+
+        Liu,X. and Rattray,M. (2009) Including probe-level measurement error in robust mixture clustering of replicated microarray gene expression, technical report available upon request.
+
+
 }
 \examples{
 	#	Next 4 lines commented out to save time in package checks, and saved version used
@@ -49,6 +55,8 @@ Most analyses of Affymetrix GeneChip data are based on point estimates of expres
 	plot(pumapca_mmgmos)
 	eset_mmgmos_100 <- eset_mmgmos[1:100,]
 	eset_comb <- pumaComb(eset_mmgmos_100)
+        eset_combImproved <- pumaCombImproved(eset_mmgmos_100)
 	esetDE <- pumaDE(eset_comb)
+        esetDEImproved <- pumaDE(eset_combImproved)
 }
 \keyword{ package }

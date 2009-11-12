@@ -13,12 +13,12 @@ create_eset_r(
 }
 \arguments{
 	\item{eset}{ An object of class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}}. The phenotype information from this is used as the phenotype information of the returned object }
-	\item{r}{ A data frame with components named 'M1', 'M2', and so on, which represent the mean expression values for condition 1, condition 2, and so on. It also has components named 'Std1', 'Std2', and so on, which represent the standard deviation of the gene expression values for condition 1, condtion 2, and so on. This type of data frame is output by function \code{\link{bcomb}} }
+	\item{r}{ A data frame with components named 'M1', 'M2', and so on, which represent the mean expression values for condition 1, condition 2, and so on. It also has components named 'Std1', 'Std2', and so on, which represent the standard deviation of the gene expression values for condition 1, condtion 2, and so on. This type of data frame is output by function \code{\link{bcomb}} and \code{\link{hcomb}} }
 	\item{design.matrix}{ A design matrix. }
 }
 \value{
 An object of class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}}.
 }
 \author{ Richard D. Pearson }
-\seealso{Related methods \code{\link{pumaComb}} and \code{\link{bcomb}}}
+\seealso{Related methods \code{\link{bcomb}}, \code{\link{hcomb}}, \code{\link{pumaComb}} and \code{\link{pumaCombImproved}}}
 \keyword{manip}

@@ -33,7 +33,7 @@ For non-factorial designed experiments, we will simply ignore columns (right to 
 	The result is a matrix. See the code below for an example.
 }
 \author{ Richard D. Pearson }
-\seealso{Related methods \code{\link{createContrastMatrix}}, \code{\link{pumaComb}} and \code{\link{pumaDE}}}
+\seealso{Related methods \code{\link{createContrastMatrix}}, \code{\link{pumaComb}}, \code{\link{pumaDE}} and \code{\link{pumaCombImproved}}}
 \examples{
 	# This is a simple example based on a real data set. Note that this is an "unbalanced" design, the "level" factor has two replicates of the "twenty" condition, but only one replicate of the "ten" condition. Also note that the second factor, "batch" is not used in the design or contrast matrices, as we don't have every combination of the levels of "level" and "batch" (there is no array for level=twenty and batch=B).
 		

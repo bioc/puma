@@ -19,7 +19,7 @@ normalisation.gs(x)
   The return matrix is in the same format as the input x.
 }
 \author{ Xuejun Liu, Marta Milo, Neil D. Lawrence, Magnus Rattray }
-\seealso{ See Also as \code{\link{bcomb}} }
+\seealso{ See Also as \code{\link{bcomb}} and \code{\link{hcomb}} }
 \examples{
 data(exampleE)
 exampleE.normalised<-normalisation.gs(exampleE)

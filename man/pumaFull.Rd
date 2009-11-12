@@ -17,8 +17,7 @@ pumaFull (
 
 }
 \arguments{
-	\item{affybatch}{ An object of class
-	  \code{\link[affy:AffyBatch-class]{AffyBatch}}. } 
+	\item{affybatch}{ An object of class \code{\link[affy:AffyBatch-class]{AffyBatch}}. }
 	\item{data_dir}{ A character string specifying where data files are stored. }
 	\item{load_affybatch}{ Boolean. Load a pre-existing AffyBatch object? Note that this has to be named "affybatch.rda" and be in the \code{data_dir} directory. }
 	\item{calculate_eset}{ Boolean. Calculate ExpressionSet from \code{affybatch} object? If FALSE, files named "eset\_mmgmos.rda" and "eset\_rma.rda" must be available in the \code{data\_dir} directory. }
