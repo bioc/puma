@@ -1,7 +1,7 @@
 /* constants used by all code  */
 
-#define MAX_NUM_COND 100
-#define MAX_NUM_CHIP 500
+#define MAX_NUM_COND 1000
+#define MAX_NUM_CHIP 1000
 #define MAX_NUM_PROBE 200
 #define LEN_BUF 1024
 
