@@ -337,7 +337,7 @@ void workout0()
 	          in_param.outp[(in_param.conds+j)*in_param.genes+i] = sqrt(1.0/lamda1[j]);
 	       }
 
-	   if ((int)j%200 == 0)
+	   if ((int)i%200 == 0)
 		   Rprintf(".");
 
     }
