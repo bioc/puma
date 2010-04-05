@@ -38,7 +38,7 @@ Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2006)  Probe-level variances impr
 gene expression, Bioinformatics, 22(17):2107-13.
 }
 \author{ Li Zhang, Xuejun Liu }
-\seealso{ Related method  \code{\link{pumaCombImproved}}, \code{\link[mmgmos]{mmgmos}} and \code{\link{pplr}}}
+\seealso{ Related method  \code{\link{pumaCombImproved}}, \code{\link{mmgmos}} and \code{\link{pplr}}}
 \examples{
   data(exampleE)
   data(exampleStd)
