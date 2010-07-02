@@ -1,4 +1,4 @@
-hcomb <-function(e,se,replicates,gsnorm=FALSE, max_num=c(200,500,1000),  eps=1.0e-6)
+hcomb <-function(e,se,replicates, max_num=c(200,500,1000),gsnorm=FALSE,  eps=1.0e-6)
 {
 
   dim_e<-dim(e)
