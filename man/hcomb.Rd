@@ -5,14 +5,14 @@
  This function calculates the combined (from replicates) signal for each condition using Bayesian models, which are added a hidden variable to represent the true expression for each gene on each chips. The inputs are gene expression levels and the probe-level standard deviations associated with expression measurements for each gene on each chip. The outputs include gene expression levels and standard deviation for each condition.
 }
 \usage{
-hcomb(e, se, replicates,gsnorm=FALSE, max_num=c(200,500,1000), eps=1.0e-6)
+hcomb(e, se, replicates, max_num=c(200,500,1000),gsnorm=FALSE, eps=1.0e-6)
 }
 \arguments{
   \item{e}{ a data frame containing the expression level for each gene on each chip. }
   \item{se}{ a data frame containing the standard deviation of gene expression levels. }
-  \item{replicates}{ a vector indicating which chip belongs to which condition. } 
-  \item{gsnorm}{ logical specifying whether do global scaling normalisation or not. }
+  \item{replicates}{ a vector indicating which chip belongs to which condition. }  
   \item{max_num}{integer. The maximum number of iterations controls the convergence.  }
+  \item{gsnorm}{ logical specifying whether do global scaling normalisation or not. }
   \item{eps}{ a numeric, optimisation parameter. }
 }
 \details{
