@@ -1,6 +1,7 @@
 "pumaClustii" <-function(e=NULL, se=NULL, efile=NULL, sefile=NULL, 
                        subset=NULL, gsnorm=FALSE, mincls, maxcls, 
-                       conds, reps,  
+                       conds, reps, 
+                       iter.max=100, nstart=10,
                        verbose=FALSE,
                        eps=1.0e-5, del0=0.01)
 {
@@ -61,20 +62,25 @@
   }
 
   
-  cl<-Mclust(ee,G=maxcls) 
-  centers <- matrix(0,maxcls,conds)
+  cl <- kmeans(ee, maxcls, iter.max=iter.max, nstart=nstart)
+  count <- 1
+  while (min(cl$size)<2)
+  {
+  	cl <- kmeans(ee, maxcls, iter.max=iter.max, nstart=nstart)
+        count <- count+1
+  }
+
+  if (count>9)
+       stop("please specify a smaller maxcls")
+
   clsig <- matrix(0,maxcls,conds)
   for (i in 1:maxcls)
   {
-    if (length(which(cl$classification==i))<1)
-       stop("please specify a smaller maxcls")
-       
-    centers[i,] <- apply(ee[which(cl$classification==i),],2,mean)
-    clsig[i,]<-diag(cov(ee[which(cl$classification==i),]))
-
+    clsig[i,] <- diag(cov(ee[which(cl$cluster==i),]))
   }
 
-  res<-.Call("pumaclustii_c", as.matrix(e), as.matrix(se),conds,reps, mincls, maxcls, as.matrix(centers), as.matrix(clsig), verbose, eps, del0, PACKAGE="puma")
+
+  res<-.Call("pumaclustii_c", as.matrix(e), as.matrix(se),conds,as.integer(reps), mincls, maxcls, as.matrix(cl$centers), as.matrix(clsig), verbose, eps, del0, PACKAGE="puma")
   
   names(res[[1]]) <- rownames(e)
   colnames(res[[2]]) <- paste(1:conds)

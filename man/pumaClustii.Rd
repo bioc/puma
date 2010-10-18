@@ -9,7 +9,7 @@ replicate information into a robust t mixture clustering model. The inputs are g
 }
 \usage{
 pumaClustii(e=NULL, se=NULL, efile=NULL, sefile=NULL, 
-      subset=NULL, gsnorm=FALSE, mincls, maxcls, conds, reps, verbose=FALSE,
+      subset=NULL, gsnorm=FALSE, mincls, maxcls, conds, reps,  iter.max = 100, nstart = 10, verbose=FALSE,
       eps=1.0e-5, del0=0.01)
 }
 \arguments{
@@ -23,6 +23,8 @@ pumaClustii(e=NULL, se=NULL, efile=NULL, sefile=NULL,
   \item{maxcls}{ integer, the maximum number of clusters. }
   \item{conds}{ integer, the number of conditions. }
   \item{reps}{ vector, specifying which condition each column of the input data matrix belongs to. }
+  \item{iter.max}{ integer, the maximum number of iterations allowed which is used in the initialisation of the algorithm. }
+  \item{nstart}{ integer, the number of random sets chosen in the initialisation of the algorithm. }
   \item{verbose}{ logical value. If 'TRUE' messages about the progress of the function is printed. }
   \item{eps}{ numeric, optimisation parameter. }
   \item{del0}{ numeric, optimisation parameter. }
