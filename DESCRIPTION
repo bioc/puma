@@ -13,4 +13,3 @@ Description: Most analyses of Affymetrix GeneChip data are based on point estima
 License: LGPL 
 biocViews: Microarray, OneChannel, Preprocessing, Bioinformatics, DifferentialExpression, Clustering
 URL: http://umber.sbs.man.ac.uk/resources/puma
-Packaged: 2010-10-18 08:59:42 UTC; biocbuild
