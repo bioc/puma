@@ -32,7 +32,8 @@ normalisation.gs <-function(x)
   x<-as.data.frame(2^x)
   d<-dim(x)
   c<-d[2]
-  m<-mean(x)
+  m<-sapply(x, mean)
+  # m<-mean(x)
   m<-m/m[1]
   
   for(i in 2:c)
