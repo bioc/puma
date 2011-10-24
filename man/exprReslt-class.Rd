@@ -42,37 +42,25 @@ Objects can be created by calls of the form \code{new("exprReslt", ...)}.
 }
 \section{Slots}{
   \describe{
-    \item{\code{prcfive}:}{Object of class "matrix" representing the 5 percentile of the 
-      observed expression levels. This is a matrix with columns representing patients or cases and 
-      rows representing genes. }
-    \item{\code{prctwfive}:}{Object of class "matrix" representing the 25 percentile of the 
-      observed expression levels. This is a matrix with columns representing patients or cases and 
-      rows representing genes.}
-    \item{\code{prcfifty}:}{Object of class "matrix" representing the 50 percentile of the 
-      observed expression levels. This is a matrix with columns representing patients or cases and 
-      rows representing genes.}
-    \item{\code{prcsevfive}:}{Object of class "matrix" representing the 75 percentile of the 
-      observed expression levels. This is a matrix with columns representing patients or cases and 
-      rows representing genes.}
-    \item{\code{prcninfive}:}{Object of class "matrix" representing the 95 percentile of the 
-      observed expression levels. This is a matrix with columns representing patients or cases and 
-      rows representing genes.}
-    \item{\code{exprs}:}{Object of class "matrix" representing the 
-      observed expression levels. This is a matrix with columns representing patients or cases and 
-      rows representing genes. }
-    \item{\code{se.exprs}:}{Object of class "matrix" representing the standard deviation of the 
-      observed expression levels. This is a matrix with columns representing patients or cases and 
-      rows representing genes.}
-    \item{\code{phenoData}:}{Object of class "phenoData" inherited from
-      \code{ExpressionSet}.}
-    \item{\code{description}:}{Object of class "MIAME". For
-      compatibility with previous version of this class description can
-      also be a "character". The class \code{characterOrMIAME} has been
-      defined just for this.}
-    \item{\code{annotation}:}{A character string identifying the
-      annotation that may be used for the \code{ExpressionSet} instance.}
-    \item{\code{notes}:}{Object of class "character" Vector of
-      explanatory text }
+  \item{\code{prcfive}:}{Object of class "matrix" representing the 5 percentile of the 
+    observed expression levels. This is a matrix with columns representing patients or cases and 
+    rows representing genes. }
+  \item{\code{prctwfive}:}{Object of class "matrix" representing the 25 percentile of the 
+    observed expression levels. This is a matrix with columns representing patients or cases and 
+    rows representing genes.}
+  \item{\code{prcfifty}:}{Object of class "matrix" representing the 50 percentile of the 
+    observed expression levels. This is a matrix with columns representing patients or cases and 
+    rows representing genes.}
+  \item{\code{prcsevfive}:}{Object of class "matrix" representing the 75 percentile of the 
+    observed expression levels. This is a matrix with columns representing patients or cases and 
+    rows representing genes.}
+  \item{\code{prcninfive}:}{Object of class "matrix" representing the 95 percentile of the 
+    observed expression levels. This is a matrix with columns representing patients or cases and 
+    rows representing genes.}
+  \item{\code{phenoData}:}{Object of class "phenoData" inherited from
+    \code{ExpressionSet}.}
+  \item{\code{annotation}:}{A character string identifying the
+    annotation that may be used for the \code{ExpressionSet} instance.}
   }
 }
 \section{Extends}{
