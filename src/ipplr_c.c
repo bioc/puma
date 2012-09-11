@@ -337,8 +337,8 @@ void workout0()
 	          in_param.outp[(in_param.conds+j)*in_param.genes+i] = sqrt(1.0/lamda1[j]);
 	       }
 
-	   if ((int)i%200 == 0)
-		   Rprintf(".");
+//	   if ((int)i%200 == 0)
+//		   Rprintf(".");
 
     }
        // fclose(temp_f);
@@ -367,7 +367,7 @@ SEXP hcomb_c(SEXP Mmat, SEXP Stdmat, SEXP rep,  SEXP conds,  SEXP max_num,  SEXP
 	in_param.data_var = NUMERIC_POINTER(AS_NUMERIC(Stdmat));
 
 	in_param.replicates = INTEGER_POINTER(AS_INTEGER(rep));
-       in_param.max_num = INTEGER_POINTER(AS_INTEGER(max_num))[0];
+             in_param.max_num = INTEGER_POINTER(AS_INTEGER(max_num))[0];
 
 	allocatemem_ipplr();
 	PROTECT(res = allocMatrix(REALSXP, in_param.genes, 2*in_param.conds));

@@ -194,7 +194,7 @@ void workout_comb1()
 
 /*        pf = fopen("lamda_noninfprior.txt","wt");*/
 	
-        sample_x = (double*)R_alloc(in_param.sample_num, sizeof(double));
+          sample_x = (double*)R_alloc(in_param.sample_num, sizeof(double));
 	logy = (double*)R_alloc(in_param.sample_num, sizeof(double));
 	w_param = (double*)R_alloc(in_param.sample_num, sizeof(double));
 	
@@ -237,6 +237,8 @@ void workout_comb1()
 		if (temp == 0.0)
 		    temp = 0.1;
 		in_param.eta0 = 1/temp;
+                 
+                   
 		if (tempx<=1.0e-3)
 		{
 			in_param.alpha0 = 10.0;
@@ -252,6 +254,8 @@ void workout_comb1()
 			in_param.alpha0 = temp*temp/tempx;
 		}
 		
+                   
+
 		foptold = POSI_INF;
 		fopt = 1.0e18;
 		while (foptold-fopt > in_param.eps)
@@ -328,10 +332,15 @@ void workout_comb1()
 			donlp2();
 			
 			fopt = fx;
+                              
+                             
+                             
 		
 		}
 		/*Rprintf("%d  %d %d %f %d\n", i+1, icf, icgf, fx, (int)optite+11);*/
-	
+                   	
+
+
 		for (j=0; j<in_param.conds; j++)
 		{
 			/* mean of expression level */

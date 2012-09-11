@@ -61,7 +61,7 @@ pumaCombImproved <- function (
                 ,       max_num=maxOfIterations
 		)
 	}
-	cat("Calculating expected completion time\n")
+
 	if(is.null(cl))
 	{
 		expectedCompletionTime <-	system.time(
@@ -165,4 +165,5 @@ pumaCombImproved <- function (
 	# varLabels(eset_r) <- colnames(pData(eset)[1:numOfFactorsToUse(removeUninformativeFactors(eset))])
 	# colnames(pData(eset_r)) <- colnames(pData(eset))
 	return(eset_r)
+             cat('\nDone.')
 }

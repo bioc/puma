@@ -25,7 +25,7 @@ orig_pplr <-function(e, control, experiment){
   return(as.data.frame(res)  )
 }
 
-erfc <- function(x) 2 * pnorm(x * sqrt(2), lower=FALSE)
+erfc <- function(x) 2 * pnorm(x * sqrt(2), lower.tail=FALSE)
 
 normalisation.gs <-function(x)
 {

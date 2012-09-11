@@ -189,7 +189,7 @@ void calparameters()
 /*			in_param.parameters[p][nx+1] = optite+11;*/
 
 /*			Rprintf("%d_mmgmos %d_mmgmos  %d_mmgmos %d_mmgmos %d_mmgmos\n", niter, p+1, icf, icgf, (int)optite+11);*/
-			if ((int)p%100 == 0)
+			if ((int)p%500 == 0)
 				Rprintf(".");
   		}
 	
@@ -350,7 +350,7 @@ void calexpression()
 					in_param.outp[i*(2+in_param.num_prctile)*in_param.genes+(j+2)*in_param.genes+p] = in_param.outp[i*(2+in_param.num_prctile)*in_param.genes+p];
 			}
 		}
-		if  ((int)p%100 == 0)
+		if  ((int)p%500 == 0)
 			Rprintf(".");
 		
 	} /* end of for genes */
@@ -460,7 +460,7 @@ void workout_mgmos()
 
 			}
  		}
-		if ((int)p%100 == 0)
+		if ((int)p%500 == 0)
 			Rprintf(".");
 		if (in_param.saveflag == TRUE)
 			fprintf(df,"\n");

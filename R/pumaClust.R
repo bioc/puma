@@ -43,7 +43,9 @@ function (e = NULL, se = NULL, efile = NULL, sefile = NULL, subset = NULL,
         se <- t(apply(cbind(e, se), 1, clusterNormVar))
     }
     e <- t(apply(e, 1, clusterNormE))
+ 
     cl <- kmeans(e, clusters, iter.max = iter.max, nstart = nstart)
+   
     clsig <- 0 * c(1:clusters)
     for (i in 1:clusters) {
         clsig[i] <- mean(diag(cov(e[which(cl$cluster == i), ])))

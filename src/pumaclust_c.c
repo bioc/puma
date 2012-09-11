@@ -255,7 +255,7 @@ SEXP pumaclust_c(SEXP Mmat, SEXP Stdmat, SEXP clusters, SEXP centers, SEXP clsig
 {
 	SEXP dim=NULL;	
 	SEXP res=NULL, CIndex=NULL, Centers=NULL, ClusterSig=NULL, pjPerData=NULL, BIC=NULL;
-
+         
 	initialparams_pumaclust();
 	
 	PROTECT(dim = getAttrib(Mmat, R_DimSymbol));
@@ -273,6 +273,7 @@ SEXP pumaclust_c(SEXP Mmat, SEXP Stdmat, SEXP clusters, SEXP centers, SEXP clsig
 	in_param.data_var = NUMERIC_POINTER(AS_NUMERIC(Stdmat));
 	
 	allocatemem_pumaclust();
+          
 	PROTECT(CIndex = allocVector(INTSXP, in_param.genes));
 	PROTECT(Centers = allocMatrix(REALSXP, in_param.clusters, in_param.chips));
 	PROTECT(ClusterSig = allocVector(REALSXP, in_param.clusters));
