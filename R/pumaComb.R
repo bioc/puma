@@ -146,7 +146,7 @@ pumaComb <- function (
 					)
 					i <<- i + 1
 					dotsPerChunk <- floor( (50/(numOfChunks-1))*i ) - floor( (50/(numOfChunks-1))*(i-1) )
-                                                                 cat(dotsPerChunk)
+
 					#if(i %% chunksPerDot == 0) for(d in 1:dotsPerChunk) cat(".")
 					if(dotsPerChunk > 0) for(d in 1:dotsPerChunk) cat(".")
 					return(b)
