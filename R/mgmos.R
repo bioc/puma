@@ -10,7 +10,7 @@ mgmos <- function(
 
 	probes <- length(probeNames(object))
 	conds <- length(object)
-	genes <- length(geneNames(object))
+	genes <- length(featureNames(object))
 
 	phis <- c(0,0,0)
     prctiles <- 0.01*c(5, 25, 50, 75, 95);
@@ -107,19 +107,19 @@ mgmos <- function(
     }
   }
 
-  rownames(expr) <- geneNames(object)
+  rownames(expr) <- featureNames(object)
   colnames(expr) <- sampleNames(object)
-  rownames(se) <- geneNames(object)
+  rownames(se) <- featureNames(object)
   colnames(se) <- sampleNames(object)
-  rownames(prc5) <- geneNames(object)
+  rownames(prc5) <- featureNames(object)
   colnames(prc5) <- sampleNames(object)
-  rownames(prc25) <- geneNames(object)
+  rownames(prc25) <- featureNames(object)
   colnames(prc25) <- sampleNames(object)
-  rownames(prc50) <- geneNames(object)
+  rownames(prc50) <- featureNames(object)
   colnames(prc50) <- sampleNames(object)
-  rownames(prc75) <- geneNames(object)
+  rownames(prc75) <- featureNames(object)
   colnames(prc75) <- sampleNames(object)
-  rownames(prc95) <- geneNames(object)
+  rownames(prc95) <- featureNames(object)
   colnames(prc95) <- sampleNames(object)
 
   phenodata <- phenoData(object)

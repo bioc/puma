@@ -12,103 +12,96 @@
      ,addConstant = 0
 )
 {  
-gmoExonenvironment <- new.env(hash=TRUE, parent=emptyenv())
      library(pumadata);          
-    chipnum<-length(sampleNames(object));
+     chipnum<-length(sampleNames(object));
+
+              Human_transcript_NO <- NULL
+            Human_transcript_name <-    NULL  
+              Human_probes_transcripts <- NULL
+             Human_Location <-NULL
+            rm(Human_transcript_NO);
+            rm(Human_probes_transcripts);
+            rm(Human_transcript_name);
+           rm(Human_Location);
+
+              Mouse_transcript_NO <- NULL
+            Mouse_transcript_name <-    NULL  
+              Mouse_probes_transcripts <- NULL
+             Mouse_Location <-NULL
+            rm(Mouse_transcript_NO);
+            rm(Mouse_probes_transcripts);
+            rm(Mouse_transcript_name);
+           rm(Mouse_Location);
+
+        Rat_transcript_NO <- NULL
+            Rat_transcript_name <-    NULL  
+              Rat_probes_transcripts <- NULL
+             Rat_Location <-NULL
+            rm(Rat_transcript_NO);
+            rm(Rat_probes_transcripts);
+            rm(Rat_transcript_name);
+            rm(Rat_Location);
+
 ###load corresponding between gene and transcirpt and probes and alpha num of every gene
     
     if(exontype[1]=="Human")                     
        {   
             cat('Exon type is Human');      
-            gmoExonenvironment[["Human_transcript_NO"]] <- data.frame()
-            Human_transcript_NO <- gmoExonenvironment[["Human_transcript_NO"]]
+
             data(Human_transcript_NO); 
             Gene_T_NO =Human_transcript_NO ;
-
-            gmoExonenvironment[["Human_probes_transcripts"]] <- data.frame()
-            Human_probes_transcripts <- gmoExonenvironment[["Human_probes_transcripts"]]                  
+               
             data(Human_probes_transcripts);
             Probes_A_NUM = Human_probes_transcripts;
-
-            gmoExonenvironment[["Human_transcript_name"]] <- data.frame()
-            Human_transcript_name <- gmoExonenvironment[["Human_transcript_name"]]          
+       
             data(Human_transcript_name)
-            transcript_name <- Human_transcript_name;
-          
+            transcript_name <- Human_transcript_name;          
 
-            gmoExonenvironment[["Human_Location"]] <- data.frame()
-            Human_Location <- gmoExonenvironment[["Human_Location"]] 
             data(Human_Location) 
             location=Human_Location
             
          
-            rm(Human_transcript_NO);
-            rm(Human_probes_transcripts);
-            rm(Human_transcript_name);
-            rm(Human_Location);
        }else if(exontype[1]=="Mouse")
          {  
            cat('Exon type is Mouse');      
-            gmoExonenvironment[["Mouse_transcript_NO"]] <- data.frame()
-            Mouse_transcript_NO <- gmoExonenvironment[["Mouse_transcript_NO"]]
+
             data(Mouse_transcript_NO); 
             Gene_T_NO =Mouse_transcript_NO ;
 
-            gmoExonenvironment[["Mouse_probes_transcripts"]] <- data.frame()
-            Mouse_probes_transcripts <- gmoExonenvironment[["Mouse_probes_transcripts"]]                  
             data(Mouse_probes_transcripts);
             Probes_A_NUM = Mouse_probes_transcripts;
 
-            gmoExonenvironment[["Mouse_transcript_name"]] <- data.frame()
-            Mouse_transcript_name <- gmoExonenvironment[["Mouse_transcript_name"]]          
             data(Mouse_transcript_name)
             transcript_name <- Mouse_transcript_name;
           
-
-            gmoExonenvironment[["Mouse_Location"]] <- data.frame()
-            Mouse_Location <- gmoExonenvironment[["Mouse_Location"]] 
             data(Mouse_Location) 
-            location=Mouse_Location
-            
-         
-            rm(Mouse_transcript_NO);
-            rm(Mouse_probes_transcripts);
-            rm(Mouse_transcript_name);
-            rm(Mouse_Location);
+            location=Mouse_Location      
+
         } else if(exontype[1]=="Rat")
         {
             cat('Exon type is Rat');      
-            gmoExonenvironment[["Rat_transcript_NO"]] <- data.frame()
-            Rat_transcript_NO <- gmoExonenvironment[["Rat_transcript_NO"]]
+
             data(Rat_transcript_NO); 
             Gene_T_NO =Rat_transcript_NO ;
-
-            gmoExonenvironment[["Rat_probes_transcripts"]] <- data.frame()
-            Rat_probes_transcripts <- gmoExonenvironment[["Rat_probes_transcripts"]]                  
+               
             data(Rat_probes_transcripts);
             Probes_A_NUM = Rat_probes_transcripts;
-
-            gmoExonenvironment[["Rat_transcript_name"]] <- data.frame()
-            Rat_transcript_name <- gmoExonenvironment[["Rat_transcript_name"]]          
+         
             data(Rat_transcript_name)
-            transcript_name <- Rat_transcript_name;
-          
+            transcript_name <- Rat_transcript_name; 
 
-            gmoExonenvironment[["Rat_Location"]] <- data.frame()
-            Rat_Location <- gmoExonenvironment[["Rat_Location"]] 
             data(Rat_Location) 
             location=Rat_Location
-            
-         
-            rm(Rat_transcript_NO);
-            rm(Rat_probes_transcripts);
-            rm(Rat_transcript_name);
-            rm(Rat_Location);
+
        }
    
 
     cat('\n');
  ###find pm of every gene######
+
+
+
+
     All_index <- xy2indices(Gene_T_NO[,1],Gene_T_NO[,2],abatch=object);    ###pos_x and pos_y to indices
     
     Gene_T_INdex = cbind( Gene_T_NO[,3],All_index);  ###table of gene transcript index   
@@ -125,10 +118,10 @@ gmoExonenvironment <- new.env(hash=TRUE, parent=emptyenv())
       
     }
   }
-   
+
     pm_g <- pm(object);                           ##pm of cel 
    
-   
+
     Length_unique_index <- length(unique_index);
       
    if(chipnum==1)
@@ -156,7 +149,7 @@ gmoExonenvironment <- new.env(hash=TRUE, parent=emptyenv())
   
    rm(location)
    rm(Gene_T_NO)
-  
+
    pm <- cbind(unique_index,pm);  ##Table of PM
    rm(unique_index)
 
@@ -164,7 +157,7 @@ gmoExonenvironment <- new.env(hash=TRUE, parent=emptyenv())
    
    rm(pm_g);
   
-   
+
    
    st <- 0;
    ed <- 0;

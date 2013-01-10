@@ -79,10 +79,10 @@ void gme_getgenedata(int g)
 		for(j=0; j<in_param.chips+1; j++)
 		{
 			in_param.pm[i-pmst][j]=PM[i][j];
-                             Rprintf("%f",in_param.pm[i-pmst][j]);
+//                             Rprintf("%f",in_param.pm[i-pmst][j]);
 		}
                    
-                   Rprintf("\n");
+//                   Rprintf("\n");
            
 	}
           
@@ -262,7 +262,7 @@ void gme_calparameters()
 					
 		      }
                      
-			Rprintf("\n");
+//			Rprintf("\n");
                        
 			break;
 	

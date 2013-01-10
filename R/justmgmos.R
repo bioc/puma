@@ -109,7 +109,7 @@ just.mgmos <- function(
   ## pass matrix of probe values to mgmos
   ## call mgmos
   conds <- n
-  genes <- length(geneNames(tmp))
+  genes <- length(featureNames(tmp))
 
   phis <- c(0,0,0)  
   prctiles <- 0.01*c(5, 25, 50, 75, 95);
@@ -200,19 +200,19 @@ just.mgmos <- function(
     }
   }
 
-  rownames(expr) <- geneNames(tmp)
+  rownames(expr) <- featureNames(tmp)
   colnames(expr) <- samplenames
-  rownames(se) <- geneNames(tmp)
+  rownames(se) <- featureNames(tmp)
   colnames(se) <- samplenames
-  rownames(prc5) <- geneNames(tmp)
+  rownames(prc5) <- featureNames(tmp)
   colnames(prc5) <- samplenames
-  rownames(prc25) <- geneNames(tmp)
+  rownames(prc25) <- featureNames(tmp)
   colnames(prc25) <- samplenames
-  rownames(prc50) <- geneNames(tmp)
+  rownames(prc50) <- featureNames(tmp)
   colnames(prc50) <- samplenames
-  rownames(prc75) <- geneNames(tmp)
+  rownames(prc75) <- featureNames(tmp)
   colnames(prc75) <- samplenames
-  rownames(prc95) <- geneNames(tmp)
+  rownames(prc95) <- featureNames(tmp)
   colnames(prc95) <- samplenames
 
   annotation <- annotation(tmp)
