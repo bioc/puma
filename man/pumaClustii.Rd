@@ -55,7 +55,7 @@ Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2005) A tractable probabilistic m
 Affymetrix probe-level analysis across multiple chips, Bioinformatics, 21(18):3637-3644.
 }
 \author{ Xuejun Liu }
-\seealso{ Related method \code{\link[puma]{mmgmos}} and \code{\link[puma]{pumaClust}}}
+\seealso{ Related method \code{\link[puma]{mmgmos}} and \code{\link[puma]{pumaclust}}}
 \examples{
   data(Clustii.exampleE)
   data(Clustii.exampleStd)
