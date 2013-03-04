@@ -133,7 +133,7 @@ The easiest way to supply phenotype information is in a text file that is loaded
 The data used in this example are also available in the \Rpackage{pumadata} package. As an alternative to loading data from CEL files for this example, simply type \Rfunction{biocLite("pumadata")} (if the \Rpackage{pumadata} package is not already installed), \Rfunction{library(pumadata)} and then \Rfunction{data(affybatch.estrogen)} at the R prompt.
 
 <<eval=FALSE>>===
-datadir <- file.path(.find.package("estrogen"),"extdata")
+datadir <- file.path(find.package("estrogen"),"extdata")
 estrogenFilenames <- c("low10-1.cel", "low10-2.cel"
     , "high10-1.cel", "high10-2.cel", "low48-1.cel"
     , "low48-2.cel", "high48-1.cel", "high48-2.cel")
