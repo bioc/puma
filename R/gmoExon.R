@@ -584,7 +584,7 @@
 
 if(GT[1]=="gene")
  { 
-   
+   cat("\n")
    cat("Gene expression values are returned.");
 
    expr <- gene_means
@@ -709,7 +709,8 @@ if(GT[1]=="gene")
 
 } else if(GT[1] == "transcript")
 { 
- cat("Transcript expression values are returned.")
+  cat("\n") 
+  cat("Transcript expression values are returned.")
 
   
 
