@@ -90,7 +90,7 @@ just.mgmos <- function(
 
   ## get information from cdf environment
 
-  headdetails <- .Call("ReadHeader", filenames[[1]], compress, PACKAGE="affyio")
+  headdetails <- read.celfile.header(filenames[[1]])
   dim.intensity <- headdetails[[2]]
   cdfname <- headdetails[[1]]
 

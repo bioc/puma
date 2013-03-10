@@ -9,9 +9,16 @@
 #define ALPHALOW 0.0
 #define ALOW 0.0000001
 #define CLOW 0.0000001
-#define DLOW 0.00000001
+#define DLOW 0.0000001
 #define PHILOW 0.0001
 #define PHIUP 1.0
+
+#define gme_ALOW 0.01
+#define gme_CLOW 0.001
+#define gme_DLOW 0.001
+
+
+
 
 #define MAX_NUM_REPLICATE 100
 #define LOWBOUND 0.00001
