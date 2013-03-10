@@ -15,5 +15,8 @@ importMethodsFrom(Biobase, "annotation<-", "description<-", exprs, "exprs<-",
 
 importFrom(Biobase, assayDataElement, "assayDataElement<-")
 
+
+import(affyio)
+
 ##export everything that does not start with a .
 exportPattern("^[^\\.]")
