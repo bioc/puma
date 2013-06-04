@@ -10,7 +10,7 @@ importClassesFrom(Biobase, AnnotatedDataFrame, AssayData, eSet, ExpressionSet,
                   MIAME, Versioned, VersionedBiobase, Versions)
 
 importMethodsFrom(Biobase, "annotation<-", "description<-", exprs, "exprs<-",
-                  featureNames, geneNames, notes, "notes<-", pData, phenoData,
+                  featureNames, notes, "notes<-", pData, phenoData,
                   "phenoData<-", sampleNames, se.exprs, "se.exprs<-", varLabels)
 
 importFrom(Biobase, assayDataElement, "assayDataElement<-")
