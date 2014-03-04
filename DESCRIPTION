@@ -1,18 +1,28 @@
 Package: puma
 Type: Package
 Title: Propagating Uncertainty in Microarray Analysis
-Version: 3.5.1
+Version: 3.5.2
 Date: 2012-09-08
-Author: Richard D. Pearson, Xuejun Liu, Magnus Rattray, Marta Milo, Neil D.
-    Lawrence, Guido Sanguinetti, Li Zhang
+Author: Richard D. Pearson, Xuejun Liu, Magnus Rattray, Marta Milo,
+        Neil D. Lawrence, Guido Sanguinetti, Li Zhang
 Maintainer: Richard Pearson <richard.pearson@well.ox.ac.uk>
 Depends: R (>= 2.10), Biobase (>= 2.5.5), affy (>= 1.23.4), graphics,
         grDevices, methods, stats, utils, mclust
 Imports: Biobase (>= 2.5.5), affy (>= 1.23.4),affyio
 Suggests: pumadata, affydata, snow, limma, annotate, ROCR
-Description: Most analyses of Affymetrix GeneChip data are based on point estimates of expression levels and ignore the uncertainty of such estimates. By propagating uncertainty to downstream analyses we can improve results from microarray analyses. For the first time, the puma package makes a suite of uncertainty propagation methods available to a general audience. puma also offers improvements in terms of scope and speed of execution over previously available uncertainty propagation methods. Included are summarisation, differential expression detection, clustering and PCA methods, together with useful plotting and data manipulation functions.
+Description: Most analyses of Affymetrix GeneChip data are based on
+        point estimates of expression levels and ignore the uncertainty
+        of such estimates. By propagating uncertainty to downstream
+        analyses we can improve results from microarray analyses. For
+        the first time, the puma package makes a suite of uncertainty
+        propagation methods available to a general audience. puma also
+        offers improvements in terms of scope and speed of execution
+        over previously available uncertainty propagation methods.
+        Included are summarisation, differential expression detection,
+        clustering and PCA methods, together with useful plotting and
+        data manipulation functions.
 License: LGPL
-biocViews: Microarray, OneChannel, Preprocessing, Bioinformatics,
-        DifferentialExpression, Clustering
 URL: http://umber.sbs.man.ac.uk/resources/puma
 Packaged: 2013-03-04 04:35:07 UTC; leo
+biocViews: Microarray, OneChannel, Preprocessing,
+        DifferentialExpression, Clustering
