@@ -45,7 +45,7 @@ pumaClustii(e=NULL, se=NULL, efile=NULL, sefile=NULL,
 \references{
 Liu,X. and Rattray,M. (2009) 
 Including probe-level measurement error in robust mixture clustering of replicated microarray gene expression, 
-technical report available upon request.
+Statistical Application in Genetics and Molecular Biology, 9(1), Article 42.
 
 Liu,X., Lin,K.K., Andersen,B., and Rattray,M. (2007) 
 Propagating probe-level uncertainty in model-based gene expression clustering, 

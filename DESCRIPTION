@@ -2,27 +2,17 @@ Package: puma
 Type: Package
 Title: Propagating Uncertainty in Microarray Analysis
 Version: 3.5.2
-Date: 2012-09-08
-Author: Richard D. Pearson, Xuejun Liu, Magnus Rattray, Marta Milo,
-        Neil D. Lawrence, Guido Sanguinetti, Li Zhang
+Date: 2014-04-4
+Author: Richard D. Pearson, Xuejun Liu, Magnus Rattray, Marta Milo, Neil D.
+    Lawrence, Guido Sanguinetti, Li Zhang
 Maintainer: Richard Pearson <richard.pearson@well.ox.ac.uk>
-Depends: R (>= 2.10), Biobase (>= 2.5.5), affy (>= 1.23.4), graphics,
-        grDevices, methods, stats, utils, mclust
-Imports: Biobase (>= 2.5.5), affy (>= 1.23.4),affyio
-Suggests: pumadata, affydata, snow, limma, annotate, ROCR
-Description: Most analyses of Affymetrix GeneChip data are based on
-        point estimates of expression levels and ignore the uncertainty
-        of such estimates. By propagating uncertainty to downstream
-        analyses we can improve results from microarray analyses. For
-        the first time, the puma package makes a suite of uncertainty
-        propagation methods available to a general audience. puma also
-        offers improvements in terms of scope and speed of execution
-        over previously available uncertainty propagation methods.
-        Included are summarisation, differential expression detection,
-        clustering and PCA methods, together with useful plotting and
-        data manipulation functions.
+Depends: R (>= 3.0), Biobase (>= 2.5.5), affy (>= 1.41.3), graphics,
+        grDevices, methods, stats, utils, mclust, oligo,
+Imports: Biobase (>= 2.5.5), affy (>= 1.41.3), affyio
+Suggests: pumadata, affydata, snow, limma, ROCR
+Description: Most analyses of Affymetrix GeneChip data (including tranditional 3' arrays and exon arrays) are based on point estimates of expression levels and ignore the uncertainty of such estimates. By propagating uncertainty to downstream analyses we can improve results from microarray analyses. For the first time, the puma package makes a suite of uncertainty propagation methods available to a general audience. In additon to calculte gene expression from Affymetrix 3' arrays, puma also provides methods to process exon arrays and produces gene and isoform expression for alternative splicing study. puma also offers improvements in terms of scope and speed of execution over previously available uncertainty propagation methods. Included are summarisation, differential expression detection, clustering and PCA methods, together with useful plotting functions.
 License: LGPL
-URL: http://umber.sbs.man.ac.uk/resources/puma
-Packaged: 2013-03-04 04:35:07 UTC; leo
-biocViews: Microarray, OneChannel, Preprocessing,
+biocViews: Microarray, OneChannel, Preprocessing, Bioinformatics,
         DifferentialExpression, Clustering
+URL: http://umber.sbs.man.ac.uk/resources/puma
+Packaged: 2014-03-04 01:02:54 UTC; root

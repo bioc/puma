@@ -2,7 +2,7 @@
 \alias{mgmos}
 \title{ modified gamma Model for Oligonucleotide Signal }
 \description{
-  This function converts an object of class \code{\link[affy:AffyBatch-class]{AffyBatch}} into an object of class 
+  This function converts an object of class \code{\link[oligoClasses:FeatureSet-class]{FeatureSet}} into an object of class 
   \code{\link{exprReslt}} using the modified gamma Model for Oligonucleotide Signal 
   (multi-mgMOS). This function obtains confidence of measures, standard deviation and 5, 
   25, 50, 75 and 95 percentiles, as well as the estimated expression levels.
@@ -18,7 +18,7 @@ mgmos(
 )
 }
 \arguments{
-	\item{object}{an object of \code{\link[affy:AffyBatch-class]{AffyBatch}}}
+	\item{object}{an object of \code{\link[oligoClasses:FeatureSet-class]{FeatureSet}}}
 	\item{background}{Logical value. If \code{TRUE}, perform background correction before applying mmgmos.}
 	\item{replaceZeroIntensities}{Logical value. If \code{TRUE}, replace 0 intensities with 1 before applying mmgmos.}
 	\item{gsnorm}{character. specifying the algorithm of global scaling normalisation.}
@@ -57,10 +57,11 @@ http://plato.la.asu.edu/donlp2.html}
 \examples{
 ## Code commented out to speed up checks
 ## load example data from package affydata
-# if (require(affydata)) data(Dilution)
-
-## use method mgMOS to calculate the expression levels and related confidence 
-## of the measures for the example data
-#eset<-mgmos(Dilution)
+# if (require(pumadata)&&require(puma)){ 
+  #  data(oligo.estrogen)
+# use method mgMOS to calculate the expression levels and related confidence 
+# of the measures for the example data
+  #  eset<-mgmos(oligo.estrogen,gsnorm="none")
+#}
 }
 \keyword{manip}

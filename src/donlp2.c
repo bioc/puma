@@ -91,8 +91,12 @@
 /*****************************************************************************/
 
 #include "o8gene.h"
-
-
+#include <R.h> 
+#include <Rdefines.h>
+#include <Rinternals.h>
+#include <R_ext/Utils.h>
+#include <R_ext/Memory.h>
+#include <unistd.h>
 /* ARRAY_BORDER_CHECK: Check array borders for indices writing off
    the end of arrays.  Turn off by commenting out the line
    "#define ARRAY_BORDER_CHECK".  It is recommended that  ARRAY_BORDER_CHECK
@@ -313,8 +317,9 @@ void donlp2(void) {
     {
         if ( xsc[i] == zero ) 
         {
-            fprintf(stderr,"scaling variable %i is zero\n",i);
-            exit(1);
+           // fprintf(stderr,"scaling variable %i is zero\n",i);
+ REprintf("donlp2: call of user_eval with undefined mode\n");
+            _exit(1);
         }
     }
     nres = n+nlin+nonlin ; 
@@ -411,13 +416,15 @@ void donlp2(void) {
     setup();
     
     if ( taubnd <= 0 ) {
-      fprintf(stderr,"taubnd le zero is not allowed ");
-      exit(1);
+      //fprintf(stderr,"taubnd le zero is not allowed ");
+      REprintf("donlp2: call of user_eval with undefined mode\n");
+      _exit(1);
     }
     for ( i = 1 ; i<= n ; i++ ) {
       if ( o8opti_yy[i] != xsc[i] ) {
-        fprintf(stderr,"setup has changed xsc, not allowed");
-        exit(1);
+       // fprintf(stderr,"setup has changed xsc, not allowed");
+      REprintf("donlp2: call of user_eval with undefined mode\n");
+        _exit(1);
       }
     }
     /* preevaluation of gradients of linear functions    */
@@ -683,16 +690,16 @@ void o8fin(void) {
 
     if ( silent && ! intakt ) return;
 
-    if ( intakt && ! silent ) printf("%s\n", name);
+    if ( intakt && ! silent ) Rprintf("%s\n", name);
     
     if ( ! silent ) {
         if ( intakt ) {
-            printf(  "\n     n= %9i    nlin= %9i    nonlin= %9i\n", n,nlin,nonlin);
-            printf(  "\n  epsx= %9.3e sigsm= %9.3e\n"       , epsx,sigsm);
-            printf(  "\nstartvalue\n");
+            Rprintf(  "\n     n= %9i    nlin= %9i    nonlin= %9i\n", n,nlin,nonlin);
+            Rprintf(  "\n  epsx= %9.3e sigsm= %9.3e\n"       , epsx,sigsm);
+            Rprintf(  "\nstartvalue\n");
             for (i = 1 ; i <= n ; i++) {
-                printf(  " %14.7e ", xst[i]);
-                if ( i % 5 == 0 || i == n ) printf(  "\n");
+                Rprintf(  " %14.7e ", xst[i]);
+                if ( i % 5 == 0 || i == n ) Rprintf(  "\n");
             }
         }
         fprintf(prou,"\n     n= %9i    nlin= %9i    nonlin= %9i\n", 
@@ -705,9 +712,9 @@ void o8fin(void) {
         }
     }
     if ( intakt && ! silent ) {
-        printf("\n  eps= %9.2e  tol= %9.2e del0= %9.2e delm= %9.2e tau0= %9.2e\n",
+        Rprintf("\n  eps= %9.2e  tol= %9.2e del0= %9.2e delm= %9.2e tau0= %9.2e\n",
         epsmac,tolmac,del0,delmin,tau0);
-        printf(  "  tau= %9.2e   sd= %9.2e   sw= %9.2e  rho= %9.2e rho1= %9.2e\n",
+        Rprintf(  "  tau= %9.2e   sd= %9.2e   sw= %9.2e  rho= %9.2e rho1= %9.2e\n",
         tau,smalld,smallw,rho,rho1);
     }
     if ( ! silent ) { 
@@ -722,14 +729,14 @@ void o8fin(void) {
         fprintf(prou,
         " scfm= %9.2e  c1d= %9.2e epdi= %9.2e\n  nre= %9i anal= %9i\n",
         scfmax,c1d,epsdif,nreset,analyt);
-        if ( intakt ) printf(
+        if ( intakt ) Rprintf(
         " scfm= %9.2e  c1d= %9.2e epdi= %9.2e\n  nre= %9i anal= %9i\n",
         scfmax,c1d,epsdif,nreset,analyt);
     }
     if ( ! silent && ! analyt ) {
         fprintf(prou," vbnd= %9.2e efcn= %9.2e diff=%1i\n"
         , taubnd,epsfcn,difftype);
-        if ( intakt ) printf("taubnd= %9.2e epsfcn= %9.2e difftype=%1i\n"
+        if ( intakt ) Rprintf("taubnd= %9.2e epsfcn= %9.2e difftype=%1i\n"
         , taubnd,epsfcn,difftype);
     }
     i    = 0;
@@ -764,17 +771,17 @@ void o8fin(void) {
         strcpy(line,"variable optite undefined on exit");
     }
     if ( intakt && ! silent ) {
-        printf(      "\n termination reason:\n %s\n",line);
-        printf(        " evaluations of f                    %9i\n",    icf);
-        printf(        " evaluations of grad f               %9i\n",    icgf);
-        printf(        " evaluations of constraints          %9i\n",    crtot);
-        printf(        " evaluations of grads of constraints %9i\n",    cgrtot);
-        printf(        " final scaling of objective          %13.6e\n", scf);
-        printf(        " norm of grad(f)                     %13.6e\n", gfn);
-        printf(        " lagrangian violation                %13.6e\n", b2n);
-        printf(        " feasibility violation               %13.6e\n", upsi);
-        printf(        " dual feasibility violation          %13.6e\n", umin);
-        printf(        " optimizer runtime sec's             %13.6e\n", runtim);
+        Rprintf(      "\n termination reason:\n %s\n",line);
+        Rprintf(        " evaluations of f                    %9i\n",    icf);
+        Rprintf(        " evaluations of grad f               %9i\n",    icgf);
+        Rprintf(        " evaluations of constraints          %9i\n",    crtot);
+        Rprintf(        " evaluations of grads of constraints %9i\n",    cgrtot);
+        Rprintf(        " final scaling of objective          %13.6e\n", scf);
+        Rprintf(        " norm of grad(f)                     %13.6e\n", gfn);
+        Rprintf(        " lagrangian violation                %13.6e\n", b2n);
+        Rprintf(        " feasibility violation               %13.6e\n", upsi);
+        Rprintf(        " dual feasibility violation          %13.6e\n", umin);
+        Rprintf(        " optimizer runtime sec's             %13.6e\n", runtim);
     }
     if ( ! silent ) {
         fprintf(prou,"\n termination reason:\n %s\n",line);
@@ -789,14 +796,14 @@ void o8fin(void) {
         fprintf(prou,  " dual feasibility violation          %13.6e\n", umin);
         fprintf(prou,  " optimizer runtime sec's             %13.6e\n", runtim);
     }                                         
-    if ( intakt && ! silent ) printf("\n\n optimal value of f =  %21.14e\n", fx);
+    if ( intakt && ! silent ) Rprintf("\n\n optimal value of f =  %21.14e\n", fx);
     if ( ! silent ) fprintf(prou,    "\n\n optimal value of f =  %21.14e\n", fx);
     
     if ( intakt && ! silent ) {
-        printf(      "\n optimal solution  donlp2_x =\n");
+        Rprintf(      "\n optimal solution  donlp2_x =\n");
         for (i = 1 ; i <= n ; i++) {
-            printf(      " %21.14e", donlp2_x[i]);
-            if ( i % 3 == 0 || i == n ) printf(     "\n");
+            Rprintf(      " %21.14e", donlp2_x[i]);
+            if ( i % 3 == 0 || i == n ) Rprintf(     "\n");
         }
     }
     if ( ! silent ) {
@@ -825,18 +832,18 @@ void o8fin(void) {
         }
         if ( intakt ) 
         {
-            printf(  "\n  multipliers are relativ to scf=1\n");
-            printf(    "  nr.    constraint     multiplier norm(grad) or 1 \n");
+            Rprintf(  "\n  multipliers are relativ to scf=1\n");
+            Rprintf(    "  nr.    constraint     multiplier norm(grad) or 1 \n");
             for (i = 1 ; i <= 2*nres ; i++)
             {
               if ( (i+1)%2 == 0 && i > 2*n  )
               {
-                printf(" %4i  %14.7e   %14.7e   %14.7e\n"
+                Rprintf(" %4i  %14.7e   %14.7e   %14.7e\n"
                     , i,res[i],u[i],gresn[(i+1)/2]);
               }   
               else
               {
-                printf(" %4i  %14.7e   %14.7e \n"
+                Rprintf(" %4i  %14.7e   %14.7e \n"
                   , i,res[i],u[i]);
               }
             }
@@ -851,10 +858,10 @@ void o8fin(void) {
             if ( i % 5 == 0 || i == nres ) fprintf(prou,"\n");
         }
         if ( intakt ) {
-            printf(  "\n evaluations of restrictions and their gradients\n");
+            Rprintf(  "\n evaluations of restrictions and their gradients\n");
             for (i = 1 ; i <= nlin+nonlin ; i++) {
-                printf(  " (%6i,%6i)", cres[i],cgres[i]);
-                if ( i % 5 == 0 || i == nres ) printf(  "\n");
+                Rprintf(  " (%6i,%6i)", cres[i],cgres[i]);
+                if ( i % 5 == 0 || i == nres ) Rprintf(  "\n");
             }
         }
     }
@@ -879,15 +886,15 @@ void o8fin(void) {
         fprintf(prou,"# of full regularized SQP-steps %5i\n", nsing);
 
         if ( intakt ) {
-            printf(  "\n last estimate of cond.nr. of active gradients  %10.3e\n",
+            Rprintf(  "\n last estimate of cond.nr. of active gradients  %10.3e\n",
             accinf[itstep][13]);
-            printf(  "\n last estimate of cond.nr. of approx.  hessian  %10.3e\n",
+            Rprintf(  "\n last estimate of cond.nr. of approx.  hessian  %10.3e\n",
             accinf[itstep][14]);
-            printf(  "iterative steps total           %5i\n", itstep);
-            printf(  "# of restarts                   %5i\n", nresta);
-            printf(  "# of full regular updates       %5i\n", nupreg);
-            printf(  "# of updates                    %5i\n", nbfgs1);
-            printf(  "# of regularized full SQP-steps %5i\n", nsing);
+            Rprintf(  "iterative steps total           %5i\n", itstep);
+            Rprintf(  "# of restarts                   %5i\n", nresta);
+            Rprintf(  "# of full regular updates       %5i\n", nupreg);
+            Rprintf(  "# of updates                    %5i\n", nbfgs1);
+            Rprintf(  "# of regularized full SQP-steps %5i\n", nsing);
         }
     }
     if ( optite < zero ) te1 = TTRUE;
@@ -1033,22 +1040,22 @@ void o8info(IINTEGER icase) {
             o8mdru_(a,n,n,head,prou,FFALSE);
         }
         if ( intakt ) {
-            printf(  "\n\n\n");
-            for (i = 1 ; i <= 80 ; i++) printf(  "=");
-            printf(  "\n          %4i-th iteration step\n", itstep);
-            printf(  "   scf= %11.4e psist= %11.4e   psi= %11.4e  upsi= %11.4e\n", 
+            Rprintf(  "\n\n\n");
+            for (i = 1 ; i <= 80 ; i++) Rprintf(  "=");
+            Rprintf(  "\n          %4i-th iteration step\n", itstep);
+            Rprintf(  "   scf= %11.4e psist= %11.4e   psi= %11.4e  upsi= %11.4e\n", 
             scf,psist,psi,upsi);
-            printf(  "  fxst= %11.4e    fx= %11.4e\n", fxst,fx);
-            printf(  "  donlp2_x=\n");
+            Rprintf(  "  fxst= %11.4e    fx= %11.4e\n", fxst,fx);
+            Rprintf(  "  donlp2_x=\n");
             for (i = 1 ; i <= n ; i++) {
-                printf("  %11.4e", donlp2_x[i]);
-                if ( i % 6 == 0 || i == n ) printf(  "\n");
+                Rprintf("  %11.4e", donlp2_x[i]);
+                if ( i % 6 == 0 || i == n ) Rprintf(  "\n");
             }
-            printf(  " valid permutation of donlp2_x\n\n");
+            Rprintf(  " valid permutation of donlp2_x\n\n");
         
             for (i = 1 ; i <= n ; i++) {
-                printf(  "%3i ", perm[i]);
-                if ( i % 20 == 0 || i == n ) printf(  "\n");
+                Rprintf(  "%3i ", perm[i]);
+                if ( i % 20 == 0 || i == n ) Rprintf(  "\n");
             }
         }
         return;
@@ -1096,11 +1103,11 @@ void o8info(IINTEGER icase) {
             }
         }
         if ( intakt ) {
-            printf("\n\n  del= %12.5e  b2n0= %12.5e   b2n= %12.5e   gfn= %12.5e\n", 
+            Rprintf("\n\n  del= %12.5e  b2n0= %12.5e   b2n= %12.5e   gfn= %12.5e\n", 
             del,b2n0,b2n,gfn);
         
             if ( aalist[0] != 0 ) {
-                printf(  "\n\n values of restrictions\n ");
+                Rprintf(  "\n\n values of restrictions\n ");
                 for (i = 1 ; i <= aalist[0] ; i++) 
                 {
                   j=aalist[i]; 
@@ -1114,14 +1121,14 @@ void o8info(IINTEGER icase) {
                       j,res[j]);
                   }
 
-                  if ( i % 2 == 0 || i == aalist[0] ) printf(  "\n ");
+                  if ( i % 2 == 0 || i == aalist[0] ) Rprintf(  "\n ");
                 }
             }
             if ( aalist[0] != 0 && ! singul ) {
-                printf(  "\n\n   diag[r]=\n");
+                Rprintf(  "\n\n   diag[r]=\n");
                 for (i = 1 ; i <= aalist[0] ; i++) {
-                    printf(  "  %11.4e", diag[i]);
-                    if ( i % 6 == 0 || i == aalist[0] ) printf(  "\n");
+                    Rprintf(  "  %11.4e", diag[i]);
+                    if ( i % 6 == 0 || i == aalist[0] ) Rprintf(  "\n");
                 }
             }
             if ( alist[0] != 0 && te3 ) {
@@ -1129,11 +1136,11 @@ void o8info(IINTEGER icase) {
                   l = aalist[i];
                   if ( l > 2*n )
                   {
-                    printf(  "\n\n gradient of restriction nr.%4i\n ", l);
+                    Rprintf(  "\n\n gradient of restriction nr.%4i\n ", l);
                     /* component zero is sign */
                     for (j = 0 ; j <= n ; j++) {
-                        printf(  " %11.4e  ", gres[j][(l+1)/2-n]);
-                        if ( j % 5 == 0 || j == n ) printf(  "\n ");
+                        Rprintf(  " %11.4e  ", gres[j][(l+1)/2-n]);
+                        if ( j % 5 == 0 || j == n ) Rprintf(  "\n ");
                     }
                   }
                 }
@@ -1150,10 +1157,10 @@ void o8info(IINTEGER icase) {
             }
         }
         if( ! (nr == 0 || phase == -1) && intakt ) {
-            printf(      "\n  multipliers: first estimate\n  u =\n");
+            Rprintf(      "\n  multipliers: first estimate\n  u =\n");
             for (k = 1 ; k <= nr ; k++) {
-                printf(      " %4i  %11.4e", aalist[k],u[aalist[k]]);
-                if ( k % 4 == 0 || k == nr ) printf(      "\n");
+                Rprintf(      " %4i  %11.4e", aalist[k],u[aalist[k]]);
+                if ( k % 4 == 0 || k == nr ) Rprintf(      "\n");
             }
         }
         return;
@@ -1167,17 +1174,17 @@ void o8info(IINTEGER icase) {
             }
         }
         if( ! (nr == 0 || phase == -1) && intakt ) {
-            printf(      "\n  multipliers: second estimate\n  u =\n");
+            Rprintf(      "\n  multipliers: second estimate\n  u =\n");
             for (k = 1 ; k <= nr ; k++) {
-                printf(      " %4i  %11.4e", aalist[k],u[aalist[k]]);
-                if ( k % 4 == 0 || k == nr ) printf(      "\n");
+                Rprintf(      " %4i  %11.4e", aalist[k],u[aalist[k]]);
+                if ( k % 4 == 0 || k == nr ) Rprintf(      "\n");
             }
         }
         return;
         
     case 5:
         if( intakt )
-        printf(          "  condition number of r     %.15e\n",
+        Rprintf(          "  condition number of r     %.15e\n",
               accinf[itstep][13]);
         fprintf(prou,    "  condition number of r     %.15e\n",
               accinf[itstep][13]);
@@ -1188,7 +1195,7 @@ void o8info(IINTEGER icase) {
         } else {
             fprintf(prou,"  condition number of a     %.15e\n",accinf[itstep][14]);
             if ( intakt ) {
-                printf(  "  condition number of a     %.15e\n",accinf[itstep][14]);
+                Rprintf(  "  condition number of a     %.15e\n",accinf[itstep][14]);
             }
             return;
         }
@@ -1211,17 +1218,17 @@ void o8info(IINTEGER icase) {
             }
         }
         if ( intakt ) {
-            printf(  "\n\n  phase=%3i  scf0= %11.4e\n", phase,scf0);
-            printf(      "  d =\n");
+            Rprintf(  "\n\n  phase=%3i  scf0= %11.4e\n", phase,scf0);
+            Rprintf(      "  d =\n");
             for (i = 1 ; i <= n ; i++) {
-                printf(  "  %11.4e", d[i]);
-                if ( i % 6 == 0 || i == n ) printf(  "\n");
+                Rprintf(  "  %11.4e", d[i]);
+                if ( i % 6 == 0 || i == n ) Rprintf(  "\n");
             }
             if ( phase == 2 ) {
-                printf(  "\n\n  dd=\n");
+                Rprintf(  "\n\n  dd=\n");
                 for (i = 1 ; i <= n ; i++) {
-                    printf(  "  %11.4e", dd[i]);
-                    if ( i % 6 == 0 || i == n ) printf(  "\n");
+                    Rprintf(  "  %11.4e", dd[i]);
+                    if ( i % 6 == 0 || i == n ) Rprintf(  "\n");
                 }
             }
         }
@@ -1232,10 +1239,10 @@ void o8info(IINTEGER icase) {
         phih = fx*scf+psi;
     
         if ( intakt ) {
-            printf(  "\n\n start unimin\n\n");
-            printf(  "    phi= %11.4e   dphi= %11.4e    psi= %11.4e tau0/2= %11.4e\n",
+            Rprintf(  "\n\n start unimin\n\n");
+            Rprintf(  "    phi= %11.4e   dphi= %11.4e    psi= %11.4e tau0/2= %11.4e\n",
             phih,dirder,psi,y);
-            printf(  "     fx= %11.4e  dscal= %11.4e    scf= %11.4e   upsi= %11.4e\n", 
+            Rprintf(  "     fx= %11.4e  dscal= %11.4e    scf= %11.4e   upsi= %11.4e\n", 
             fx,dscal,scf,upsi);
         }
         fprintf(prou,"\n\n start unimin\n\n");
@@ -1250,7 +1257,7 @@ void o8info(IINTEGER icase) {
         fprintf(prou,"    sig= %11.4e     fx= %11.4e    psi= %11.4e   upsi= %11.4e\n",
         sig,fx1,psi1,upsi1);
         if ( intakt ) 
-        printf(      "    sig= %11.4e     fx= %11.4e    psi= %11.4e   upsi= %11.4e\n", 
+        Rprintf(      "    sig= %11.4e     fx= %11.4e    psi= %11.4e   upsi= %11.4e\n", 
         sig,fx1,psi1,upsi1);
         
         return;
@@ -1265,19 +1272,19 @@ void o8info(IINTEGER icase) {
         }
         if ( violis[0] == 0 ) fprintf(prou,"none\n");
         if ( intakt ) {
-            printf(  "\n\n end unimin\n");
-            printf(    "\n sig= %11.4e  num. f-evaluations%2i\n", sig,cfincr);
-            printf(      " list of inactive hit constraints\n");
+            Rprintf(  "\n\n end unimin\n");
+            Rprintf(    "\n sig= %11.4e  num. f-evaluations%2i\n", sig,cfincr);
+            Rprintf(      " list of inactive hit constraints\n");
             for (i = 1 ; i <= violis[0] ; i++) {
-                printf(  "%4i  ", violis[i]);
-                if ( i % 13 == 0 || i == violis[0] ) printf(  "\n");
+                Rprintf(  "%4i  ", violis[i]);
+                if ( i % 13 == 0 || i == violis[0] ) Rprintf(  "\n");
             }
-            if ( violis[0] == 0 ) printf("none\n");
+            if ( violis[0] == 0 ) Rprintf("none\n");
         }
         return;
         
     case 11:
-        if ( intakt ) printf("additional increase of eta due to large clow\n");
+        if ( intakt ) Rprintf("additional increase of eta due to large clow\n");
         fprintf(prou,        "additional increase of eta due to large clow\n");
         
         return;
@@ -1295,15 +1302,15 @@ void o8info(IINTEGER icase) {
             }
         }
         if ( intakt ) {
-            printf(
+            Rprintf(
             "\n\n  current scaling,  scf =  %11.4e clow = %12i eta =  %11.4e\n", 
             scf,clow,eta);
             
             if ( nres != 0 ) {
-                printf(  "\n\n  scalres=\n");
+                Rprintf(  "\n\n  scalres=\n");
                 for (i = 1 ; i <= 2*nres ; i++) {
-                    printf(  "  %11.4e", w[i]);
-                    if ( i % 6 == 0 || i == 2*nres ) printf(  "\n");
+                    Rprintf(  "  %11.4e", w[i]);
+                    if ( i % 6 == 0 || i == 2*nres ) Rprintf(  "\n");
                 }
             }
         }
@@ -1311,55 +1318,55 @@ void o8info(IINTEGER icase) {
         
     case 13:
         if ( accinf[itstep][27] == zero ) {
-            if ( intakt ) printf("update suppressed\n");
+            if ( intakt ) Rprintf("update suppressed\n");
             fprintf(prou,        "update suppressed\n");
         } else if ( accinf[itstep][27] == -one ) {
             fprintf(prou,        "restart with scaled unit matrix\n");
-            if ( intakt ) printf("restart with scaled unit matrix\n");
+            if ( intakt ) Rprintf("restart with scaled unit matrix\n");
         } else {
             fprintf(prou,"BFGS-update\n");
             fprintf(prou," type = %14.6e\n", accinf[itstep][27]);
             fprintf(prou,"  ny  = %14.6e\n", accinf[itstep][28]);
             fprintf(prou," thet = %14.6e\n", accinf[itstep][29]);
             if ( intakt ) {
-                printf(  "BFGS-update\n");
-                printf(  " type = %14.6e\n", accinf[itstep][27]);
-                printf(  "  ny  = %14.6e\n", accinf[itstep][28]);
-                printf(  " thet = %14.6e\n", accinf[itstep][29]);
+                Rprintf(  "BFGS-update\n");
+                Rprintf(  " type = %14.6e\n", accinf[itstep][27]);
+                Rprintf(  "  ny  = %14.6e\n", accinf[itstep][28]);
+                Rprintf(  " thet = %14.6e\n", accinf[itstep][29]);
             }
         }
         return;
         
     case 14:
         if ( accinf[itstep][27] == zero ) {
-            if ( intakt ) printf("update suppressed\n");
+            if ( intakt ) Rprintf("update suppressed\n");
             fprintf(prou,        "update suppressed\n");
         } else if ( accinf[itstep][27] == one ) {
             fprintf(prou,"BFGS-update as in Pantoja and Mayne\n");
             fprintf(prou,"  tk  = %14.6e\n", accinf[itstep][28]);
             fprintf(prou," xsik = %14.6e\n", accinf[itstep][29]);
             if ( intakt ) {
-                printf(  "BFGS-update\n");
-                printf(  "  tk  = %14.6e\n", accinf[itstep][28]);
-                printf(  " xsik = %14.6e\n", accinf[itstep][29]);
+                Rprintf(  "BFGS-update\n");
+                Rprintf(  "  tk  = %14.6e\n", accinf[itstep][28]);
+                Rprintf(  " xsik = %14.6e\n", accinf[itstep][29]);
             }
         } else {
-            if ( intakt ) printf("restart with scaled unit matrix\n");
+            if ( intakt ) Rprintf("restart with scaled unit matrix\n");
             fprintf(prou,        "restart with scaled unit matrix\n");
         }
         return;
         
     case 15:
-        if ( intakt ) printf("\n\n\n singular case : full regularized SQP\n");
+        if ( intakt ) Rprintf("\n\n\n singular case : full regularized SQP\n");
         fprintf(prou,        "\n\n\n singular case : full regularized SQP\n");
-        if ( intakt ) printf("  del = %.15e\n", del);
+        if ( intakt ) Rprintf("  del = %.15e\n", del);
         fprintf(prou,        "  del = %.15e\n", del);
         
         if ( intakt ) { 
-            printf(  "\n\n  scalres=\n");
+            Rprintf(  "\n\n  scalres=\n");
             for (i = 1 ; i <= 2*nres ; i++) {
-                printf(  "  %11.4e", w[i]);
-                if ( i % 6 == 0 || i == 2*nres ) printf(  "\n");
+                Rprintf(  "  %11.4e", w[i]);
+                if ( i % 6 == 0 || i == 2*nres ) Rprintf(  "\n");
             }
         }
         fprintf(prou,"\n\n  scalres=\n");
@@ -1412,25 +1419,25 @@ void o8info(IINTEGER icase) {
             }
         }
         if ( intakt ) {
-            printf(  "exit from full SQP\n");
-            printf(  "            termination reason  %7.0e\n", 
+            Rprintf(  "exit from full SQP\n");
+            Rprintf(  "            termination reason  %7.0e\n", 
             accinf[itstep][30]);
-            printf(  "          final value of tauqp  %10.3e\n",
+            Rprintf(  "          final value of tauqp  %10.3e\n",
             accinf[itstep][31]);
-            printf(  "      sum norm of slack vector  %10.3e\n",
+            Rprintf(  "      sum norm of slack vector  %10.3e\n",
             accinf[itstep][32]);
                                 
-            printf("\n\n  phase=%3i  scf0= %11.4e\n",  phase,scf0);
-            printf("\n\n d = \n");
+            Rprintf("\n\n  phase=%3i  scf0= %11.4e\n",  phase,scf0);
+            Rprintf("\n\n d = \n");
             for (i = 1 ; i <= n ; i++) {
-                printf(  "  %11.4e", d[i]);
-                if ( i % 6 == 0 || i == n ) printf(  "\n");
+                Rprintf(  "  %11.4e", d[i]);
+                if ( i % 6 == 0 || i == n ) Rprintf(  "\n");
             }
             if ( nres != 0 ) {
-                printf(  "\n  multipliers: first estimate\n  u =\n");
+                Rprintf(  "\n  multipliers: first estimate\n  u =\n");
                 for (k = 1 ; k <= 2*nres ; k++) {
-                    printf(  " %4i  %11.4e", k,u[k]);
-                    if ( k % 4 == 0 || k == 2*nres ) printf(  "\n");
+                    Rprintf(  " %4i  %11.4e", k,u[k]);
+                    if ( k % 4 == 0 || k == 2*nres ) Rprintf(  "\n");
                 }
             }
         }
@@ -1439,25 +1446,25 @@ void o8info(IINTEGER icase) {
     case 17:
         fprintf(prou,"small directional derivative %.15e: finish\n",dirder);
         if ( intakt )
-        printf(      "small directional derivative %.15e: finish\n",dirder);
+        Rprintf(      "small directional derivative %.15e: finish\n",dirder);
         
         return;
         
     case 18:
         if ( intakt )
-        printf(      "small correction from full regularized SQP,finish\n");
+        Rprintf(      "small correction from full regularized SQP,finish\n");
         fprintf(prou,"small correction from full regularized SQP,finish\n");
         
         return;
         
     case 19:
         fprintf(prou,        "QP-solver terminated unsuccessfully\n");
-        if ( intakt ) printf("QP-solver terminated unsuccessfully\n");
+        if ( intakt ) Rprintf("QP-solver terminated unsuccessfully\n");
         
         return;
         
     case 20:
-        if ( intakt ) printf("restart with scaled unit matrix\n");
+        if ( intakt ) Rprintf("restart with scaled unit matrix\n");
         fprintf(prou,        "restart with scaled unit matrix\n");
         
         return;
@@ -1818,7 +1825,7 @@ void o8shms(void) {
 
     if ( te0 && ! silent ) {
         umin = accinf[itstep][11];
-        printf(
+        Rprintf(
         "%5i fx= %14.6e upsi= %8.1e b2n= %8.1e umi= %8.1e nr%4i si%2i\n",
         itstep,fx,upsi,b2n,umin,nr,(int)accinf[itstep][10]);
         
@@ -2259,9 +2266,12 @@ void o8opti(void)
           }
           if ( o8bind[2*i-1]+o8bind[2*i] == 2 )
           {
-            fprintf(stderr," donlp2: lower and upper bound are binding ");
-            fprintf(stdout," decrease delmin !\n ");
-            exit(1);
+           // fprintf(stderr," donlp2: lower and upper bound are binding ");
+            REprintf("donlp2: lower and upper bound are binding\n");
+           // fprintf(stdout," decrease delmin !\n ");    
+            REprintf("decrease delmin\n");         
+                 
+            _exit(1);
           }
           if ( i > n  && (o8bind[2*i-1]+o8bind[2*i] == 1 ) )
           {
@@ -3399,9 +3409,9 @@ end inactive */
     if ( ! silent ) o8info(7);
 
     sig = min(one,stmaxl);
-//    printf("3\n");
+//    Rprintf("3\n");
     o8unim(sig);
-//    printf("4\n");
+//    Rprintf("4\n");
 
     L360:
 
@@ -5131,7 +5141,7 @@ void o8elim(void) {
        }
     }   
     /* test */
-    /* printf("berechneter rang = %d \n",rank); */
+    /* Rprintf("berechneter rang = %d \n",rank); */
     /* testende */
     if ( rank == n2 ) return ;
     if ( ! silent ) o8msg(28);
@@ -7323,8 +7333,9 @@ void esf(DDOUBLE donlp2_x[],DDOUBLE *fx)
         } 
         else 
         {
-            fprintf(stderr,"donlp2: bloc-call, function info invalid\n");
-            exit(1);
+            //fprintf(stderr,"donlp2: bloc-call, function info invalid\n");
+           REprintf("donlp2: bloc-call, function info invalid\n");
+            _exit(1);
         }
     } 
     else 
@@ -7364,8 +7375,9 @@ void esgradf(DDOUBLE donlp2_x[],DDOUBLE gradf[])
         }
         else 
         {
-            fprintf(stderr,"donlp2: bloc call with function info invalid\n");
-            exit(1);
+            //fprintf(stderr,"donlp2: bloc call with function info invalid\n");
+            REprintf("donlp2: bloc call with function info invalid\n");
+            _exit(1);
         }
     } 
     else 
@@ -7512,8 +7524,9 @@ IINTEGER j    ;
         }
         else
         {
-            fprintf(stderr,"donlp2: bloc call with function info invalid\n");
-            exit(1);
+           // fprintf(stderr,"donlp2: bloc call with function info invalid\n");
+            REprintf("donlp2: bloc call with function info invalid\n");
+            _exit(1);
         }   
      } 
      else 
@@ -7561,8 +7574,9 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
         } 
         else 
         {
-            fprintf(stderr,"donlp2: bloc call with function info invalid\n");
-            exit(1);
+           // fprintf(stderr,"donlp2: bloc call with function info invalid\n");
+                REprintf("donlp2: bloc call with function info invalid\n");
+            _exit(1);
         }
     } 
     else 
@@ -7593,10 +7607,11 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
             {
               if ( escongrad_errloc[liste[i]] )
               {
-                fprintf(stderr,"donlp2: error in evaluating \n");
-                fprintf(stderr,"nonlinear user function %i \n",liste[i]);
-                fprintf(stderr,"during numerical differentiation \n");
-                exit(1);
+               
+                REprintf("donlp2: error in evaluating \n");
+                REprintf("nonlinear user function %i \n",liste[i]);
+                REprintf("during numerical differentiation \n");
+                _exit(1);
               }
             }            
             for (j = 1 ; j <= n ; j++) 
@@ -7617,10 +7632,10 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
               {
                 if ( escongrad_errloc[liste[i]] )
                 {
-                  fprintf(stderr,"donlp2: error in evaluating \n");
-                  fprintf(stderr,"nonlinear user function %i \n",liste[i]);
-                  fprintf(stderr,"during numerical differentiation \n");
-                  exit(1);
+               REprintf("donlp2: error in evaluating \n");
+                REprintf("nonlinear user function %i \n",liste[i]);
+                REprintf("during numerical differentiation \n");
+                  _exit(1);
                 }
               }
               for ( i = 1 ; i <= liste[0] ; i++ )
@@ -7645,10 +7660,10 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
               {
                 if ( escongrad_errloc[liste[i]] )
                 {
-                  fprintf(stderr,"donlp2: error in evaluating \n");
-                  fprintf(stderr,"nonlinear user function %i \n",liste[i]);
-                  fprintf(stderr,"during numerical differentiation \n");
-                  exit(1);
+            REprintf("donlp2: error in evaluating \n");
+                REprintf("nonlinear user function %i \n",liste[i]);
+                REprintf("during numerical differentiation \n");
+                  _exit(1);
                 }
               }
                     
@@ -7659,10 +7674,10 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
               {
                 if ( escongrad_errloc[liste[i]] )
                 {
-                  fprintf(stderr,"donlp2: error in evaluating \n");
-                  fprintf(stderr,"nonlinear user function %i \n",liste[i]);
-                  fprintf(stderr,"during numerical differentiation \n");
-                  exit(1);
+                REprintf("donlp2: error in evaluating \n");
+                REprintf("nonlinear user function %i \n",liste[i]);
+                REprintf("during numerical differentiation \n");
+                  _exit(1);
                 }
               }
 
@@ -7688,10 +7703,10 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
               {
                 if ( escongrad_errloc[liste[i]] )
                 {
-                  fprintf(stderr,"donlp2: error in evaluating \n");
-                  fprintf(stderr,"nonlinear user function %i \n",liste[i]);
-                  fprintf(stderr,"during numerical differentiation \n");   
-                  exit(1);
+             REprintf("donlp2: error in evaluating \n");
+                REprintf("nonlinear user function %i \n",liste[i]);
+                REprintf("during numerical differentiation \n");
+                  _exit(1);
                 }
               }  
 
@@ -7701,10 +7716,10 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
               {
                 if ( escongrad_errloc[liste[i]] )
                 {
-                  fprintf(stderr,"donlp2: error in evaluating \n");
-                  fprintf(stderr,"nonlinear user function %i \n",liste[i]);
-                  fprintf(stderr,"during numerical differentiation \n");   
-                  exit(1);
+               REprintf("donlp2: error in evaluating \n");
+                REprintf("nonlinear user function %i \n",liste[i]);
+                REprintf("during numerical differentiation \n");
+                  _exit(1);
                 }
               }  
                     
@@ -7716,10 +7731,10 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
               {
                 if ( escongrad_errloc[liste[i]] )
                 {
-                  fprintf(stderr,"donlp2: error in evaluating \n");
-                  fprintf(stderr,"nonlinear user function %i \n",liste[i]);
-                  fprintf(stderr,"during numerical differentiation \n");   
-                  exit(1);
+               REprintf("donlp2: error in evaluating \n");
+                REprintf("nonlinear user function %i \n",liste[i]);
+                REprintf("during numerical differentiation \n");
+                  _exit(1);
                 }
               }  
 
@@ -7729,10 +7744,10 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
               {
                 if ( escongrad_errloc[liste[i]] )
                 {
-                  fprintf(stderr,"donlp2: error in evaluating \n");
-                  fprintf(stderr,"nonlinear user function %i \n",liste[i]);
-                  fprintf(stderr,"during numerical differentiation \n");   
-                  exit(1);
+               REprintf("donlp2: error in evaluating \n");
+                REprintf("nonlinear user function %i \n",liste[i]);
+                REprintf("during numerical differentiation \n");
+                  _exit(1);
                 }
               }  
                                         
@@ -7745,10 +7760,10 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
               {
                 if ( escongrad_errloc[liste[i]] )
                 {
-                  fprintf(stderr,"donlp2: error in evaluating \n");
-                  fprintf(stderr,"nonlinear user function %i \n",liste[i]);
-                  fprintf(stderr,"during numerical differentiation \n");   
-                  exit(1);
+                  REprintf("donlp2: error in evaluating \n");
+                REprintf("nonlinear user function %i \n",liste[i]);
+                REprintf("during numerical differentiation \n");
+                  _exit(1);
                 }
               }  
                                         
@@ -7758,10 +7773,10 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
               {
                 if ( escongrad_errloc[liste[i]] )
                 {
-                  fprintf(stderr,"donlp2: error in evaluating \n");
-                  fprintf(stderr,"nonlinear user function %i \n",liste[i]);
-                  fprintf(stderr,"during numerical differentiation \n");   
-                  exit(1);
+            REprintf("donlp2: error in evaluating \n");
+                REprintf("nonlinear user function %i \n",liste[i]);
+                REprintf("during numerical differentiation \n");
+                  _exit(1);
                 }
               }  
 
@@ -7800,12 +7815,12 @@ void checkArrayBorders(char *str)
     /* Check integer borders */
     for (i=0; i<i_borders_count; i++) {
         if (**(i_borders+2*i) != i_unique) {
-            printf("checkArrayBorders: Integer 1D array index %4d:  start border violated\n", i);  
+            Rprintf("checkArrayBorders: Integer 1D array index %4d:  start border violated\n", i);  
             fflush(stdout);
             violations++;
         }
         if (**(i_borders+2*i+1) != i_unique) {
-            printf(" checkArrayBorders: Integer 1D array index %4d:  end border violated\n", i);  
+            Rprintf(" checkArrayBorders: Integer 1D array index %4d:  end border violated\n", i);  
             fflush(stdout);
             violations++;
         }
@@ -7814,12 +7829,12 @@ void checkArrayBorders(char *str)
     /* Check double borders */
     for (i=0; i<d_borders_count; i++) {
         if (**(d_borders+2*i) != d_unique) {
-            printf("checkArrayBorders: Double  1D array index %4d:  start border violated\n", i);  
+            Rprintf("checkArrayBorders: Double  1D array index %4d:  start border violated\n", i);  
             fflush(stdout);
             violations++;
         }
         if (**(d_borders+2*i+1) != d_unique) {
-            printf("checkArrayBorders: Double  1D array index %4d:  end border violated\n", i);  
+            Rprintf("checkArrayBorders: Double  1D array index %4d:  end border violated\n", i);  
             fflush(stdout);
             violations++;
         }
@@ -7828,21 +7843,21 @@ void checkArrayBorders(char *str)
     /* Check logical borders */
     for (i=0; i<l_borders_count; i++) {
         if (**(l_borders+2*i) != l_unique) {
-            printf(" checkArrayBorders: Logical 1D array index %4d:  start border violated\n", i);  
+            Rprintf(" checkArrayBorders: Logical 1D array index %4d:  start border violated\n", i);  
             fflush(stdout);
             violations++;
         }
         if (**(l_borders+2*i+1) != l_unique) {
-            printf(" checkArrayBorders: Logical 1D array index %4d:  end border violated\n", i);  
+            Rprintf(" checkArrayBorders: Logical 1D array index %4d:  end border violated\n", i);  
             fflush(stdout);
             violations++;
         }
     }
 
     if (violations == 0) 
-        printf("checkArrayBorders: no violations: %s\n", str);
+        Rprintf("checkArrayBorders: no violations: %s\n", str);
     else
-        printf("checkArrayBorders: ************** violations %4d:  %s\n", violations, str);
+        Rprintf("checkArrayBorders: ************** violations %4d:  %s\n", violations, str);
     fflush(stdout);
 }
 #endif
@@ -7864,15 +7879,16 @@ IINTEGER* i1_malloc(IINTEGER size1, IINTEGER init)
     
     array = (IINTEGER*) malloc((size_t) (size1+2*ABC)*sizeof(IINTEGER));
     if (!array) {
-        fprintf(stderr, "ERROR: i1_malloc: memory error: malloc failed");  
-        exit(-1);
+       REprintf("ERROR: i1_malloc: memory error: malloc failed");
+
+        _exit(-1);
     }
 
 #ifdef ARRAY_BORDER_CHECK
     /* setup array borders */
     if (i_borders_count > 2*ABC_NUM_1DARRAYS-4) {
-        printf("ERROR: ARRAYBORDERS: ABC_NUM_1DARRAYS is too small\n");
-	exit(-1);
+        Rprintf("ERROR: ARRAYBORDERS: ABC_NUM_1DARRAYS is too small\n");
+	_exit(-1);
     }	
     array[0] = i_unique;
     i_borders[2*i_borders_count] = &(array[0]);
@@ -7900,9 +7916,9 @@ void i1_free(IINTEGER* array)
     IINTEGER i;
 
     /* Check for null pointer */
-    if (!array) {
-        fprintf(stderr, "ERROR: i1_free: memory error: pointer is null");  
-        exit(-1);
+    if (!array) {    
+            REprintf("ERROR: i1_free: memory error: pointer is null");
+          _exit(-1);
     }
 
     /* free the memory for the IINTEGER 1D array */
@@ -7925,21 +7941,21 @@ IINTEGER** i2_malloc(IINTEGER size1, IINTEGER size2, IINTEGER init)
     
     array = (IINTEGER**) malloc((size_t) size1*sizeof(IINTEGER*));
     if (!array) {
-        fprintf(stderr, "ERROR: d2_malloc: memory error: malloc failed");  
-        exit(-1);
+        REprintf("ERROR: d2_malloc: memory error: malloc failed");
+        _exit(-1);
     }
     for (i=0; i<size1; i++) {
         arraytemp = (IINTEGER*) malloc((size_t) (size2+2*ABC)*sizeof(IINTEGER));
         if (!arraytemp) {  
-            fprintf(stderr, "ERROR: d2_malloc: memory error: malloc failed");  
-            exit(-1);
+              REprintf("ERROR: d2_malloc: memory error: malloc failed"); 
+            _exit(-1);
         }
 	
 #ifdef ARRAY_BORDER_CHECK
         /* setup array borders */
         if (i_borders_count > 2*ABC_NUM_1DARRAYS-4) {
-            printf("ERROR: ARRAY_BORDERS_CHECK: ABC_NUM_1DARRAYS is too small\n");
-	    exit(-1);
+            Rprintf("ERROR: ARRAY_BORDERS_CHECK: ABC_NUM_1DARRAYS is too small\n");
+	    _exit(-1);
         }	
         arraytemp[0] = i_unique;
         i_borders[2*i_borders_count] = &(arraytemp[0]);
@@ -7968,8 +7984,8 @@ void i2_free(IINTEGER** array, IINTEGER size1)
 
     /* Check for null pointer */
     if (!array) {
-        fprintf(stderr, "ERROR: d2_free: memory error: pointer is null");  
-        exit(-1);
+         REprintf("ERROR: d2_free: memory error: pointer is null");
+        _exit(-1);
     }
 
     /* free the memory for the IINTEGER 2D array piece by piece */
@@ -7994,15 +8010,15 @@ DDOUBLE* d1_malloc(IINTEGER size1, IINTEGER init)
     
     array = (DDOUBLE*) malloc((size_t) (size1+2*ABC)*sizeof(DDOUBLE));
     if (!array) {
-        fprintf(stderr, "ERROR: d1_malloc: memory error: malloc failed");  
-        exit(-1);
+        REprintf("ERROR: d1_malloc: memory error: malloc failed");
+        _exit(-1);
     }
 
 #ifdef ARRAY_BORDER_CHECK
     /* setup array borders */
     if (d_borders_count > 2*ABC_NUM_1DARRAYS-4) {
-        printf("ERROR: ARRAYBORDERS: ABC_NUM_1DARRAYS is too small\n");
-	exit(-1);
+        Rprintf("ERROR: ARRAYBORDERS: ABC_NUM_1DARRAYS is too small\n");
+	_exit(-1);
     }	
     array[0] = d_unique;
     d_borders[2*d_borders_count] = &(array[0]);
@@ -8029,8 +8045,8 @@ void d1_free(DDOUBLE* array)
 
     /* Check for null pointer */
     if (!array) {
-        fprintf(stderr, "ERROR: d1_free: memory error: pointer is null");  
-        exit(-1);
+        REprintf("ERROR: d1_free: memory error: pointer is null"); 
+        _exit(-1);
     }
 
     /* free the memory for the DDOUBLE 1D array */
@@ -8053,23 +8069,25 @@ DDOUBLE** d2_malloc(IINTEGER size1, IINTEGER size2, IINTEGER init)
     
     array = (DDOUBLE**) malloc((size_t) size1*sizeof(DDOUBLE*));
     if (!array) {
-        fprintf(stderr, "ERROR: d2_malloc: memory error: malloc failed");  
-        exit(-1);
+     
+       REprintf("ERROR: d2_malloc: memory error: malloc failed"); 
+        _exit(-1);
     }
     for (i=0; i<size1; i++) {
 
         /* Allocate memory */
         arraytemp = (DDOUBLE*) malloc((size_t) (size2+2*ABC)*sizeof(DDOUBLE));
         if (!arraytemp) {  
-            fprintf(stderr, "ERROR: d2_malloc: memory error: malloc failed");  
-            exit(-1);
+         
+             REprintf("ERROR: d2_malloc: memory error: malloc failed");
+            _exit(-1);
         }
 
 #ifdef ARRAY_BORDER_CHECK
         /* setup array borders */
         if (d_borders_count > 2*ABC_NUM_1DARRAYS-4) {
-            printf("ERROR: ARRAY_BORDERS_CHECK: ABC_NUM_1DARRAYS is too small\n");
-	    exit(-1);
+            Rprintf("ERROR: ARRAY_BORDERS_CHECK: ABC_NUM_1DARRAYS is too small\n");
+	    _exit(-1);
         }	
         arraytemp[0] = d_unique;
         d_borders[2*d_borders_count] = &(arraytemp[0]);
@@ -8098,8 +8116,9 @@ void d2_free(DDOUBLE** array, IINTEGER size1)
 
     /* Check for null pointer */
     if (!array) {
-        fprintf(stderr, "ERROR: d2_free: memory error: pointer is null");  
-        exit(-1);
+      
+         REprintf("ERROR: d2_free: memory error: pointer is null");
+        _exit(-1);
     }
 
     /* free the memory for the DDOUBLE 2D array piece by piece */
@@ -8123,15 +8142,16 @@ LLOGICAL* l1_malloc(IINTEGER size1, IINTEGER init)
     
     array = (LLOGICAL*) malloc((size_t) (size1+2*ABC)*sizeof(LLOGICAL));
     if (!array) {
-        fprintf(stderr, "ERROR: l1_malloc: memory error: malloc failed");  
-        exit(-1);
+       
+        REprintf("ERROR: l1_malloc: memory error: malloc failed");
+        _exit(-1);
     }
 
 #ifdef ARRAY_BORDER_CHECK
     /* setup array borders */
     if (i_borders_count > 2*ABC_NUM_1DARRAYS-4) {
-        printf("ERROR: ARRAYBORDERS: ABC_NUM_1DARRAYS is too small\n");
-	exit(-1);
+        Rprintf("ERROR: ARRAYBORDERS: ABC_NUM_1DARRAYS is too small\n");
+	_exit(-1);
     }	
     array[0] = i_unique;
     i_borders[2*i_borders_count] = &(array[0]);
@@ -8158,8 +8178,9 @@ void l1_free(LLOGICAL* array)
 
     /* Check for null pointer */
     if (!array) {
-        fprintf(stderr, "ERROR: l1_free: memory error: pointer is null");  
-        exit(-1);
+        
+ REprintf("ERROR: l1_free: memory error: pointer is null");
+        _exit(-1);
     }
 
     /* free the memory for the LLOGICAL 1D array */
@@ -8182,21 +8203,23 @@ LLOGICAL** l2_malloc(IINTEGER size1, IINTEGER size2, IINTEGER init)
     
     array = (LLOGICAL**) malloc((size_t) size1*sizeof(LLOGICAL*));
     if (!array) {
-        fprintf(stderr, "ERROR: l2_malloc: memory error: malloc failed");  
-        exit(-1);
+      
+ REprintf("ERROR: l2_malloc: memory error: malloc failed");
+        _exit(-1);
     }
     for (i=0; i<size1; i++) {
         arraytemp = (LLOGICAL*) malloc((size_t) (size2+2*ABC)*sizeof(LLOGICAL));
         if (!arraytemp) {  
-            fprintf(stderr, "ERROR: l2_malloc: memory error: malloc failed");  
-            exit(-1);
+            
+ REprintf("ERROR: l2_malloc: memory error: malloc failed");
+            _exit(-1);
         }
 	
 #ifdef ARRAY_BORDER_CHECK
         /* setup array borders */
         if (i_borders_count > 2*ABC_NUM_1DARRAYS-4) {
-            printf("ERROR: ARRAY_BORDERS_CHECK: ABC_NUM_1DARRAYS is too small\n");
-	    exit(-1);
+            Rprintf("ERROR: ARRAY_BORDERS_CHECK: ABC_NUM_1DARRAYS is too small\n");
+	    _exit(-1);
         }	
         arraytemp[0] = i_unique;
         i_borders[2*i_borders_count] = &(arraytemp[0]);
@@ -8225,8 +8248,9 @@ void l2_free(LLOGICAL** array, IINTEGER size1)
 
     /* Check for null pointer */
     if (!array) {
-        fprintf(stderr, "ERROR: l2_free: memory error: pointer is null");  
-        exit(-1);
+      
+ REprintf("ERROR: l2_malloc: memory error: malloc failed");
+        _exit(-1);
     }
 
     /* free the memory for the LLOGICAL 2D array piece by piece */
@@ -8328,7 +8352,7 @@ void global_mem_malloc() {
     o8bfgs_dg     = d1_malloc(n+1, 1); 
     o8bfgs_adx    = d1_malloc(n+1, 1);
     o8bfgs_ltdx   = d1_malloc(n+1, 1); 
-/* printf("d_borders_count: %d\n", d_borders_count); */
+/* Rprintf("d_borders_count: %d\n", d_borders_count); */
     o8bfgs_gtdx   = d1_malloc(n+nlin+nonlin+1, 1);  
     o8bfgs_updx   = d1_malloc(n+1, 1);
     o8bfgs_updz   = d1_malloc(n+1, 1);

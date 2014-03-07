@@ -1,4 +1,10 @@
 #include "o8para.h"              
+#include <R.h> 
+#include <Rdefines.h>
+#include <Rinternals.h>
+#include <R_ext/Utils.h>
+#include <R_ext/Memory.h>
+#include <unistd.h>
 
 void user_eval(DDOUBLE xvar[],IINTEGER mode) {
 /* ************************************************************************ */
@@ -75,8 +81,9 @@ void user_eval(DDOUBLE xvar[],IINTEGER mode) {
 	
     
     if ( mode < -1 || mode  > 2 || mode == 0 ) { 
-        fprintf(stderr,"donlp2: call of user_eval with undefined mode\n");
-        exit(1);
+        //fprintf(stderr,"donlp2: call of user_eval with undefined mode\n");
+          REprintf("donlp2: call of user_eval with undefined mode\n");
+        _exit(1);
     }
     if ( mode == -1 ) {
         changed = FFALSE;

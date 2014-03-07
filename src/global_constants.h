@@ -2,6 +2,7 @@
 #define MAX_NUM_COND 1000
 #define MAX_NUM_CHIP 1000
 #define MAX_NUM_PROBE 200
+#define MAX_NUM_PROBE_PM 6000
 #define LEN_BUF 1024
 
 #define MAX_NUM_BINS 50000
@@ -13,9 +14,9 @@
 #define PHILOW 0.0001
 #define PHIUP 1.0
 
-#define gme_ALOW 0.01
-#define gme_CLOW 0.001
-#define gme_DLOW 0.001
+#define gme_ALOW 0.001
+#define gme_CLOW 0.0001
+#define gme_DLOW 0.0001
 
 
 
@@ -26,9 +27,9 @@
 #define NEG_INF -1.0e100
 
 /* constants used by exon array*/
-#define MAX_NUM_COND_GME 5000
+#define MAX_NUM_COND_GME 3000
 
-#define MAX_NUM_PROBE_GME 5000
+#define MAX_NUM_PROBE_GME 20000
 
 #define MAX_NUM_GENE_GME 50000
 

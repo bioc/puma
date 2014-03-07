@@ -1,37 +1,35 @@
 pumaFull <- function(
-	affybatch = NULL
+	ExpressionFeatureSet = NULL
 ,	data_dir = getwd()
-,	load_affybatch = FALSE
+,	load_ExpressionFeatureSet = FALSE
 ,	calculate_eset = TRUE
 ,	calculate_pumaPCAs = TRUE
 ,	calculate_bcomb = TRUE
 ,	mmgmosComparisons = FALSE
 )
 {
-	if(is.null(affybatch) && !load_affybatch && calculate_eset)
+	if(is.null(ExpressionFeatureSet) && !load_ExpressionFeatureSet && calculate_eset)
 	{
-	 	affybatch <- ReadAffy(
-	  		celfile.path=data_dir
-	  	,	phenoData=paste(data_dir,"phenoData.txt", sep="/")
-	  	)
-		save(affybatch, file=paste(data_dir,"affybatch.rda",sep="/"))
+                    setwd(data_dir);
+	 	ExpressionFeatureSet<-read.celfiles(list.celfiles());
+		save(ExpressionFeatureSet, file=paste(data_dir,"ExpressionFeatureSet.rda",sep="/"))
 	}
 
-	if(load_affybatch && calculate_eset)
+	if(load_ExpressionFeatureSet && calculate_eset)
 	{
-	  load(paste(data_dir,"affybatch.rda",sep="/"))
+	  load(paste(data_dir,"ExpressionFeatureSet.rda",sep="/"))
 	}
 
 	if(calculate_eset)
 	{
 		cat("calculating eset_mmgmos\n")
-		eset_mmgmos <- mmgmos(affybatch)
+		eset_mmgmos <- mmgmos(ExpressionFeatureSet)
 		save(eset_mmgmos, file=paste(data_dir,"/eset_mmgmos.rda",sep=""))
 		if(mmgmosComparisons)
 		{
 			cat("calculating eset_mmgmos_bg\n")
 			eset_mmgmos_bg <- mmgmos(
-				affybatch
+				ExpressionFeatureSet
 			,	background=TRUE
 			,	replaceZeroIntensities=FALSE
 			)
@@ -41,7 +39,7 @@ pumaFull <- function(
 			)
 		}
 		cat("calculating eset_rma\n")
-		eset_rma <- rma(affybatch)
+		eset_rma <- oligo:::rma(ExpressionFeatureSet)
 		save(eset_rma, file=paste(data_dir,"/eset_rma.rda",sep=""))
 	}
 

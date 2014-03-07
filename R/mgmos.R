@@ -8,35 +8,45 @@ mgmos <- function(
 )
 {
 
-	probes <- length(probeNames(object))
-	conds <- length(object)
-	genes <- length(featureNames(object))
+	probes <- length(oligo:::probeNames(object))
+	  conds <- length(sampleNames(object));
+	genes <-length(unique(oligo:::probeNames(object)));
 
 	phis <- c(0,0,0)
     prctiles <- 0.01*c(5, 25, 50, 75, 95);
+
+  pm_g<-oligo:::pm(object);
+          mm_g<-oligo:::mm(object);
+          probe<-(oligo:::probeNames(object));   
+
+          index<-order(probe);
+          probe_sort<-probe[index];
+          probe<-probe_sort;
+          pm_g<-pm_g[index,];
+          mm_g<-mm_g[index,];
   
   if (background == TRUE)
   {
     for (i in c(1:conds)){
-      m<-min(c(min(pm(object)[,i]),min(mm(object)[,i])))
-      pm(object)[,i]<-pm(object)[,i]-m+1
-      mm(object)[,i]<-mm(object)[,i]-m+1
+      m<-min(c(min(pm_g[,i]),min(mm_g[,i])))
+      pm_g[,i]<-pm_g[,i]-m+1
+      mm_g[,i]<-mm_g[,i]-m+1
     }
   }
 
   if (replaceZeroIntensities)
   {
-    pm(object)[which(pm(object)==0)] <- 1
-    mm(object)[which(mm(object)==0)] <- 1
+    pm_g[which(pm_g==0)] <- 1
+    mm_g[which(mm_g==0)] <- 1
   }
 
   res <-
   	.Call(
   	  "mgmos_c"
-  	 , pm(object)
-  	 , mm(object)
+  	 , pm_g
+  	 , mm_g
   	 , genes
-  	 , probeNames(object)
+  	 , probe
   	 , phis
   	 , prctiles
   	 , length(prctiles)
@@ -106,20 +116,21 @@ mgmos <- function(
       prc95[,i] <- prc95[,i]-chipm[i]
     }
   }
+  probe_names<-unique(probe);
 
-  rownames(expr) <- featureNames(object)
+  rownames(expr) <- probe_names
   colnames(expr) <- sampleNames(object)
-  rownames(se) <- featureNames(object)
+  rownames(se) <- probe_names
   colnames(se) <- sampleNames(object)
-  rownames(prc5) <- featureNames(object)
+  rownames(prc5) <- probe_names
   colnames(prc5) <- sampleNames(object)
-  rownames(prc25) <- featureNames(object)
+  rownames(prc25) <- probe_names
   colnames(prc25) <- sampleNames(object)
-  rownames(prc50) <- featureNames(object)
+  rownames(prc50) <- probe_names
   colnames(prc50) <- sampleNames(object)
-  rownames(prc75) <- featureNames(object)
+  rownames(prc75) <- probe_names
   colnames(prc75) <- sampleNames(object)
-  rownames(prc95) <- featureNames(object)
+  rownames(prc95) <- probe_names
   colnames(prc95) <- sampleNames(object)
 
   phenodata <- phenoData(object)

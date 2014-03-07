@@ -10,24 +10,38 @@ PMmmgmos<-function(
 {   
     
        
- 	conds <- length(object)
-	genes <- length(featureNames(object))
+ 	conds <- length(sampleNames(object));
+	genes <-length(unique(oligo:::probeNames(object)));
+    
+   
+          probe<-(oligo:::probeNames(object));        
+          pm_g<-oligo:::pm(object);
+      
+          index<-order(probe);
+          probe_sort<-probe[index];
+          probe<-probe_sort;
+          pm_g<-pm_g[index,];
+   
 
-	cdf <- cleancdfname(cdfName(object))
+  if(conds==1){
+    pm_g<-as.matrix(pm_g);
+  }
+        
+	
 
   if(background==TRUE)
   {
      for (i in c(1:conds))
     {
-      m<-min(pm(object)[,i])
-      pm(object)[,i]<-pm(object)[,i]-m+1
+      m<-min(pm_g[,i])
+      pm_g[,i]<-pm_g[,i]-m+1
      
     }
   }
 
   if (replaceZeroIntensities)
   {
-    pm(object)[which(pm(object)==0)] <- 1
+    pm_g[which(pm_g==0)] <- 1
    
   }
   prctiles <- 0.01*c(5, 25, 50, 75, 95);
@@ -35,9 +49,9 @@ PMmmgmos<-function(
   res <-
  	.Call(
   	  "pmmmgmos_c"
-  	 , pm(object)
+  	 , pm_g
   	 , genes
-         , probeNames(object)
+         , probe
          , prctiles
   	 , length(prctiles)
    	 , savepar
@@ -106,20 +120,21 @@ PMmmgmos<-function(
       prc95[,i] <- prc95[,i]-chipm[i]
     }
   }
-
-   rownames(expr) <- featureNames(object)
+   
+   probe_names<-unique(probe);
+   rownames(expr) <- probe_names
    colnames(expr) <- sampleNames(object)
-   rownames(se) <- featureNames(object)
+   rownames(se) <- probe_names
    colnames(se) <- sampleNames(object)
-   rownames(prc5) <- featureNames(object)
+   rownames(prc5) <- probe_names
    colnames(prc5) <- sampleNames(object)
-   rownames(prc25) <- featureNames(object)
+   rownames(prc25) <- probe_names
    colnames(prc25) <- sampleNames(object)
-   rownames(prc50) <- featureNames(object)
+   rownames(prc50) <- probe_names
    colnames(prc50) <- sampleNames(object)
-   rownames(prc75) <- featureNames(object)
+   rownames(prc75) <- probe_names
    colnames(prc75) <- sampleNames(object)
-   rownames(prc95) <- featureNames(object)
+   rownames(prc95) <- probe_names
    colnames(prc95) <- sampleNames(object)
 
 
@@ -152,8 +167,9 @@ PMmmgmos<-function(
      annotation(return_exprReslt) <- annotation(object)
      description(return_exprReslt) <- description(object)
      notes(return_exprReslt) <- notes(object)
+     rm(object);
      return_exprReslt
-
+     
      ##write.table(se,'ddd.txt',quote=FALSE,sep='\t',row.names=FALSE,col.name=FALSE);
 
 }

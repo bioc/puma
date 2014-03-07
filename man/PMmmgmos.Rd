@@ -2,7 +2,7 @@
 \alias{PMmmgmos}
 \title{ Multi-chip modified gamma Model for Oligonucleotide Signal using only PM probe intensities}
 \description{
-  This function converts an object of class \code{\link[affy:AffyBatch-class]{AffyBatch}} into an object of class
+  This function converts an object of class \code{\link[oligoClasses:FeatureSet-class]{FeatureSet}} into an object of class
   \code{\link{exprReslt}} using the Multi-chip modified gamma Model for Oligonucleotide Signal
   (PMmulti-mgMOS). This method uses only PM probe intensites. This function obtains confidence of measures, standard deviation and 5,
   25, 50, 75 and 95 percentiles, as well as the estimated expression levels.
@@ -19,7 +19,7 @@ PMmmgmos(
 )
 }
 \arguments{
-  \item{object}{an object of \code{\link[affy:AffyBatch-class]{AffyBatch}}}
+  \item{object}{an object of \code{\link[oligoClasses:FeatureSet-class]{FeatureSet}}}
   \item{background}{Logical value. If \code{TRUE}, perform background correction before applying PMmmgmos.}
   \item{replaceZeroIntensities}{Logical value. If \code{TRUE}, replace 0 intensities with 1 before applying PMmmgmos.}
   \item{gsnorm}{character. specifying the algorithm of global scaling normalisation.}
@@ -57,11 +57,12 @@ http://plato.la.asu.edu/donlp2.html}
 \seealso{ Related class \code{\link{exprReslt-class}} and related method \code{\link{mgmos}}}
 \examples{
 ## Code commented out to speed up checks
-## load example data from package affydata
-# if (require(affydata)) data(Dilution)
-
+## load example data from package pumadata
+ #if (require(pumadata)&&require(puma)){
+   # data(oligo.estrogen)
 ## use method PMmmgMOS to calculate the expression levels and related confidence
-## of the measures for the example data
-#eset<-PMmmgmos(Dilution)
+##of the measures for the example data
+ #   eset<-PMmmgmos(oligo.estrogen,gsnorm="none")
+#}
 }
 \keyword{manip}

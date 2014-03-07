@@ -14,7 +14,7 @@ typedef struct{
 	
 	double *data_pm;   /* PM data for the whole data set */
 	
-	double pm[MAX_NUM_PROBE][MAX_NUM_COND];         /* PM data for one gene */
+	double pm[MAX_NUM_PROBE_PM][MAX_NUM_COND];         /* PM data for one gene */
 	
 	int *probesets;   /* the number of probe-pairs for each probe set */
 	

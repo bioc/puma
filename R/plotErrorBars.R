@@ -16,7 +16,7 @@ plotErrorBars <- function(
 ,	plot_cols = NA
 ,	plot_rows = NA
 ,	featureNames = NA
-,	showGeneNames = TRUE
+,	showGeneNames = FALSE
 # ,	showGeneNames = if(length(featureNames)==1 & is.na(featureNames[1]))
 # 		FALSE else TRUE
 ,	showErrorBars = if(

@@ -507,7 +507,7 @@ void ef_mmgmospm(DDOUBLE donlp2_x[],DDOUBLE *fx) {
     #undef   X
 
 	double alphaii[MAX_NUM_COND]={0.0}, c, d, t11, t22;
-	double ym[MAX_NUM_PROBE]={0.0}, aym[MAX_NUM_PROBE]={0.0};
+	double ym[MAX_NUM_PROBE_PM]={0.0}, aym[MAX_NUM_PROBE_PM]={0.0};
 	
 	int  j, k;
 	
@@ -561,7 +561,7 @@ void egradf_mmgmospm(DDOUBLE donlp2_x[],DDOUBLE gradf[]) {
     #undef   X
 
 	double alphaii[MAX_NUM_COND]={0.0}, c, d, t1;
-	double ym[MAX_NUM_PROBE]={0.0};
+	double ym[MAX_NUM_PROBE_PM]={0.0};
 	int  j, k;
     
 	if (in_param.flag==0)

@@ -23,7 +23,7 @@ SEXP hcomb_c(SEXP Mmat, SEXP Stdmat, SEXP rep,  SEXP conds,  SEXP max_num,  SEXP
 
 SEXP pumaclustii_c(SEXP Mmat, SEXP Stdmat, SEXP conds, SEXP reps, SEXP mincls, SEXP maxcls, SEXP centers, SEXP clsig, SEXP verbose, SEXP eps, SEXP del0);
 
-SEXP gme_c(SEXP PMmat, SEXP GTmat, SEXP PNmat, SEXP GNmat, SEXP ANmat,SEXP totalgene, SEXP saveflag, SEXP eps);
+SEXP gme_c(SEXP PMmat, SEXP GTmat, SEXP PNmat, SEXP GNmat, SEXP ANmat,SEXP totalgene, SEXP saveflag, SEXP eps, SEXP pm_index, SEXP gt_index);
 
 SEXP pmmmgmos_c(SEXP PMmat, SEXP ngenes, SEXP probeNames,SEXP prctiles, SEXP nprc,  SEXP saveflag, SEXP eps);
 */
@@ -37,7 +37,7 @@ static const R_CallMethodDef callMethods[] = {
 	{"hcomb_c",(DL_FUNC)&hcomb_c,6},
 	{"pumaclustii_c",(DL_FUNC)&pumaclustii_c,11},
           {"pmmmgmos_c",(DL_FUNC)&pmmmgmos_c,7},
-          {"gme_c", (DL_FUNC) &gme_c, 8},
+          {"gme_c", (DL_FUNC) &gme_c,10},
 	{NULL, NULL, 0}
 };
 

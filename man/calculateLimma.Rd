@@ -27,7 +27,7 @@ The \code{eset} argument must be supplied, and must be a valid \code{\link[Bioba
 \examples{
 if (require(affydata)) {
 	data(Dilution)
-	eset_rma <- rma(Dilution)
+	eset_rma <- affy:::rma(Dilution)
 	#	Next line used so eset_rma only has information about the liver factor
 	#	The scanner factor will thus be ignored, and the two arrays of each level
 	#	of the liver factor will be treated as replicates

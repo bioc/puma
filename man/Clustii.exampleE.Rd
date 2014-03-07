@@ -14,7 +14,7 @@
 \source{
 Liu,X. and Rattray,M. (2009) 
 Including probe-level measurement error in robust mixture clustering of replicated microarray gene expression, 
-technical report available upon request.
+Statistical Application in Genetics and Molecular Biology, 9(1), Article 42.
 }
 \seealso{\code{\link[puma]{Clustii.exampleStd}}}
 \keyword{datasets}

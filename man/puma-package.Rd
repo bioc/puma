@@ -6,14 +6,14 @@
 	puma - Propagating Uncertainty in Microarray Analysis
 }
 \description{
-Most analyses of Affymetrix GeneChip data are based on point estimates of expression levels and ignore the uncertainty of such estimates. By propagating uncertainty to downstream analyses we can improve results from microarray analyses. For the first time, the puma package makes a suite of uncertainty propagation methods available to a general audience. puma also offers improvements in terms of scope and speed of execution over previously available uncertainty propagation methods. Included are summarisation, differential expression detection, clustering and PCA methods, together with useful plotting functions.
+Most analyses of Affymetrix GeneChip data (including tranditional 3' arrays and exon arrays) are based on point estimates of expression levels and ignore the uncertainty of such estimates. By propagating uncertainty to downstream analyses we can improve results from microarray analyses. For the first time, the puma package makes a suite of uncertainty propagation methods available to a general audience. In additon to calculte gene expression from Affymetrix 3' arrays, puma also provides methods to process exon arrays and produces gene and isoform expression for alternative splicing study. puma also offers improvements in terms of scope and speed of execution over previously available uncertainty propagation methods. Included are summarisation, differential expression detection, clustering and PCA methods, together with useful plotting functions.
 }
 \details{
 	\tabular{ll}{
 		Package: \tab puma\cr
 		Type: \tab Package\cr
-		Version: \tab 2.0.0\cr
-		Date: \tab 2009-09-26\cr
+		Version: \tab 3.4.3\cr
+		Date: \tab 2013-11-04\cr
 		License: \tab LGPL excluding donlp2\cr
 	}
 	For details of using the package please refer to the Vignette
@@ -38,9 +38,11 @@ Most analyses of Affymetrix GeneChip data are based on point estimates of expres
 
 	Pearson, R. D., Liu, X., Sanguinetti, G., Milo, M., Lawrence, N. D., Rattray, M. (2008)  puma: a Bioconductor package for Propagating Uncertainty in Microarray Analysis, BMC Bioinformatics, 2009, 10:211.
 
-        Zhang,L. and Liu,X. (2009) An improved probabilistic model for finding differential gene expression, technical report available request.	
+          Zhang,L. and Liu,X. (2009) An improved probabilistic model for finding differential gene expression, the 2nd BMEI 17-19 oct. 2009. Tianjin. China.	
 
-        Liu,X. and Rattray,M. (2009) Including probe-level measurement error in robust mixture clustering of replicated microarray gene expression, technical report available upon request.
+          Liu,X. and Rattray,M. (2009) Including probe-level measurement error in robust mixture clustering of replicated microarray gene expression, Statistical Application in Genetics and Molecular Biology, 9(1), Article 42.
+
+          puma 3.0: improved uncertainty propagation methods for gene and transcript expression analysis, Liu et al. BMC Bioinformatics, 2013, 14:39.
 
 
 }

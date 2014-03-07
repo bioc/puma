@@ -28,10 +28,9 @@ just.mgmos(\dots, filenames=character(0),
   \item{filenames}{file names in a character vector.}
   \item{widget}{a logical specifying if widgets should be used.}
   \item{compress}{are the CEL files compressed?}
-  \item{celfile.path}{a character denoting the path \code{\link[affy:read.affybatch]{ReadAffy}} should look for
-          cel files.}
+  \item{celfile.path}{a character denoting the path where cel files locate.}        
   \item{sampleNames}{a character vector of sample names to be used in
-    the \code{\link[affy:AffyBatch-class]{AffyBatch}}.}
+    the \code{\link[oligoClasses:FeatureSet-class]{FeatureSet}}.}
  \item{phenoData}{an
           \code{\link[Biobase:class.AnnotatedDataFrame]{AnnotatedDataFrame}}
           object.} 
@@ -44,7 +43,7 @@ just.mgmos(\dots, filenames=character(0),
 }
 \details{
   This method should require much less RAM than the conventional
-  method of first creating an \code{\link[affy:AffyBatch-class]{AffyBatch}} and then running
+  method of first creating an \code{\link[oligoClasses:FeatureSet-class]{FeatureSet}} and then running
   \code{\link{mgmos}}.
   
   Note that this expression measure is given to you in log base 2 scale. This differs from

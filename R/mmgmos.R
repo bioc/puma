@@ -4,57 +4,58 @@ mmgmos <- function(
 ,	replaceZeroIntensities=TRUE
 ,	gsnorm=c("median", "none", "mean", "meanlog")
 ,	savepar=FALSE
-,	eps=1.0e-6
-,	orig.phis = FALSE
+,	eps=1.0e-6	
 ,	addConstant = 0
 )
 {
 
-	probes <- length(probeNames(object))
-	conds <- length(object)
-	genes <- length(featureNames(object))
+	
+	
+          conds <- length(sampleNames(object));
+	genes <-length(unique(oligo:::probeNames(object)));
+	phis <- c(0,0,0);
 
-	cdf <- cleancdfname(cdfName(object))
-	phiname <- paste(substr(cdf,1,nchar(cdf)-3), "phis", sep="")
-	if(phiname %in% do.call("data", list(package="puma"))$results[, 3])
-	{
-	    do.call("data", list(phiname))
-	    phis <- eval(parse(text=phiname))
-	}
-	else
-	{
-		if(orig.phis)
-		{
-			do.call("data", list("hgu95aphis"))
-			phis <- eval(parse(text="hgu95aphis"))
-		}
-		else
-			phis <- c(0,0,0)
-    }
-  prctiles <- 0.01*c(5, 25, 50, 75, 95);
-  
+          pm_g<-oligo:::pm(object);
+          mm_g<-oligo:::mm(object);
+          probe<-(oligo:::probeNames(object));   
+
+          index<-order(probe);
+          probe_sort<-probe[index];
+          probe<-probe_sort;
+          pm_g<-pm_g[index,];
+          mm_g<-mm_g[index,];
+
+
+  if(conds==1){
+    pm_g<-as.matrix(pm_g);
+    mm_g<-as.matrix(mm_g);
+  }
+        
+           
   if (background == TRUE)
   {
     for (i in c(1:conds)){
-      m<-min(c(min(pm(object)[,i]),min(mm(object)[,i])))
-      pm(object)[,i]<-pm(object)[,i]-m+1
-      mm(object)[,i]<-mm(object)[,i]-m+1
+      m<-min(c(min(pm_g[,i]),min(mm_g[,i])))
+      pm_g[,i]<-pm_g[,i]-m+1
+      mm_g[,i]<-mm_g[,i]-m+1
     }
   }
 
   if (replaceZeroIntensities)
   {
-    pm(object)[which(pm(object)==0)] <- 1
-    mm(object)[which(mm(object)==0)] <- 1
+    pm_g[which(pm_g==0)] <- 1
+    mm_g[which(mm_g==0)] <- 1
   }
+
+  prctiles <- 0.01*c(5, 25, 50, 75, 95);
 
   res <-
   	.Call(
   	  "mmgmos_c"
-  	 , pm(object)
-  	 , mm(object)
+  	 , pm_g
+  	 , mm_g
   	 , genes
-  	 , probeNames(object)
+  	 , probe
   	 , phis
   	 , prctiles
   	 , length(prctiles)
@@ -124,20 +125,20 @@ mmgmos <- function(
       prc95[,i] <- prc95[,i]-chipm[i]
     }
   }
-
-  rownames(expr) <- featureNames(object)
+  probe_names<-unique(probe);
+  rownames(expr) <-probe_names
   colnames(expr) <- sampleNames(object)
-  rownames(se) <- featureNames(object)
+  rownames(se) <-probe_names
   colnames(se) <- sampleNames(object)
-  rownames(prc5) <- featureNames(object)
+  rownames(prc5) <-probe_names
   colnames(prc5) <- sampleNames(object)
-  rownames(prc25) <- featureNames(object)
+  rownames(prc25) <-probe_names
   colnames(prc25) <- sampleNames(object)
-  rownames(prc50) <- featureNames(object)
+  rownames(prc50) <-probe_names
   colnames(prc50) <- sampleNames(object)
-  rownames(prc75) <- featureNames(object)
+  rownames(prc75) <-probe_names
   colnames(prc75) <- sampleNames(object)
-  rownames(prc95) <- featureNames(object)
+  rownames(prc95) <-probe_names
   colnames(prc95) <- sampleNames(object)
 
   phenodata <- phenoData(object)
@@ -166,5 +167,5 @@ mmgmos <- function(
 	annotation(return_exprReslt) <- annotation(object)
 	description(return_exprReslt) <- description(object)
 	notes(return_exprReslt) <- notes(object)
-	return_exprReslt
+	return_exprReslt;
 }

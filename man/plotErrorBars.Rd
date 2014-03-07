@@ -22,7 +22,7 @@ plotErrorBars(
 ,	plot_cols = NA
 ,	plot_rows = NA
 ,	featureNames = NA
-,	showGeneNames = TRUE
+,	showGeneNames = FALSE
 ,	showErrorBars = if(
 					length(assayDataElement(eset,"se.exprs"))==0 ||
 					length(assayDataElement(eset,"se.exprs")) == sum(is.na(assayDataElement(eset,"se.exprs")))

@@ -37,6 +37,7 @@ The maxOfIterations is used to control the maximum number of the iterations in t
 \references{Gelman,A., Carlin,J.B., Stern,H.S., Rubin,D.B., Bayesian data analysis. London: Chapman & Hall; 1995.
 
 Zhang,L. and Liu,X. (2009) An improved probabilistic model for finding differential gene expression, technical report available request.
+the 2nd BMEI 17-19 oct. 2009. Tianjin. China.
 
 Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2006)  Probe-level variances improve accuracy in detecting differential
 gene expression, Bioinformatics, 22(17):2107-13.}
