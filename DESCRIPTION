@@ -15,4 +15,4 @@ License: LGPL
 biocViews: Microarray, OneChannel, Preprocessing, Bioinformatics,
         DifferentialExpression, Clustering
 URL: http://umber.sbs.man.ac.uk/resources/puma
-Packaged: 2014-03-04 01:02:54 UTC; root
+Packaged: 2014-03-04 01:02:54 UTC; biocbuild

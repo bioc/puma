@@ -1006,7 +1006,7 @@ SEXP gme_c(SEXP PMmat, SEXP GTmat, SEXP PNmat, SEXP GNmat, SEXP ANmat, SEXP tota
            Free(PM[i]);
       for(i=0;i<in_param.genes+1; i++)
           Free(GTM[i]);
-           vmaxget();
+          // vmaxget();
       Rprintf("Done.\n");
       UNPROTECT(3);
 	

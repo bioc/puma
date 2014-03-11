@@ -39,7 +39,7 @@
 \SweaveOpts{keep.source=TRUE}
 
 \section{Abstract}
-Most analyses of Affymetrix GeneChip data are based on point estimates of expression levels and ignore the uncertainty of such estimates. By propagating uncertainty to downstream analyses we can improve results from microarray analyses. For the first time, the \puma package makes a suite of uncertainty propagation methods available to a general audience. \puma also offers improvements in terms of scope and speed of execution over previously available uncertainty propagation methods. Included are summarisation, differential expression detection, clustering and PCA methods, together with useful plotting functions.
+Most analyses of Affymetrix GeneChip data (including tranditional 3’ arrays and exon arrays) are based on point estimates of expression levels and ignore the uncertainty of such estimates. By propagating uncertainty to downstream analyses we can improve results from microarray analyses. For the first time, the puma package makes a suite of uncertainty propagation methods available to a general audience. In additon to calculte gene expression from Affymetrix 3’ arrays, puma also provides methods to process exon arrays and produces gene and isoform expression for alternative splicing study. puma also offers improvements in terms of scope and speed of execution over previously available uncertainty propagation methods. Included are summarisation, differential expression detection, clustering and PCA methods, together with useful plotting functions.
 
 \section{Citing \puma}
 The \puma package is based on a large body of methodological research.
@@ -53,6 +53,11 @@ itself as well as the extension of PPLR to the multi-factorial case
   puma: a Bioconductor package for Propagating Uncertainty in
   Microarray Analysis (2007) Pearson et al. BMC Bioinformatics, 2009, 10:211
 
+The functionalities for processing of exon array data to calculate isoform and gene
+expression can be cited as:
+
+  puma 3.0: improved uncertainty propagation methods for gene and transcript ex-
+pression analysis, Liu et al. BMC Bioinformatics, 2013, 14:39.
 
 <<echo=FALSE, eval=TRUE>>=
 options(width = 60)
@@ -101,7 +106,7 @@ In this section we introduce the main functions of the \Rpackage{puma} package b
 
 The recommended way to install \Rpackage{puma} is to use the \Rfunction{biocLite} function available from the bioconductor website. Installing in this way should ensure that all appropriate dependencies are met.
 
-<< eval=FALSE >>==
+<< eval=FALSE >>===
 source("http://www.bioconductor.org/biocLite.R")
 biocLite("puma")
 @
@@ -114,86 +119,171 @@ library(puma)
 @
 
 To get help on any function, use the \Rfunction{help} command. For example, to get help on the \Rfunction{pumaDE} type one of the following (they are equivalent):
-<<eval=FALSE>>=
+<<eval=FALSE>>===
 help(pumaDE)
 ?pumaDE
 @
 
 To see all functions that are available within \Rpackage{puma} type:
-<<eval=FALSE>>=
+<<eval=FALSE>>===
 help(package="puma")
 @
 
 \subsection{Loading in the data}
 
-The next step in a typical analysis is to load in data from Affymetrix CEL files, using the \Rfunction{ReadAffy} function from the \Rpackage{affy} package. \Rpackage{puma} makes extensive use of phenotype data, which maps arrays to the condition or conditions of the biological samples from which the RNA hybridised to the array was extracted. It is recommended that this phenotype information is supplied at the time the CEL files are loaded. If the phenotype information is stored in the \Robject{AffyBatch} object in this way, it will then be made available for all further analyses.
+To import data using the \Rpackage{oligo} package,the user must have data at the probe-level.This means that if Affymetrix data are to be imported,the user is expected to have CEL files.
 
-The easiest way to supply phenotype information is in a text file that is loaded using the \Robject{phenotype} parameter of the \Rfunction{ReadAffy} function (see \Rpackage{affy} documentation or Case Studies within this document for more information). The phenotype text file that comes with the \Rpackage{estrogen} package is unfortunately not in the form required by \Rfunction{ReadAffy}, and so we will add phenotype information to the \Robject{AffyBatch} object directly using the \Rfunction{pData} method.
-
-The data used in this example are also available in the \Rpackage{pumadata} package. As an alternative to loading data from CEL files for this example, simply type \Rfunction{biocLite("pumadata")} (if the \Rpackage{pumadata} package is not already installed), \Rfunction{library(pumadata)} and then \Rfunction{data(affybatch.estrogen)} at the R prompt.
+Once sets of such files are available,the user can two tools,depending on the array manufacturer,to improt the data:\Rfunction{read.celfiles} function for CEL files.To assist the user on obtaining the names of the CEL files,the package providers the \Rfunction{list.celfiles} function,which accept the same argrments as the \Rfunction{list.files} function defined in the \Rpackage{R base} package.The basic usage of the package tools to import CEL files present in the current directory consists in combing the \Rfunction{read.files} functions with their \Rfunction{list.files} function counterparts,as shown below,in a hypothetical example:
 
 <<eval=FALSE>>===
-datadir <- file.path(find.package("estrogen"),"extdata")
-estrogenFilenames <- c("low10-1.cel", "low10-2.cel"
-    , "high10-1.cel", "high10-2.cel", "low48-1.cel"
-    , "low48-2.cel", "high48-1.cel", "high48-2.cel")
-affybatch.estrogen <- ReadAffy(
-    filenames=estrogenFilenames
-,   celfile.path=datadir
-)
-pData(affybatch.estrogen) <- data.frame(
+library(oligo)
+estrogenFilenames<-list.celfiles()
+oligo.estrogen<-read.celfiles(celFiles)
+pData(oligo.estrogen) <- data.frame(
     "estrogen"=c("absent","absent","present","present"
         ,"absent","absent","present","present")
 ,   "time.h"=c("10","10","10","10","48","48","48","48")
-,   row.names=rownames(pData(affybatch.estrogen))
+,   row.names=rownames(pData(oligo.estrogen))
 )
 @
+
+When the user use the \Rfunction{read.celfiles} function to read the CEL files,the \Rpackage{oligo} package will attempt to identif the annotation package required to read the data in.If this annotation package is not available on BioConductor,the user should use the \Rpackage{pdInfoBuilder} package to create to create an appropriate annotation.In case \Rpackage{oligo} fails to identify the annotation package's name correctly,the user can use the pkgname argument available for \Rfunction{read.celfiles}.
+
 <<echo=FALSE, eval=TRUE>>=
 library(pumadata)
-data(affybatch.estrogen)
+data(oligo.estrogen)
 @
 <<>>=
-show(affybatch.estrogen)
+show(oligo.estrogen)
 @
 
-Here we can see that \Robject{affybatch.estrogen} has 8 arrays, each with 12,625 probesets.
+Here we can see some information about oligo.estrogen
 <<>>=
-pData(affybatch.estrogen)
+pData(oligo.estrogen)
 @
 
-We can see from this phenotype data that this experiment has 2 factors (estrogen and time.h), each of which has two levels (absent vs present, and 10 vs 48), hence this is a 2x2 factorial experiment. For each combination of levels we have two replicates, making a total of 2x2x2 = 8 arrays.
+We can see from this phenotype data that this experiment has 2 factors (estrogen and time.h),each of which has two levels (absent vs present, and 10 vs 48), hence this is a 2x2 factorial experiment. For each combination of levels we have two replicates,making a total of 2x2x2 = 8 arrays.
 
-\subsection{Determining expression levels}
+\subsection{Determining expression levels for Affymetrix array}
 
-We will first use multi-mgMOS to create an expression set object from our raw data. This step is similar to using other summarisation methods such as MAS5.0 or RMA, and for comparison purposes we will also create an expression set object from our raw data using RMA. Note that the following lines of code are likely to take a significant amount of time to run, so if you in hurry and you have the \Rpackage{pumadata} library loaded simply type \Rfunction{data(eset\_estrogen\_mmgmos)} and \Rfunction{data(eset\_estrogen\_rma)} at the command prompt.
+We will first use multi-mgMOS to create an expression set object from our raw data. This step is similar to using other summarisation methods such as MAS5.0 or RMA, and for comparison purposes we will also create an expression set object from our raw data using RMA. Note that the following lines of code are likely to take a significant amount of time to run, so if you in hurry and you have the \Rpackage{pumadata} library loaded simply type \Rfunction{data(eset\_oligo\_mmgmos)} and \Rfunction{data(eset\_oligo\_rma)} at the command prompt.
 
 <<eval=FALSE>>===
-eset_estrogen_mmgmos <- mmgmos(affybatch.estrogen, gsnorm="none")
-eset_estrogen_rma <- rma(affybatch.estrogen)
-@
-<<echo=FALSE, eval=TRUE>>=
-data(eset_estrogen_mmgmos)
-data(eset_estrogen_rma)
+eset_oligo_mmgmos <- mmgmos(oligo.estrogen, gsnorm="none")
+eset_oligo_rma <- rma(oligo.estrogen)
 @
 
 Note that we have \Rfunction{gsnorm="none"} in running mmgmos. The \Rfunction{gsnorm} option enables different global scaling (between array) normalizations to be applied to the data. We have chosen to use no global scaling normalization here so that we can highlight the need for such normalization (which we do below). The default option with \Rfunction{mmgmos} is to provide a median global scaling normalization, and this is generally recommended.
 
 Unlike many other methods, multi-mgMOS provides information about the expected uncertainty in the expression level, as well as a point estimate of the expression level.
 
-<<>>=
-exprs(eset_estrogen_mmgmos)[1,]
-assayDataElement(eset_estrogen_mmgmos,"se.exprs")[1,]
+<<echo=FALSE,eval=TRUE>>=
+data(eset_oligo_mmgmos)
 @
 
-Here we can see the expression levels, and standard errors of those expression levels, for the first probe set of the \Robject{affybatch.estrogen} data set.
+<<>>=
+exprs(eset_oligo_mmgmos)[1,]
+assayDataElement(eset_oligo_mmgmos,"se.exprs")[1,]
+@
+
+Here we can see the expression levels, and standard errors of those expression levels, for the first probe set of the \Robject{oligo.estrogen} data set.
 
 If we want to write out the expression levels and standard errors, to be used elsewhere, this can be done using the \Rfunction{write.reslts} function.
 
 <<eval=FALSE>>===
-write.reslts(eset_estrogen_mmgmos, file="eset_estrogen")
+write.reslts(eset_oligo_mmgmos, file="eset_oligo_mmgmos.rda")
 @
 
 This code will create seven different comma-separated value (csv) files in the working directory. \Robject{eset\_estrogen\_exprs.csv} will contain expression levels. \Robject{eset\_estrogen\_se.csv} will contain standard errors. The other files contain different percentiles of the posterior distribution, which will only be of interest to expert users. For more details type \Rfunction{?write.reslts} at the R prompt.
+
+We also provide a method, PMmmgmos, to calculate gene expression level use PM intensities only. PMmmgmos also return an expression set object.
+
+<<eval=FALSE>>===
+eset_estrogen_pmmmgmos <- PMmmgmos(oligo.estrogen,gsnorm="none")
+@
+
+The extraction of expression mean and standard deviation is the same as above.
+
+\subsection{Determining expression levels for Affymetrix exon arrays}
+
+\subsubsection{\Rfunction{gmoExon} function}
+
+We use \Rfunction{gmoExon} function to calculate gene and transcript expression levels. First you have to install \Rpackage{oligo} packages for read exon arrays. Second,gmoExon needs to use the relationships between genes, transcripts and probes which we put into \Rpackage{pumadata} R package. You need to download the latest pumadata package, and type \Rfunction{biocLite("pumadata")}, R\function{library(pumadata)} at the R prompt to have it installed. 
+
+The following scripts use example to show the use of \Rfunction{gmoExon} function.
+
+<<eval=FALSE>>===
+setwd(cel.path)   ## go to the directory where you put the CEL files.
+exonFilenames<-c("C0006.CEL","C021.CEL"
+                ,"F023_NEG.CEL","F043_NEG.CEL") ## or you can use  exonFilenames<-list.celfiles()
+oligo.exon<-read.celfiles(exonFilenames)
+@
+
+And now we can can use the \Rfunction{gmoExon} function to calculate the gene and transcript expression levels.
+
+<<eval=FALSE>>===
+eset_gene_gmeExon<-gmoExon(oligo.exon,exontype="Human"
+                          ,GT="gene",gsnorm="none")
+eset_transcript_gmeExon<-gmoExon(oligo.exon,exontype="Human"
+                          ,GT="transcript",gsnorm="none")
+@
+
+Note that we have exontype="Human", GT="gene" and gsnorm="none" in running \Rfunction{gmoExon}. The exontype option enables gmoExon to be applied to Human,Mouse and Rat exon arrays. The GT option enables gmoExon to calculate gene and transcript expression levels. The gsnorm option enables different global scaling (between array) normalizations to be applied to the data. We have chosen to use no global scaling normalization here so that we can highlight the need for such normalization (which we do below). The default option with gmoExon is to provide a median global scaling normalization, and this is generally recommended.
+
+<<echo=FALSE,eval=TRUE>>=
+data(eset_gene_gmeExon)
+data(eset_transcript_gmeExon)
+@
+
+<<>>=
+exprs(eset_gene_gmeExon)[1,]
+assayDataElement(eset_gene_gmeExon,"se.exprs")[1,]
+exprs(eset_transcript_gmeExon)[1,]
+assayDataElement(eset_transcript_gmeExon,"se.exprs")[1,]
+@
+
+Here we can see the gene and transcript expression levels, and standard errors of those expression levels, for the first mapped gene and transcripts of the oligo.exon data set
+
+If we want to write out the expression levels and standard errors, to be used elsewhere,this can be done using the write.reslts function.
+
+<<eval=FALSE>>===
+write.reslts(eset_gene_gmeExon, file="eset_gene_gmoExon.rda")
+@
+
+This code will create seven different comma-separated value (csv) files in the working directory. eset_gene_exprs.csv will contain gene expression levels. eset_gene_se.csv will contain gene standard errors. The other files contain different percentiles of the posterior distribution, which will only be of interest to expert users. For more details type ?write.reslts at the R prompt.
+
+\subsubsection{\Rfunction{igmoExon} function}
+   
+Besides the gmoExon,we also can  use igmoExon to calculate gene and transcript expression levels,which it is effective than \Rfunction{gmoExon} function.The function requires following inputs:
+
+\begin{description}
+\item[cel.path]The directory where you put the CEL files.
+\item[SampleNameTable] It is a tab-separated   tablewith two columns,ordered by "Celnames","Condition".For our testing dataset,we can formulate the SampleNameTable like below:
+                        Celnames	Condition
+                        C006.CEL  	    1
+                        C021.CEL            1	    
+                        F023_POS.CEL  	    2
+                        F043_NEG.CEL	    2
+\item[exontype] A string with value be one of “Human”, “Mouse”, “Rat”, specifying the chip type of the data.
+\item[GT]  A string with value be one of “gene”, “transcript”,specifying gene or transcript expression to be calculated.
+\item[gnsorm] The way you want to normalized,and the value is one of "median", "none", "mean", "meanlog". 
+\item[condition] Yes or No. Choose Yes means  the \Rfunction{igmoExon} function separately calculate the gene expression values by the conditions and than combined the every condition's result,and normalized finally.Choose No means the \Rfunction{igmoExon} calulate the gene expression values as same as the \Rfunction{gmoExon} function.
+end{description}
+
+Here are the two example as follows:
+
+<<eval=FALSE>>===
+cel.path<-"cel.path"  ## for example  cel.path<-"/home/gao/celData"  
+SampleNameTable<-"SampleNameTable" 
+eset_exon_gene<-igmoExon(cel.path="cel.path",SampleNameTable="SampleNameTable"
+                       , exontype="Human", GT="gene"
+                       , gsnorm="none", condition="Yes")
+eset_exon_transcript<-gmoExon(cel.path="cel.path",SampleNameTable="SampleNameTable"
+                       ,exontype="Human", GT="trasncript"
+                       , gsnorm="none", condition="Yes")
+@
+
+And now we can use the same methods to get the gene and transcript levels by exprs and se.exprs.
 
 \subsection{Determining gross differences between arrays}
 
@@ -207,6 +297,8 @@ pumapca_estrogen <- pumaPCA(eset_estrogen_mmgmos)
 @
 <<echo=FALSE, eval=TRUE>>=
 data(pumapca_estrogen)
+data(eset_estrogen_rma)
+data(eset_estrogen_mmgmos)
 @
 
 For comparison purposes, we will run standard PCA on the expression set created using RMA.
@@ -473,28 +565,24 @@ The result of this is a list with different components such as the cluster each 
 
 \subsection{Analysis using remapped CDFs}
 
-There is increasing awareness that the original probe-to-probeset mappings provided by Affymetrix are unreliable for various reasons. Various groups have developed alternative probe-to-probeset mappings, or ``remapped CDFs'', and many of these are available either as Bioconductor annotation packages, or as easily downloadable cdf packages.
+There is increasing awareness that the original probe-to-probeset mappings provided by Affymetrix are unreliable for various reasons. Various groups have developed alternative probe-to-probeset mappings, or “remapped CDFs”, and many of these are available either as Bioconductor annotation packages, or as easily downloadable cdf packages.
 
-In this particular example, we will use a remapped CDF package created using AffyProbeMiner (http://discover.nci.nih.gov/affyprobeminer/). To run the example you will first need to download and install the CDF package for the HG\_U95Av2 array. This can be done as follows:
+Importing the CEL files is achieved with the \Rfunction{read.celfiles} function. The function will, in general, correctly identify the annotation package to be used with the experimental data being imported, but the user can specify the pkgname argument to force the use of a particular one, if for some reason this is required. If the annotation package is not available from BioConductor, user can use the pdInfoBuilder package to build one.
 
-1. Download the following file: http://gauss.dbb.georgetown.edu/liblab/affyprobeminer/dist/
-Homosapiens/hgu95av2transcriptccdscdf\_1.8.0.tar.gz
-2. Install from the command line using: R CMD INSTALL hgu95av2transcriptccdscdf\_1.8.0.tar.gz
+If you have the ( pd.hg.u95a) and pd.hg.u95b annotation packages, you can do it as follows:
 
-One of the issues with using remapped CDFs is that many probesets in the remapped data have very few probes. This makes reliable estimation of the expression level of such probesets even more problematic than with the original mappings. Because of this, we believe that even greater attention should be given to the uncertainty in expression level measurements when using remapped CDFs than when using the original mappings. In this section we show how to apply the uncertainty propogation methods of \Rpackage{puma} to the re-analysis the \Rpackage{estrogen} data using a remapped CDF. Note that most of the commands in this section are the same as the commands in the previous section, showing how straight-forward it is to do such analysis in \Rpackage{puma}.
-
-Alternative CDFs can be specified when loading in CEL file data by using the \Rfunction{cdfname} argument to \Rfunction{ReadAffy}. Alternatively, the CDF of an existing \Robject{AffyBatch} object can be altered by modifying the \Robject{cdfName} slot, as in the following example:
-
-<<>>=
-affybatch.estrogen.remapped <- affybatch.estrogen
-affybatch.estrogen.remapped@cdfName<-"hgu95av2transcriptccds"
+<<eval=FALSE>>=
+oligo.estrogen<-read.celfiles(celFiles,pkgname="pd.hg.u95a")
+oligo.estrogen.remapped<-read.celfiles(celFiles,pkgname="pd.hg.u95b")
 @
+
+One of the issues with using remapped CDFs is that many probesets in the remapped data have very few probes. This makes reliable estimation of the expression level of such probesets even more problematic than with the original mappings. Because of this, we believe that even greater attention should be given to the uncertainty in expression level measurements when using remapped CDFs than when using the original mappings. In this section we show how to apply the uncertainty propogation methods of puma to the re-analysis the estrogen data using a remapped CDF. Note that most of the commands in this section are the same as the commands in the previous section, showing how straight-forward it is to do such analysis in puma.
 
 To see the effect of the remapping, the following commands give the numbers of probes per probeset using the original, and the remapped CDFs:
 
 <<>>=
-summary(as.factor(sapply(pmindex(affybatch.estrogen),length)))
-summary(as.factor(sapply(pmindex(affybatch.estrogen.remapped),length)))
+table(table(probeNames(oligo.estrogen)))
+table(table(probeNames(oligo.estrogen.remapped)))
 @
 
 Note that, while for the original mapping the vast majority of probesets have 16 probes, for the remapped CDF many probesets have less than 16 probes. With this particular CDF, probesets with less than 5 probes have been excluded, but this is not the same for all remapped CDFs.
@@ -505,8 +593,8 @@ Analysis can then proceed essentially as before. In the following we will compar
 \begin{figure}[H]
 \begin{center}
 <<fig=TRUE, width=10, height=5>>=
-eset_estrogen_mmgmos.remapped <- mmgmos(affybatch.estrogen.remapped)
-eset_estrogen_rma.remapped <- rma(affybatch.estrogen.remapped)
+eset_estrogen_mmgmos.remapped <- mmgmos(oligo.estrogen.remapped)
+eset_estrogen_rma.remapped <- rma(oligo.estrogen.remapped)
 
 pumapca_estrogen.remapped <- pumaPCA(eset_estrogen_mmgmos.remapped)
 pca_estrogen <- prcomp(t(exprs(eset_estrogen_rma.remapped)))
@@ -577,536 +665,6 @@ plotErrorBars(eset_estrogen_mmgmos.remapped, toppumaDEIntGene.remapped)
 
 Figures \ref{topgene_rmalimma_remapped}, \ref{topgene_mmgmoslimma_remapped} and \ref{topgene_mmgmospumade_remapped} show essentially the same picture as Figures \ref{topgene_rmalimma}, \ref{topgene_mmgmoslimma} and \ref{topgene_mmgmospumade}, namely that the gene identified by mmgmos/pumaDE would appear to be a better candidate for a DE gene, than the gene identified by RMA/limma.
 
-% \newpage
-% \section{Comparison of methods using the Golden spike-in data set}
-% \label{section:Golden spike-in}
-%
-% The ``Golden spike-in'' data set of Choe et al has been used to validate many different methods for summarising Affymetrix data sets. Choe et al originally used this data set to show that a modified form of MAS5.0 outperforms RMA, GCRMA and dChip. Liu et al used the data set to show that mmgmos can outperform the modified MAS5.0 method of Choe. Hochreiter et al used the data set to show that FARMS outperforms RMA, MAS5.0 and MBEI (and that RMA outperforms MAS5.0 and MBEI). Hein and Richardson 2006 used the data set to show BGX outperforms MAS5.0 and RMA. Chen used the data to show that DFW outperforms RMA, MAS5.0 MBEI, PLIER, FARMS and Choe's modified version of MAS5.0, and had similar performance to GCRMA. All of these papers used some form of Reciever-Operator Characteristic (ROC) curve in their analyses. The confusing, and seemingly contradictory results, make it difficult for typical Affymetrix users to decide between methods.
-%
-% The reason for the differing results arise from the different choices made at various stages of the analysis pipeline. We broadly summarise these as the following six choices, each of which can have a significant influence over results:
-% \begin{enumerate}
-% \item Summary statistic used (e.g. RMA, GCRMA, MAS5.0, etc.). Note that Choe et al broke this particular choice down to four separate sub-choices of methods for background correction, normalization, PM adjustment, and expression summary.
-% \item Post-summarisation normalisation method. Choe et al compared no further normalisation against the use of a loess normalization based on the known invariant probesets.
-% \item Differential expression (DE) method. Choe et al compared T-test, Cyber-T and SAM.
-% \item Direction of differential expression. Choe et al used only a 1-sided test for up-regulation.
-% \item Choice of known positives. Choe et al used all spike-in probesets with fold-change (FC) greater than 1.
-% \item Choice of known negatives. Choe et al used all invariant probesets. This included both probesets that were spiked in at equal quantities, as well as the so-called ``empty'' probesets.
-% \end{enumerate}
-%
-% Table \ref{Golden spike-in analysis choices} shows the choices we believe were made in various studies of the data set.
-%
-% \begin{table}
-% \begin{tabular}{|p{1.5cm}||p{3cm}|p{2.5cm}|p{2cm}|p{1cm}|p{1.5cm}|p{1.5cm}|}
-% \hline
-% &summ&norm&DE&dir&pos&neg\\
-% \hline
-% \hline Choe et al 2005 & CP, MAS5.0, RMA, GCRMA, MBEI plus many variants of these & none, loess\_invariant & Ttest, CyberT, SAM & up & FC>1 & invariant \\
-% \hline Liu et al 2006 & CP, mmgMos & loess\_invariant & CyberT, PPLR & up & FC>1 & invariant \\
-% \hline Hochreiter et al 2006 & MAS5.0, RMA, MBEI q-FARMS and l-FARMS & none? & SAM? & up? & FC>1? & invariant? \\
-% \hline Hein and Richardson 2006 & MAS5.0, RMA and BGX & & & & & \\
-% \hline Chen et al 2007 & CP, MAS5.0, RMA, GCRMA, MBEI, PLIER, q-FARMS? and DFW & none & FC & either & FC>1 and FC=x(for all x) & invariant \\
-% \hline
-% \end{tabular}
-% \caption{Analysis choices of various studies of ``Golden Spike-in'' data sets
-% \label{Golden spike-in analysis choices}}
-% \end{table}
-%
-% In addition to the studies identified in Table \ref{Golden spike-in analysis choices}, Lemieux 2006 and Hess and Iyer 2007 report results of ``probe-level'' methods for detecting differential expression. We do not consider these approaches here (but maybe we should?). Also need to point out that Lemieux is really not applicable to real data sets.
-%
-% The real strength of the Choe data set is its use in validating differential expression methods. The large number of DE probesets (1,331) in the data set make this in many ways preferable to the Affymetrix spike-in data sets, which have very few probesets that are differentially expressed. There have been criticisms of the data sets from Dabney and Storey 2006, Irizarry et al 2006 and Gaile and Miecznikowski 2007. The main criticisms of Dabnet and Storey and Gaile and Miecznikowski center around non-uniform p-value distributions and the fact that this invalidates false discovery rate (FDR) methods. However, the tool that has been used most extensively for comparing methods on this data set is the ROC chart. This only takes into account the rank order of DE probesets, and hence is not affected by concerns about FDRs.
-%
-
-
-% Commented out as affybatch.example doesn't seem to be fixed yet in Affy package. Also not a great case study
-%
-% \section{Quick Start 2}
-% \label{section:Quick Start 2}
-% In this section we briefly introduce the main functions of the \Rpackage{puma} package by applying them to the small \Robject{affybatch.example} sample data set from the \Rpackage{affy} package.
-%
-%
-% \subsection{Installing the \Rpackage{puma} package}
-%
-% The recommended way to install \Rpackage{puma} is to use the \Rfunction{biocLite} function available from the bioconductor website. Installing in this way should ensure that all appropriate dependencies are met.
-%
-% <<eval=FALSE>>===
-% source("http://www.bioconductor.org/biocLite.R")
-% biocLite("puma")
-% @
-%
-% \subsection{Loading in the data}
-%
-% The first step in any \Rpackage{puma} analysis is to load the package. Start \Rpackage{R}, and then type the following command:
-% <<>>=
-% library(puma)
-% @
-%
-% The nest step in a typical analysis would be to load in data from Affymetrix CEL files, using the \Rfunction{ReadAffy} function from the \Rpackage{affy} package. For the sake of this example, we will instead use the \Robject{affybatch.example} sample data set.
-% <<>>=
-% data(affybatch.example)
-% show(affybatch.example)
-% @
-%
-% Here we can see that \Robject{affybatch.example} has just 3 arrays, each with 150 probesets.
-% <<>>=
-% pData(affybatch.example)
-% @
-%
-% We can see that the phenotype data for the arrays is not particularly informative, when in fact the first two arrays are of class ``twenty'', while the third array is of class ``ten''. Also, the first and third arrays are from batch ``A'', while the second is from batch ``B''. The \Rpackage{puma} package is able to make extensive use of phenotype data if it is made available. In a typical analysis, this phenotype data can be supplied in a text file, and loaded in at the same time as the CEL file information is loaded (using \Rfunction{ReadAffy}). For this example, we will update the \Robject{phenoData} slot of \Robject{affybatch.example} as follows:
-%
-% <<>>=
-% pData(affybatch.example) <- data.frame(
-% 	"level" = c("twenty", "twenty", "ten")
-% ,	"batch" = c("A", "B", "A")
-% ,	row.names = rownames(pData(affybatch.example))
-% )
-% pData(affybatch.example)
-% @
-%
-% \subsection{Determining expression levels}
-%
-% We will first use multi-mgMOS to create an expression set object from our raw data. This step is similar to using other summarisation methods such as MAS5.0 or RMA. Unlike many other methods, multi-mgMOS provides information about the expected uncertainty in the expression level, as well as a point estimate of the expression level.
-%
-% <<>>=
-% eset_mmgmos <- mmgmos(affybatch.example)
-% exprs(eset_mmgmos)[99:101,]
-% se.exprs(eset_mmgmos)[99:101,]
-% @
-%
-% Here we can see the expression levels, and standard errors of those expression levels, for three probe sets of the \Robject{affybatch.example} data set.
-%
-% \subsection{Determining gross differences between arrays}
-%
-% A useful first step in any microarray analysis is to look for gross differences between arrays. This can give an early indication of whether arrays are grouping according to the different factors being tested. This can also help to identify outlying arrays, which might indicate problems, and might lead an analyst to remove some arrays from further analysis.
-%
-% Principal components analysis (PCA) is often used for determining such gross differences. \Rpackage{puma} has a variant of PCA called Noise-Propagation in Principal Components Analysis (NPPCA) which can make use of the uncertainty in the expression levels determined by multi-mgMOS.
-%
-% It is often a good idea to center data before using PCA or NPPCA. Here we will center the data by both the median across arrays, as well as the median across each probe set.
-%
-% <<>>=
-% # eset_mmgmos_centered <- centerEset(eset_mmgmos, chipCentering="median", probesetCentering="median")
-% nppca_example <- nppca(eset_mmgmos)
-% @
-%
-% \begin{figure}[H]
-% \begin{center}
-% <<fig=TRUE>>=
-% plot(nppca_example)
-% @
-% \end{center}
-% \caption{First two components after applying \Rfunction{nppca} to the \Robject{affybatch.example} data set.
-% 	\label{nppca affybatch.example}
-% }
-% \end{figure}
-%
-% It can be seen from Figure \ref{nppca affybatch.example} that the first component appears to be separating the arrays by batch, whereas the second component appears to be separating the arrays by level.
-%
-% \subsection{Determining differentially expressed genes}
-%
-% Many differential detection algorithms are only applicable to data sets for which replicates are available. The Probability of Log Ratio for Arbitrary Contrasts technique can be applied whether there are replicates or not. In general, it is not recommended to perform experiments without biological replication. However in some cases, such as in the \Robject{affybatch.example} data set, some or all conditions do not have replicate data available.
-%
-% Within \Rpackage{puma} we use the \Rfunction{combineReplicates} function to combine information from different replicates. This gives us the mean and standard error of expression level for each condition.
-%
-% <<>>=
-% eset_comb <- combineReplicates(eset_mmgmos)
-% exprs(eset_comb)[99:101,]
-% se.exprs(eset_comb)[99:101,]
-% @
-%
-% To determine probabilities of each gene being differentially expressed, we use the \Rfunction{plrac} function.
-%
-% <<>>=
-% plracRes <- plrac(eset_comb)
-% @
-%
-% This returns a list with two elements. The first element contains a ranked ordering of the probabilities of having a log ratio > 0.
-%
-% <<>>=
-% plracRes$p[1:5]
-% @
-%
-% Here we can see that the first four probe sets have probabilities close to 0, indicating they are likely to be down-regulated between the two conditions. The fifth probe set has a probability close to 1, indicating it is likely to be up-regulated.
-%
-% The second element of the list returned by \Rfunction{plrac} shows the where each probe set appeared in the original list (i.e. in \Robject{affybatch.example}). We can use this to find the Affy IDs of the 5 probe sets deemed most likely to be differentially expressed
-%
-% <<>>=
-% geneNames(affybatch.example)[plracRes$genes[1:5]]
-% @
-%
-% We will now compare results with that of a more traditional analysis. Here we will use RMA to determine expression levels, and the \Rpackage{limma} package to determine differential expression
-%
-% <<>>=
-% eset_rma <- rma(affybatch.example)
-% limmaRes <- calculateLimma(eset_rma)
-% @
-%
-% We will use the function \Rfunction{compareLimmaPlrac} to compare the results obtained
-%
-% \begin{figure}[H]
-% \begin{center}
-% <<fig=TRUE>>=
-% compareLimmaPlrac(eset_mmgmos, plracRes = plracRes, limmaRes = limmaRes)
-% @
-% \end{center}
-% \caption{Comparison of the genes deemed to be most likely to be differentially expressed by \Rpackage{puma} and \Rpackage{limma}. The top row show the three probe sets with the highest PPLR value as determined by \Rfunction{plrac}. The bottom row shows the three probe sets with the smallest p values as determined by \Rpackage{limma}. Each chart shows the mean and 5 - 95\% credibility intervals for each array as determined by multi-mgMOS.
-% 	\label{compareLimmaPlrac affybatch.example}
-% }
-% \end{figure}
-%
-% It can be seen from Figure \ref{compareLimmaPlrac affybatch.example} that none of the candidate genes are convincingly differentially expressed. However, note how the genes selected by \Rpackage{puma} tend to have smaller error bars than those selected by \Rpackage{limma}, indicating the the differences in mean expression level for these genes are more likely to be due to real biological difference as opposed to experimental uncertainty.
-%
-% \subsection{Clustering genes}
-%
-% Since the earliest days of microarrays, analysts have been interested in clustering genes, in order to find groups of genes which are related in terms of their expression profiles across conditions. There are a large number of clustering methods available for doing this.
-%
-% The \Rpackage{puma} package has a technique called PUMA-CLUST which can make use of the uncertainty in the expression levels determined by multi-mgMOS. For demonstration, we will use PUMA-CLUST to cluster our data into just two classes.
-%
-% <<>>=
-% exampleClusters <- pumaclust(exprs(eset_mmgmos),se.exprs(eset_mmgmos),cluster=2)
-% @
-%
-% \begin{figure}[H]
-% \begin{center}
-% <<fig=TRUE>>=
-% plot(
-% 	x=exprs(eset_mmgmos)[,1]
-% ,	y=exprs(eset_mmgmos)[,2]
-% ,	pch=exampleClusters$cluster
-% ,	col=exampleClusters$cluster
-% ,	xlim=c(-10,10)
-% ,	ylim=c(-10,10)
-% )
-% @
-% \end{center}
-% \caption{Scatter plot showing mean expression levels of genes for the first two arrays of the \Robject{affybatch.example} data set. Plot characters show which of two clusters each gene is classified in by PUMA-CLUST.
-% 	\label{pumaclust affybatch.example}
-% }
-% \end{figure}
-%
-% From Figure \ref{pumaclust affybatch.example} we can clearly see the separation between the two clusters. The separation line appears to run approximately along the diagonal. In effect we have a cluster of genes which have higher expression on array 1 than array 2 (the red circles), and a second cluster of genes which have higher expression on array 2 (the blue triangles).
-%
-
-% \newpage
-% \section{Case Studies}
-% \label{section:Case Studies}
-% \subsection{Golden spike-in}
-%
-% This case study uses the ``Golden spike-in'' data set described in \cite{Choe:2005}. Our main aim here is to recreate the results from \cite{pplr}, so it is recommended that the reader has that paper available. Note that there are slight differences between the results here and those in \cite{pplr} due to improvements in the underlying algorithms.
-%
-% Before running this case study you will need to do the following:
-% \begin{enumerate}
-% \item Install the \Rpackage{goldenspike} R package using the instructions from http://www.elwood9.net/spike/goldenspike-unix.html (note this should also install under Windows and mac os x if you are able to install packages from source).
-% \item Download the goldenspike data and scripts from http://www.elwood9.net/spike/goldenspike-scripts.tar.gz. Unzip the downloaded file, which should create a directory named \verb+goldenspike-scripts+.
-% \item Create a text file called phenoData.txt (which maps arrays to conditions) and put this in the top level of the \verb+goldenspike-scripts+ directory you created in the previous step. This file should be as follows:
-%
-% \verb+	type+
-%
-% \verb+b1.CEL	C+
-%
-% \verb+b2.CEL	C+
-%
-% \verb+b3.CEL	C+
-%
-% \verb+s1.CEL	S+
-%
-% \verb+s2.CEL	S+
-%
-% \verb+s3.CEL	S+
-% \end{enumerate}
-%
-% Once the above three steps are complete you can start the case study by starting R. First you will need to load the appropriate libraries:
-%
-% <<>>=
-% library(puma)
-% library(goldenspike)
-% @
-%
-% then create a variable \verb+goldenspike_dir+ with the name of the path of the \verb+goldenspike-scripts+ directory created in step 2 above.
-%
-% <<>>=
-% goldenspike_dir <- "/local/data/vignette_choe/goldenspike-scripts"
-% @
-%
-% Next read in the CEL file data using \Rfunction{ReadAffy}.
-% <<eval=FALSE>>===
-% affybatch.choe <- ReadAffy(
-% 	celfile.path=paste(goldenspike_dir,"data.affybatch",sep="/")
-%   ,	phenoData=paste(goldenspike_dir,"phenoData.txt", sep="/")
-%   )
-% @
-% <<echo=FALSE, eval=TRUE>>=
-% load(paste(goldenspike_dir,"affybatch.choe.rda",sep="/"))
-% @
-%
-% We also need to read in data identifying which Affymetrix probesets are the spike-in probesets.
-%
-% <<>>=
-% load(paste(goldenspike_dir,"/data.mapping/mapping.unique",sep=""))
-% spikeInElements <- mapping.unique > 1
-% nonSpikeInElements <- mapping.unique <= 1
-% index <- which(abs(mapping.unique)==1)
-% stable.probes <- names(mapping.unique)[mapping.unique == 1]
-% @
-%
-% There are two normalization function scripts within the goldenspike-scripts which we will need to make use of, so we need to source the code here
-%
-% <<>>=
-% source(
-% 	paste(
-% 		goldenspike_dir
-% 	,	"scripts.make.exprs"
-% 	,	"normalize.constantsubset.R"
-% 	,	sep="/"
-% 	)
-% )
-% source(
-% 	paste(
-% 		goldenspike_dir
-% 	,	"scripts.make.exprs"
-% 	,	"normalize.loesssubset.R"
-% 	,	sep="/"
-% 	)
-% )
-% normalize.AffyBatch.methods <- c(normalize.AffyBatch.methods
-% 	,	"constantsubset"
-% 	,	"loesssubset"
-% )
-% @
-%
-% We are now in a position to calculate expression sets from the raw Affymetrix data. We will do this first using the multi-mgMOS algorithm, which can provide both point estimates and standard errors of the expression levels. Note that this step can be fairly time consuming. We will also perform a probeset level normalisation as was done in the original paper \cite{Choe:2005}
-%
-% <<eval=FALSE>>===
-% eset_mmgmos <- mmgmos(affybatch.choe, background=FALSE, gsnorm="none")
-% exprs(eset_mmgmos) <- loess.normalize(exprs(eset_mmgmos),subset=index,log.it=FALSE,span=1/5)
-% @
-% <<echo=FALSE, eval=TRUE>>=
-% load(paste(goldenspike_dir,"/eset_mmgmos.rda",sep=""))
-% @
-%
-% We can now calculate Probability of Positive Log Ratio (PPLR) measures between two different arrays. We will do this for the first control array (1) and the first sample array (4). The \Rfunction{plrac} function calculates the Probability of Log Ratio for Arbitrary Contrasts from an expression set, which for comparing two individual arrays with the default options is equivalent to PPLR. This outputs the PPLR values as an ordered list, but in order to plot the values as seaparate histograms for the spike-in and non-spike-in elements, we need the PPLR values to be in the same order as the original data. We use the \Rfunction{plracUnsorted} function for this purpose. The \Rfunction{plotHistTwoClasses} allows us to recreate Figure 1a from the PPLR paper \cite{pplr}.
-%
-% <<>>=
-% pplrCvsS <- plrac(eset_mmgmos[,c(1,4)])
-% pplrCvsSUnsorted <- plracUnsorted(pplrCvsS)
-% @
-% \begin{figure}[H]
-% \begin{center}
-% <<fig=TRUE>>=
-% plotHistTwoClasses(
-% 	pplrCvsSUnsorted
-% ,	spikeInElements
-% ,	nonSpikeInElements
-% ,	main="Liu et al 2006, Fig 1a"
-% )
-% @
-% \end{center}
-% \caption{Histogram showing probability of positive log-ratio (PPLR) between C1 and S1}
-% \end{figure}
-%
-% Figure 2a from \cite{pplr} can be recreated using the \Rfunction{plotWhiskers} function. Here the second argument to the function specifies the arrays to be used, and the third argument specifies that we are going to rank the probesets by log ratio.
-%
-% \begin{figure}[H]
-% \begin{center}
-% <<fig=TRUE>>=
-% plotWhiskers(
-% 	eset_mmgmos
-% ,	c(1,4)
-% ,	sortMethod="logRatio"
-% ,	numGenes=50
-% ,	xlim=(c(-20,20))
-% ,	main="Liu et al 2006, Fig 2a"
-% ,	highlightedGenes=which(spikeInElements==TRUE)
-% )
-% @
-% \end{center}
-% \caption{5 - 95\% credibility intervals of positive log-ratio between S1 and C1. The figure shows the top 50 most significantly differentially expressed genes ranking by log-ratio between S1 and C1. Stars represent the mean of log-ratio. Spike-in genes are indicated by a square box.}
-% \end{figure}
-%
-% \begin{figure}[H]
-% \begin{center}
-% <<fig=TRUE>>=
-% eset_se_squared <- eset_mmgmos
-% se.exprs(eset_se_squared) <- se.exprs(eset_mmgmos)^2
-% plotWhiskers(
-% 	eset_se_squared
-% ,	c(1,4)
-% ,	sortMethod="logRatio"
-% ,	numGenes=50
-% ,	xlim=(c(-20,20))
-% ,	main="Liu et al 2006, Fig 2a"
-% ,	highlightedGenes=which(spikeInElements==TRUE)
-% )
-% @
-% \end{center}
-% \caption{5 - 95\% credibility intervals of positive log-ratio between S1 and C1. The figure shows the top 50 most significantly differentially expressed genes ranking by log-ratio between S1 and C1. Stars represent the mean of log-ratio. Spike-in genes are indicated by a square box.}
-% \end{figure}
-%
-% At this point we have an expression level for each probeset of each array. However, we would like to combine the information from the replicates, which will then give us an expression level (and associated standard errors) for each probeset under each condition. Once have done this we can calculate PPLR for the combined measures. Again we need the PPLR values in the same order as the original data, before we can plot the histograms.
-%
-% <<eval=FALSE>>===
-% eset_comb <- combineReplicates(eset_mmgmos)
-% @
-% <<echo=FALSE, eval=TRUE>>=
-% load(paste(goldenspike_dir,"/eset_comb.rda",sep=""))
-% @
-% <<>>=
-% pplrReplicates <- plrac(eset_comb)
-% pplrReplicatesUnsorted <- plracUnsorted(pplrReplicates)
-% @
-% \begin{figure}[H]
-% \begin{center}
-% <<fig=TRUE>>=
-% plotHistTwoClasses(
-% 	pplrReplicatesUnsorted
-% ,	spikeInElements
-% ,	nonSpikeInElements
-% ,	main="Liu et al 2006, Fig 1b"
-% )
-% @
-% \end{center}
-% \caption{Histogram showing probability of positive log-ratio (PPLR) between replicated condition C and S}
-% \end{figure}
-%
-% We can also now recreate Figure 2b from \cite{pplr} by using the \Rfunction{plotWhiskers} function, but this time sorting the probesets by PPLR.
-%
-% \begin{figure}[H]
-% \begin{center}
-% <<fig=TRUE>>=
-% plotWhiskers(
-% 	eset_mmgmos
-% ,	c(1,4)
-% ,	sortMethod="PPLR"
-% ,	numGenes=50
-% ,	xlim=(c(-3,3))
-% ,	main="Liu et al 2006, Fig 2b"
-% ,	highlightedGenes=which(spikeInElements==TRUE)
-% )
-% @
-% \end{center}
-% \caption{5 - 95\% credibility intervals of positive log-ratio between S1 and C1. The figure shows the top 50 most significantly differentially expressed genes ranking by PPLR between S1 and C1. Stars represent the mean of log-ratio. Spike-in genes are indicated by a square box.}
-% \end{figure}
-%
-% \begin{figure}[H]
-% \begin{center}
-% <<fig=TRUE>>=
-% plotWhiskers(
-% 	eset_se_squared
-% ,	c(1,4)
-% ,	sortMethod="PPLR"
-% ,	numGenes=50
-% ,	xlim=(c(-3,3))
-% ,	main="Liu et al 2006, Fig 2b"
-% ,	highlightedGenes=which(spikeInElements==TRUE)
-% )
-% @
-% \end{center}
-% \caption{5 - 95\% credibility intervals of positive log-ratio between S1 and C1. The figure shows the top 50 most significantly differentially expressed genes ranking by PPLR between S1 and C1. Stars represent the mean of log-ratio. Spike-in genes are indicated by a square box.}
-% \end{figure}
-%
-% Figure 3 from \cite{pplr} compares multi-mgMOS/PPLR with other methods. We will first create an expression set using one of the preferred methods from \cite{Choe:2005}.
-%
-% <<eval=FALSE>>===
-% eset_cmas5 <- expresso(affybatch.choe,
-% 	bg.correct=TRUE,bgcorrect.method="mas",
-% 	normalize=TRUE,
-% 	normalize.method="constantsubset",
-% 	normalize.param=list(stable.probes=stable.probes),
-% 	pmcorrect.method="mas",
-% 	summary.method="medianpolish",
-% 	verbose = FALSE)
-% gene.names <- geneNames(eset_cmas5)
-% tmp.order <- order(gene.names)
-% stable.subset <- tmp.order[index]
-% exprs(eset_cmas5) <- normalize.loesssubset(
-% 	exprs(eset_cmas5)
-% ,	subset = stable.subset
-% ,	log.it = FALSE
-% ,	span=1/10
-% ,	sample.length=5000
-% ,	verbose=FALSE
-% )
-% @
-% <<echo=FALSE, eval=TRUE>>=
-% load(paste(goldenspike_dir,"/eset_cmas5.rda",sep=""))
-% @
-%
-% To recreate Figure 3a, we will first create 3 matrices, \verb+mmgmosPPLRs+, \verb+mmgmosFCs+ and \verb+cmas5FCs+ to hold the values of the relevant statistics for each of the nine combinations of control array vs sample array. We then use the mean of these nine combinations to plot ROC curves, where the spike-in elements are our ``true positives''.
-%
-% <<>>=
-% mmgmosPPLRs <- matrix(0,14010,9)
-% mmgmosFCs <- matrix(0,14010,9)
-% cmas5FCs <- matrix(0,14010,9)
-% arrayCount <- 0
-% for(CArray in 1:3)
-% 	for(SArray in 4:6)
-% 	{
-% 		arrayCount <- arrayCount + 1
-% 		p<-pplr(
-% 			cbind(
-% 				exprs(eset_mmgmos[,CArray])
-% 			,	exprs(eset_mmgmos[,SArray])
-% 			,	se.exprs(eset_mmgmos[,CArray])
-% 			,	se.exprs(eset_mmgmos[,SArray])
-% 			)
-% 			,1,2)
-% 		mmgmosPPLRs[,arrayCount] <- pplrUnsorted(p)
-% 		mmgmosFCs[,arrayCount] <-
-% 			exprs(eset_mmgmos[,SArray])-exprs(eset_mmgmos[,CArray])
-% 		cmas5FCs[,arrayCount] <-
-% 			exprs(eset_cmas5[,SArray])-
-% 			exprs(eset_cmas5[,CArray])
-% 	}
-% mmgmosPPLR <- rowMeans(mmgmosPPLRs)
-% mmgmosFC <- rowMeans(mmgmosFCs)
-% cmas5FC <- rowMeans(cmas5FCs)
-% @
-% \begin{figure}[H]
-% \begin{center}
-% <<fig=TRUE>>=
-% plotROC(
-% 	scoresList = list(mmgmosPPLR, mmgmosFC, cmas5FC)
-% ,	truthValues = spikeInElements
-% ,	legendTitles=c("mmgMOS PPLR", "mmgMOS foldchange", "cMAS 5.0 foldchange")
-% ,	main = "Liu et al 2006, Fig 3a"
-% ,	lty = c(1,5,4)
-% )
-% @
-% \end{center}
-% \caption{ROC curves for all nine possible single chip-pairs in the golden spike-in data set. Three methods are used: simple fold-change of multi-mgMOS and cMAS 5.0 gene expression, and probability of positive log-ratio (PPLR) of multi-mgMOS gene expression measurements together with measurement error.}
-% \end{figure}
-%
-% To recreate Figure 3b, we use the CyberT implementation which can be found in the \Rpackage{goldenspike} package.
-%
-% <<eval=FALSE>>===
-% exprs_mmgmos <- prepare.expr(exprs(eset_mmgmos),log.it=TRUE,cutoff.value=-3)
-% mmgmosCyberT <- (pierre.unpair.element(exprs_mmgmos,1:3,4:6,100,10,2)$Bay.t)
-% exprs_cmas5 <- prepare.expr(exprs(eset_cmas5),log.it=TRUE,cutoff.value=-3)
-% cmas5CyberT <- (pierre.unpair.element(exprs_cmas5,1:3,4:6,100,10,2)$Bay.t)
-% @
-% <<echo=FALSE, eval=TRUE>>=
-% load(paste(goldenspike_dir,"/mmgmosCyberT.rda",sep=""))
-% load(paste(goldenspike_dir,"/cmas5CyberT.rda",sep=""))
-% @
-%
-% \begin{figure}[H]
-% \begin{center}
-% <<fig=TRUE>>=
-% plotROC(
-% 	scoresList = list(pplrReplicatesUnsorted, mmgmosCyberT, cmas5CyberT)
-% ,	truthValues = spikeInElements
-% ,	legendTitles=c("mmgMOS+PPLR", "mmgMOS+CyberT", "cMAS 5.0+CyberT")
-% ,	main = "Liu et al 2006, Fig 3b"
-% ,	lty = c(1,5,3)
-% )
-% @
-% \end{center}
-% \caption{ROC curves for replicated conditions in the golden spike-in data set. Three methods are used: multi-mgMOS combined with Bayesian hierarchical model and Cyber-T respectively, and cMAS 5.0 with Cyber-T. Curves from Cyber-T are obtained using a Bayesian t-test and the curve from the Bayesian hierarchical model is plotted by calculating PPLR between sample S and sample C.}
-% \end{figure}
-%
-% \subsection{Arabidopsis stress conditions}
-% \label{subsection:Arabidopsis stress conditions}
-%
-% to be completed
-
 \newpage
 \section{\Rpackage{puma} for \Rpackage{limma} users}
 
@@ -1137,6 +695,8 @@ source("http://bioconductor.org/biocLite.R")
 biocLite("snow")
 @
 
+\subsubsection{Parallelisation of pumaComb}
+
 To use the parallel functionality of \Rfunction{pumaComb} you will first need to create a \Rfunction{snow} ``cluster''. This can be done with the following commands. Note that you can have as many nodes in the \Rfunction{makeCluster} command as you like. You will need to use your own machine names in the place of ``node01'', ``node02'', etc. Note you can also use full IP addresses instead of machine names.
 
 << eval=FALSE >>==
@@ -1148,12 +708,12 @@ You can then run \Rfunction{pumaComb} with the created cluster, ensuring the \Rf
 
 << eval=FALSE >>==
 library(puma)
-data(affybatch.example)
-pData(affybatch.example) <- data.frame(
+data(affybatch.estrogen)
+pData(affybatch.estrogen) <- data.frame(
 	"level"=c("twenty","twenty","ten")
 ,	"batch"=c("A","B","A")
 ,	row.names=rownames(pData(affybatch.example)))
-eset_mmgmos <- mmgmos(affybatch.example)
+eset_mmgmos <- mmgmos(oligo.estrogen)
 system.time(eset_comb_1 <- pumaComb(eset_mmgmos))
 system.time(eset_comb_4 <- pumaComb(eset_mmgmos, cl=cl))
 @
@@ -1172,6 +732,39 @@ Finally, to run on multi-cores of a multi-node cluster, a command such as the fo
 library(snow)
 cl <- makeCluster(c("node01", "node01", "node02", "node02"
 , "node03", "node03", "node04", "node04"), type = "SOCK")
+@
+
+\subsubsection{Parallelisation of gmoExon}
+
+To use the parallel functionality of gmoExon you also need to create a snow “cluster”.This can be done with the following commands:
+
+<<eval=FALSE>>=
+library(snow)
+cl<-makeCluster(c("node01","node02","node03","node04"),type = "SOCK")
+@
+
+You can then run gmoExon with the created cluster, as in the following example:
+
+<<eval=FALSE>>=
+library(puma)
+library(oligo)
+object<-read.celfiles("filename.CEL")
+eset<-gmoExon(object,exontype="Human",GT="gene",gsnorm="none",cl=cl)
+@
+
+To run gmoExon on multi-core machine, use a makeCluster command such as the following:
+
+<<eval=FALSE>>=
+ibrary(snow)
+cl<-makeCluster(c("loaclhost","localhost"),type = "SOCK")
+@
+
+Finally, to run on multi-cores of a multi-node cluster, a command such as the following can be used:
+
+<<eval=FALSE>>=
+library(snow)
+cl<-makeCluster(c("node01","node01","node02" ,"node02"
+,"node03" ,"node03" ,"node04" ,"node04"), type = "SOCK")
 @
 
 

@@ -1,6 +1,6 @@
 useDynLib("puma")
 
-importMethodsFrom(affy,barplot, boxplot, hist, mm, "mm<-",
+importMethodsFrom(affy,barplot, boxplot,cdfName, hist, mm, "mm<-",
                   pm, "pm<-", pmindex, probeNames)
 
 importFrom(affy, AllButCelsForReadAffy, cleancdfname, read.probematrix,

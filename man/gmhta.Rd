@@ -58,7 +58,6 @@ alter the interpretation of GeneChip data,Nucleic Acid Research 33(20):e175.
 \examples{
 ## The following scripts show the use of the method.
 #library(puma)
-#library(hta20hsaceviewtcdf)
 ## load CEL files
 # object<-ReadAffy("celnames")
 
