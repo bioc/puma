@@ -78,6 +78,9 @@ typedef struct{
   
 } gme_expparam;
 
+void gme_expparam_init();
+void gme_expparam_free();
+
 double gme_pmdierfc(double y);  /* inverse error function */
 
 double gme_pmerfc(double x);    /* complementary error function */

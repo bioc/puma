@@ -44,4 +44,10 @@ static const R_CallMethodDef callMethods[] = {
 void R_init_puma(DllInfo *info)
 {
   R_registerRoutines(info,NULL,callMethods,NULL,NULL);
+  gme_expparam_init();
+}
+
+void R_unload_puma(DllInfo *info)
+{
+    gme_expparam_free();
 }

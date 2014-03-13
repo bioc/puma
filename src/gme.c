@@ -12,8 +12,21 @@
 #include <Rinternals.h>
 #include <R_ext/Utils.h>
 #include <R_ext/Memory.h>
+#include <R_ext/RS.h>
 
-static gme_expparam in_param;
+static gme_expparam *in_param = NULL;
+void gme_expparam_init() {
+    if (NULL == in_param) {
+        in_param = (gme_expparam *) Calloc(1, gme_expparam);
+    }
+}
+
+void gme_expparam_free() {
+    if (NULL != in_param) {
+        Free(in_param);
+    }
+}
+
 void donlp2(void);
 
 typedef void (*func_void_void_t)(void);
@@ -67,55 +80,55 @@ void gme_getgenedata(int g)
 	int i,j,k;
        
            
-	in_param.cur_num_gene=in_param.num_gene[g];
-	in_param.cur_num_alpha=in_param.num_alpha[g];
-          in_param.cur_num_probe=in_param.num_probe[g];
-	in_param.conds=in_param.cur_num_alpha*in_param.chips;
+	in_param->cur_num_gene=in_param->num_gene[g];
+	in_param->cur_num_alpha=in_param->num_alpha[g];
+          in_param->cur_num_probe=in_param->num_probe[g];
+	in_param->conds=in_param->cur_num_alpha*in_param->chips;
 	
          
-	for( i=pmst; i<pmst+in_param.cur_num_probe; i++)  //pm of gene
+	for( i=pmst; i<pmst+in_param->cur_num_probe; i++)  //pm of gene
 	{
 		
-		for(j=0; j<in_param.chips+1; j++)
+		for(j=0; j<in_param->chips+1; j++)
 		{
-			in_param.pm[i-pmst][j]=PM[i][j];
-//                             Rprintf("%f",in_param.pm[i-pmst][j]);
+			in_param->pm[i-pmst][j]=PM[i][j];
+//                             Rprintf("%f",in_param->pm[i-pmst][j]);
 		}
                    
 //                   Rprintf("\n");
            
 	}
           
-          pmst=pmst+in_param.cur_num_probe;
+          pmst=pmst+in_param->cur_num_probe;
           
            
  
-	for(k=gtst; k<gtst+in_param.cur_num_gene;k++) //corresponding of gene
+	for(k=gtst; k<gtst+in_param->cur_num_gene;k++) //corresponding of gene
 	{	
 		
-		for(j=0;j<in_param.gtdim;j++)
+		for(j=0;j<in_param->gtdim;j++)
 		{
-			in_param.gt[k-gtst][j]=GTM[k][j];
+			in_param->gt[k-gtst][j]=GTM[k][j];
                              
                               
 		}
              
 	}
        
-	gtst=gtst+in_param.cur_num_gene;
+	gtst=gtst+in_param->cur_num_gene;
                  
-	for(i=0; i<in_param.cur_num_probe; i++)  
+	for(i=0; i<in_param->cur_num_probe; i++)  
 	{
-		for(j=0; j<in_param.cur_num_gene; j++)
+		for(j=0; j<in_param->cur_num_gene; j++)
 		{     
                          
-	             if(in_param.gt[j][1]==in_param.pm[i][0])
+	             if(in_param->gt[j][1]==in_param->pm[i][0])
                           { 
-			   in_param.MB[i][ (int)in_param.gt[j][0]-1]=1.0;
-                        //   in_param.MB_One[i][ (int)in_param.gt[j][0]-1]=1.0;
-                               for(k=1;k<in_param.chips; k++)
+			   in_param->MB[i][ (int)in_param->gt[j][0]-1]=1.0;
+                        //   in_param->MB_One[i][ (int)in_param->gt[j][0]-1]=1.0;
+                               for(k=1;k<in_param->chips; k++)
                		     {
-			            in_param.MB[i][(int)in_param.gt[j][0]-1+in_param.cur_num_alpha*k]=1.0;
+			            in_param->MB[i][(int)in_param->gt[j][0]-1+in_param->cur_num_alpha*k]=1.0;
                                
 			      }
 	               }
@@ -136,25 +149,25 @@ void gme_mbgetback(int g)
 	int i,j,k;
        
            
-	in_param.cur_num_gene=in_param.num_gene[g];
-	in_param.cur_num_alpha=in_param.num_alpha[g];
-          in_param.cur_num_probe=in_param.num_probe[g];
-	in_param.conds=in_param.cur_num_alpha*in_param.chips;
+	in_param->cur_num_gene=in_param->num_gene[g];
+	in_param->cur_num_alpha=in_param->num_alpha[g];
+          in_param->cur_num_probe=in_param->num_probe[g];
+	in_param->conds=in_param->cur_num_alpha*in_param->chips;
 	
          
 
                  
-	for(i=0; i<in_param.cur_num_probe; i++)  
+	for(i=0; i<in_param->cur_num_probe; i++)  
 	{
-		for(j=0; j<in_param.cur_num_gene; j++)
+		for(j=0; j<in_param->cur_num_gene; j++)
 		{     
                          
-	             if(in_param.gt[j][1]==in_param.pm[i][0])
+	             if(in_param->gt[j][1]==in_param->pm[i][0])
                           { 
-			   in_param.MB[i][ (int)in_param.gt[j][0]-1]=0.0;
-                               for(k=1;k<in_param.chips; k++)
+			   in_param->MB[i][ (int)in_param->gt[j][0]-1]=0.0;
+                               for(k=1;k<in_param->chips; k++)
                		     {
-			            in_param.MB[i][(int)in_param.gt[j][0]-1+in_param.cur_num_alpha*k]=0.0;
+			            in_param->MB[i][(int)in_param->gt[j][0]-1+in_param->cur_num_alpha*k]=0.0;
                                
 			      }
 	               }
@@ -172,13 +185,13 @@ void gme_mbgetback(int g)
 
 void initialparams_gme()
 {
-  in_param.data_pm=NULL;
-  in_param.data_gt=NULL;
-  in_param.data_GT=NULL;
-  in_param.data_GN=NULL;
-  in_param.data_PN=NULL;
-  in_param.data_AN=NULL;
-  in_param.parameters=NULL;
+  in_param->data_pm=NULL;
+  in_param->data_gt=NULL;
+  in_param->data_GT=NULL;
+  in_param->data_GN=NULL;
+  in_param->data_PN=NULL;
+  in_param->data_AN=NULL;
+  in_param->parameters=NULL;
  
        econ = econ_gme;
 	econgrad = econgrad_gme;
@@ -202,13 +215,13 @@ void allocatemem_gme()
    int j;
   
   
-    in_param.parameters=(double**)R_alloc(in_param.numofgenes,sizeof(double*));
+    in_param->parameters=(double**)R_alloc(in_param->numofgenes,sizeof(double*));
     
   
-    for(j=0; j<in_param.numofgenes;j++)
+    for(j=0; j<in_param->numofgenes;j++)
     {
      
-             in_param.parameters[j]=(double *)R_alloc(in_param.num_alpha[j]*in_param.chips+2,sizeof(double));
+             in_param->parameters[j]=(double *)R_alloc(in_param->num_alpha[j]*in_param->chips+2,sizeof(double));
     }
    
 }
@@ -217,11 +230,11 @@ void allocatemem_gme()
 void freemem_gme()
 {
     int j;
-    for(j=0;j<in_param.numofgenes;j++)
+    for(j=0;j<in_param->numofgenes;j++)
     {
-         if(in_param.parameters[j]!=NULL) Free(in_param.parameters[j]);
+         if(in_param->parameters[j]!=NULL) Free(in_param->parameters[j]);
     }
-    if(in_param.parameters!=NULL) Free(in_param.parameters);
+    if(in_param->parameters!=NULL) Free(in_param->parameters);
 }
 
 double  ** allocate_matrix(int m,int n) 
@@ -254,7 +267,7 @@ void gme_calparameters()
      
   	fstart = HUGE_VAL;
 	
-	nx = in_param.conds+2;
+	nx = in_param->conds+2;
     
 	
 	
@@ -264,16 +277,16 @@ void gme_calparameters()
 		
 		
              
-		for (p=0;p<in_param.numofgenes; p++)
+		for (p=0;p<in_param->numofgenes; p++)
 		{
 			void R_CheckUserInterrupt(void);
 			
 			/* do optimisation for each gene*/
-			in_param.cur_gene = p;
+			in_param->cur_gene = p;
 			
 			gme_getgenedata(p);
                         
-                     if (in_param.cur_num_probe>1){
+                     if (in_param->cur_num_probe>1){
                     	donlp2();
                       }
                             
@@ -288,7 +301,7 @@ void gme_calparameters()
   		}
 		/* check the termination criteria*/
                     
-		  if (in_param.saveflag ==1)
+		  if (in_param->saveflag ==1)
 			{
 				FILE *df = fopen("par_gmoexon.txt", "wt");
 		
@@ -298,10 +311,10 @@ void gme_calparameters()
 					break;
 				}
 		
-				for (i=0; i<in_param.numofgenes; i++)
+				for (i=0; i<in_param->numofgenes; i++)
 				{
-					for (j=0; j<in_param.num_alpha[i]*in_param.chips+2; j++)
-						fprintf(df," %f", in_param.parameters[i][j]);
+					for (j=0; j<in_param->num_alpha[i]*in_param->chips+2; j++)
+						fprintf(df," %f", in_param->parameters[i][j]);
                                                        
 					
 				}
@@ -336,9 +349,9 @@ void calexpression_gene()
 	double temp,dif2_alpha,qt;
 	double real_alpha,total_alpha_onechip,kk_isoform ;
 	int index_for_cal=-0;
-    int xxx=(2+in_param.num_prctile)*in_param.numofgenes*in_param.chips;
+    int xxx=(2+in_param->num_prctile)*in_param->numofgenes*in_param->chips;
 	
-	in_param.totalprobe = -1;
+	in_param->totalprobe = -1;
     pmst=0;
     gtst=0;
    
@@ -346,49 +359,49 @@ void calexpression_gene()
     numofalpha=0;
     loca=0; 
 
-	for (p=0; p<in_param.numofgenes; p++)
+	for (p=0; p<in_param->numofgenes; p++)
 	{
           
          void R_CheckUserInterrupt(void);
 			
-	     in_param.cur_gene = p;
+	     in_param->cur_gene = p;
 			
 		 gme_getgenedata(p);
                 
-		c = in_param.parameters[p][in_param.conds];
+		c = in_param->parameters[p][in_param->conds];
                
-		d = in_param.parameters[p][in_param.conds+1];
+		d = in_param->parameters[p][in_param->conds+1];
 	    
   
-	    for( i=0;i<in_param.conds;i++){
-             for(j=0;j<in_param.conds;j++){
-                 in_param.h_isoform[i][j]=0.0;
+	    for( i=0;i<in_param->conds;i++){
+             for(j=0;j<in_param->conds;j++){
+                 in_param->h_isoform[i][j]=0.0;
                     
              }
          }
       
 		
-        for(j=0;j<in_param.cur_num_probe;j++){
+        for(j=0;j<in_param->cur_num_probe;j++){
 
-        	for(temp_i=0;temp_i<in_param.cur_num_alpha;temp_i++){
-        		for(temp_j=0;temp_j<in_param.cur_num_alpha;temp_j++){
-        			in_param.temp[temp_i][temp_j]=0;
+        	for(temp_i=0;temp_i<in_param->cur_num_alpha;temp_i++){
+        		for(temp_j=0;temp_j<in_param->cur_num_alpha;temp_j++){
+        			in_param->temp[temp_i][temp_j]=0;
         		}
         	}
     
-            for(mal=0;mal<in_param.cur_num_alpha;mal++){
+            for(mal=0;mal<in_param->cur_num_alpha;mal++){
 
-                if (in_param.MB[j][mal]==1){
-                	for(mb_x=0;mb_x<in_param.cur_num_alpha;mb_x++)
-                		in_param.temp[mal][mb_x]=in_param.MB[j][mb_x];
+                if (in_param->MB[j][mal]==1){
+                	for(mb_x=0;mb_x<in_param->cur_num_alpha;mb_x++)
+                		in_param->temp[mal][mb_x]=in_param->MB[j][mb_x];
                 }
             }
            
-            for(mc_i=0;mc_i<in_param.cur_num_alpha;mc_i++){
-            	for(mc_j=0;mc_j<in_param.cur_num_alpha;mc_j++){
-            		for(mc_index1=0;mc_index1<in_param.chips;mc_index1++){
-                        for(mc_index2=0;mc_index2<in_param.chips;mc_index2++){
-                            in_param.MC[mc_i+mc_index1*in_param.cur_num_alpha][mc_j+mc_index2*in_param.cur_num_alpha]=in_param.temp[mc_i][mc_j];
+            for(mc_i=0;mc_i<in_param->cur_num_alpha;mc_i++){
+            	for(mc_j=0;mc_j<in_param->cur_num_alpha;mc_j++){
+            		for(mc_index1=0;mc_index1<in_param->chips;mc_index1++){
+                        for(mc_index2=0;mc_index2<in_param->chips;mc_index2++){
+                            in_param->MC[mc_i+mc_index1*in_param->cur_num_alpha][mc_j+mc_index2*in_param->cur_num_alpha]=in_param->temp[mc_i][mc_j];
                         }
                      }
                  }
@@ -396,64 +409,64 @@ void calexpression_gene()
    
             real_alpha=0;
 
-            for(s=0;s<in_param.conds;s++){
+            for(s=0;s<in_param->conds;s++){
 
-            	real_alpha +=in_param.parameters[p][s]*in_param.MB[j][s];
+            	real_alpha +=in_param->parameters[p][s]*in_param->MB[j][s];
             }
             
             qt=real_alpha+c;
 
-            for(hi=0;hi<in_param.conds;hi++){
-            	for(hj=0;hj<in_param.conds;hj++){
-            		in_param.H[hi][hj]=trigamma(qt);
+            for(hi=0;hi<in_param->conds;hi++){
+            	for(hj=0;hj<in_param->conds;hj++){
+            		in_param->H[hi][hj]=trigamma(qt);
             	}
             }
 
-            k_end =in_param.chips-1;
+            k_end =in_param->chips-1;
             t=0;
             for(mn=0;mn<=k_end;mn++){
-                 D1_start = mn*in_param.cur_num_alpha;
-                 D1_end =(mn+1)*in_param.cur_num_alpha-1;
+                 D1_start = mn*in_param->cur_num_alpha;
+                 D1_end =(mn+1)*in_param->cur_num_alpha-1;
                                  
                  total_alpha_onechip=0;
-                 for(m=0;m<in_param.num_alpha[p];m++){
+                 for(m=0;m<in_param->num_alpha[p];m++){
 
-                        total_alpha_onechip +=in_param.parameters[p][m+t*in_param.num_alpha[p]]*in_param.MB[j][m];
+                        total_alpha_onechip +=in_param->parameters[p][m+t*in_param->num_alpha[p]]*in_param->MB[j][m];
                  }            
                 dif2_alpha =trigamma(qt)-trigamma(total_alpha_onechip);
                
                 for(mm=D1_start;mm<=D1_end;mm++){
                  	for(nn=D1_start;nn<=D1_end;nn++){
-                 		in_param.H[mm][nn]=dif2_alpha;
+                 		in_param->H[mm][nn]=dif2_alpha;
                  	     }
                 }
                 t=t+1;             
              }
               
-             for(mut_x=0;mut_x<in_param.conds;mut_x++){
-             	for(mut_y=0;mut_y<in_param.conds;mut_y++){
-             		in_param.h1[mut_x][mut_y]=in_param.H[mut_x][mut_y]*in_param.MC[mut_x][mut_y];
+             for(mut_x=0;mut_x<in_param->conds;mut_x++){
+             	for(mut_y=0;mut_y<in_param->conds;mut_y++){
+             		in_param->h1[mut_x][mut_y]=in_param->H[mut_x][mut_y]*in_param->MC[mut_x][mut_y];
              	}
              }
 
-             for(mut_x=0;mut_x<in_param.conds;mut_x++){
-             	for(mut_y=0;mut_y<in_param.conds;mut_y++){
-                    in_param.h_isoform[mut_x][mut_y]=in_param.h_isoform[mut_x][mut_y]+in_param.h1[mut_x][mut_y];
+             for(mut_x=0;mut_x<in_param->conds;mut_x++){
+             	for(mut_y=0;mut_y<in_param->conds;mut_y++){
+                    in_param->h_isoform[mut_x][mut_y]=in_param->h_isoform[mut_x][mut_y]+in_param->h1[mut_x][mut_y];
                     
              	 }
              }
              
          }
    
-         for(maph_i=0;maph_i<in_param.conds;maph_i++){
-         	in_param.MapH[maph_i]=1/(-in_param.h_isoform[maph_i][maph_i]);
+         for(maph_i=0;maph_i<in_param->conds;maph_i++){
+         	in_param->MapH[maph_i]=1/(-in_param->h_isoform[maph_i][maph_i]);
          }
         //calculate gene
-         for(jj=0;jj<in_param.conds;jj++){
+         for(jj=0;jj<in_param->conds;jj++){
         
-             var_Gauss=in_param.MapH[jj];
+             var_Gauss=in_param->MapH[jj];
          
-             mu_Gauss=in_param.parameters[p][jj];
+             mu_Gauss=in_param->parameters[p][jj];
          
              kk=2.0/gme_pmerfc(-mu_Gauss/sqrt(2.0*var_Gauss));
              
@@ -462,86 +475,86 @@ void calexpression_gene()
 			 var_truncGauss = kk*((var_Gauss+(mu_Gauss-mu_truncGauss)*(mu_Gauss-mu_truncGauss))*gme_pmerfc(-mu_Gauss/sqrt(2.0*var_Gauss))/2.0
 						+sqrt(var_Gauss/(2.0*M_PI))*exp(-mu_Gauss*mu_Gauss/(2.0*var_Gauss))*(mu_Gauss-2.0*mu_truncGauss));
 
-             in_param.TC_muy[jj] = mu_truncGauss;
-             in_param.TC_sigy[jj] = var_truncGauss;  
-             in_param.TC_kk_isoform[jj]=kk;       
+             in_param->TC_muy[jj] = mu_truncGauss;
+             in_param->TC_sigy[jj] = var_truncGauss;  
+             in_param->TC_kk_isoform[jj]=kk;       
          }
         
           cal_index=0; 
-         for(cal_i=0;cal_i<in_param.chips;cal_i++){     
-             if (in_param.cur_num_probe>1){   	
+         for(cal_i=0;cal_i<in_param->chips;cal_i++){     
+             if (in_param->cur_num_probe>1){   	
                  mu_truncGauss=0.0;
                  var_truncGauss=0.0;
-         	     for(cal_j=0;cal_j<in_param.cur_num_alpha;cal_j++){
-         	 	     mu_truncGauss += in_param.TC_muy[cal_j+cal_index*in_param.cur_num_alpha]; 
-                     var_truncGauss += in_param.TC_sigy[cal_j+cal_index*in_param.cur_num_alpha];
+         	     for(cal_j=0;cal_j<in_param->cur_num_alpha;cal_j++){
+         	 	     mu_truncGauss += in_param->TC_muy[cal_j+cal_index*in_param->cur_num_alpha]; 
+                     var_truncGauss += in_param->TC_sigy[cal_j+cal_index*in_param->cur_num_alpha];
          	     }
              kk_gene=2.0/gme_pmerfc(-mu_truncGauss/sqrt(2.0*var_truncGauss));
                    
          	 cal_index =cal_index+1;
              
-         	 in_param.outp[cal_i*(2+in_param.num_prctile)*(in_param.numofgenes+in_param.numofisoform)+p] = ((digamma(mu_truncGauss)+log(d)-digamma(c))/log(2.0)+
+         	 in_param->outp[cal_i*(2+in_param->num_prctile)*(in_param->numofgenes+in_param->numofisoform)+p] = ((digamma(mu_truncGauss)+log(d)-digamma(c))/log(2.0)+
 										tetragamma(mu_truncGauss)*var_truncGauss/(2.0*log(2.0)*log(2.0)))*log(2.0);
 
 			
-			in_param.outp[cal_i*(2+in_param.num_prctile)*(in_param.numofgenes+in_param.numofisoform)+in_param.numofgenes+p] = log(2.0)*sqrt(pow(trigamma(mu_truncGauss),2)*var_truncGauss/(log(2.0)*log(2.0)));
+			in_param->outp[cal_i*(2+in_param->num_prctile)*(in_param->numofgenes+in_param->numofisoform)+in_param->numofgenes+p] = log(2.0)*sqrt(pow(trigamma(mu_truncGauss),2)*var_truncGauss/(log(2.0)*log(2.0)));
             
-			     for (j=0; j<in_param.num_prctile; j++)
+			     for (j=0; j<in_param->num_prctile; j++)
 			     {
-				temp = mu_truncGauss+sqrt(2.0*var_truncGauss)*gme_pmdierfc(1-2.0*(1.0-in_param.prctiles[j])/kk_gene);
-				in_param.outp[cal_i*(2+in_param.num_prctile)*(in_param.numofgenes+in_param.numofisoform)+(j+2)*in_param.numofgenes+p] = (digamma(temp)+log(d)-digamma(c))/log(2.0);			 
+				temp = mu_truncGauss+sqrt(2.0*var_truncGauss)*gme_pmdierfc(1-2.0*(1.0-in_param->prctiles[j])/kk_gene);
+				in_param->outp[cal_i*(2+in_param->num_prctile)*(in_param->numofgenes+in_param->numofisoform)+(j+2)*in_param->numofgenes+p] = (digamma(temp)+log(d)-digamma(c))/log(2.0);			 
 			     }
 			 }
 			 else{
                                 
 			 	 cal_index =cal_index+1;
-			 	in_param.outp[cal_i*(2+in_param.num_prctile)*(in_param.numofgenes+in_param.numofisoform)+p]=(double)(in_param.pm[0][cal_i+1]);
-                in_param.outp[cal_i*(2+in_param.num_prctile)*(in_param.numofgenes+in_param.numofisoform)+in_param.numofgenes+p]=log(1.0);
-                 for (j=0; j<in_param.num_prctile; j++)
+			 	in_param->outp[cal_i*(2+in_param->num_prctile)*(in_param->numofgenes+in_param->numofisoform)+p]=(double)(in_param->pm[0][cal_i+1]);
+                in_param->outp[cal_i*(2+in_param->num_prctile)*(in_param->numofgenes+in_param->numofisoform)+in_param->numofgenes+p]=log(1.0);
+                 for (j=0; j<in_param->num_prctile; j++)
 			     {
 				
-				in_param.outp[cal_i*(2+in_param.num_prctile)*(in_param.numofgenes+in_param.numofisoform)+(j+2)*in_param.numofgenes+p] = log(1.0);			 
+				in_param->outp[cal_i*(2+in_param->num_prctile)*(in_param->numofgenes+in_param->numofisoform)+(j+2)*in_param->numofgenes+p] = log(1.0);			 
 			     }
 			 }
          }	
 
          //calculate isoform
-         for(cal_i=0;cal_i<in_param.chips;cal_i++){
-            for(cal_j=0;cal_j<in_param.cur_num_alpha;cal_j++){
+         for(cal_i=0;cal_i<in_param->chips;cal_i++){
+            for(cal_j=0;cal_j<in_param->cur_num_alpha;cal_j++){
 
-                if (in_param.cur_num_probe>1){
+                if (in_param->cur_num_probe>1){
 
-                   index =(cal_j+in_param.cur_num_alpha*cal_i);
+                   index =(cal_j+in_param->cur_num_alpha*cal_i);
                
-                   kk_isoform =in_param.TC_kk_isoform[index];
-                   mu_truncGauss =in_param.TC_muy[index];
-                   var_truncGauss =in_param.TC_sigy[index];
+                   kk_isoform =in_param->TC_kk_isoform[index];
+                   mu_truncGauss =in_param->TC_muy[index];
+                   var_truncGauss =in_param->TC_sigy[index];
               
-                   in_param.outp[cal_i*(2+in_param.num_prctile)*(in_param.numofgenes+in_param.numofisoform)+(2+in_param.num_prctile)*in_param.numofgenes+cal_j+index_for_cal] = ((digamma(mu_truncGauss)+log(d)-digamma(c))/log(2.0)+
+                   in_param->outp[cal_i*(2+in_param->num_prctile)*(in_param->numofgenes+in_param->numofisoform)+(2+in_param->num_prctile)*in_param->numofgenes+cal_j+index_for_cal] = ((digamma(mu_truncGauss)+log(d)-digamma(c))/log(2.0)+
                                         tetragamma(mu_truncGauss)*var_truncGauss/(2.0*log(2.0)*log(2.0)))*log(2.0);
 
-                   in_param.outp[cal_i*(2+in_param.num_prctile)*(in_param.numofgenes+in_param.numofisoform)+(2+in_param.num_prctile)*in_param.numofgenes+in_param.numofisoform+cal_j+index_for_cal] = log(2.0)*sqrt(pow(trigamma(mu_truncGauss),2)*var_truncGauss/(log(2.0)*log(2.0)));
+                   in_param->outp[cal_i*(2+in_param->num_prctile)*(in_param->numofgenes+in_param->numofisoform)+(2+in_param->num_prctile)*in_param->numofgenes+in_param->numofisoform+cal_j+index_for_cal] = log(2.0)*sqrt(pow(trigamma(mu_truncGauss),2)*var_truncGauss/(log(2.0)*log(2.0)));
                 
-                   for (j=0; j <in_param.num_prctile; j++){                                      
-                    temp = mu_truncGauss+sqrt(2.0*var_truncGauss)*gme_pmdierfc(1-2.0*(1.0-in_param.prctiles[j])/kk_isoform);
-                    in_param.outp[cal_i*(2+in_param.num_prctile)*(in_param.numofisoform+in_param.numofgenes)+(j+2)*in_param.numofisoform+(2+in_param.num_prctile)*in_param.numofgenes+cal_j+index_for_cal] = (digamma(temp)+log(d)-digamma(c))/log(2.0);
+                   for (j=0; j <in_param->num_prctile; j++){                                      
+                    temp = mu_truncGauss+sqrt(2.0*var_truncGauss)*gme_pmdierfc(1-2.0*(1.0-in_param->prctiles[j])/kk_isoform);
+                    in_param->outp[cal_i*(2+in_param->num_prctile)*(in_param->numofisoform+in_param->numofgenes)+(j+2)*in_param->numofisoform+(2+in_param->num_prctile)*in_param->numofgenes+cal_j+index_for_cal] = (digamma(temp)+log(d)-digamma(c))/log(2.0);
                    
                    }
                 }
                 else   {
                 	   
-                       index =(cal_j+in_param.cur_num_alpha*cal_i);
-                       in_param.outp[cal_i*(2+in_param.num_prctile)*(in_param.numofgenes+in_param.numofisoform)+(2+in_param.num_prctile)*in_param.numofgenes+cal_j+index_for_cal]=(double)(in_param.pm[cal_j][cal_i+1]);
-                       in_param.outp[cal_i*(2+in_param.num_prctile)*(in_param.numofgenes+in_param.numofisoform)+(2+in_param.num_prctile)*in_param.numofgenes+in_param.numofisoform+cal_j+index_for_cal]=log(1.0);
-                       for (j=0; j <in_param.num_prctile; j++){    
+                       index =(cal_j+in_param->cur_num_alpha*cal_i);
+                       in_param->outp[cal_i*(2+in_param->num_prctile)*(in_param->numofgenes+in_param->numofisoform)+(2+in_param->num_prctile)*in_param->numofgenes+cal_j+index_for_cal]=(double)(in_param->pm[cal_j][cal_i+1]);
+                       in_param->outp[cal_i*(2+in_param->num_prctile)*(in_param->numofgenes+in_param->numofisoform)+(2+in_param->num_prctile)*in_param->numofgenes+in_param->numofisoform+cal_j+index_for_cal]=log(1.0);
+                       for (j=0; j <in_param->num_prctile; j++){    
                                                                                   
-                           in_param.outp[cal_i*(2+in_param.num_prctile)*(in_param.numofisoform+in_param.numofgenes)+(j+2)*in_param.numofisoform+(2+in_param.num_prctile)*in_param.numofgenes+cal_j+index_for_cal] = log(1.0);                 
+                           in_param->outp[cal_i*(2+in_param->num_prctile)*(in_param->numofisoform+in_param->numofgenes)+(j+2)*in_param->numofisoform+(2+in_param->num_prctile)*in_param->numofgenes+cal_j+index_for_cal] = log(1.0);                 
                        }
                      }
                
             }
          }
-        index_for_cal +=in_param.cur_num_alpha;
+        index_for_cal +=in_param->cur_num_alpha;
 		gme_mbgetback(p);	
        // Rprintf("%d\n",p);
 		if  ((int)p%500 == 0)
@@ -570,7 +583,7 @@ void user_init_size_gme(void){
        
     
   
-    n = in_param.conds+2;
+    n = in_param->conds+2;
     nstep = 20;
    
     
@@ -600,19 +613,19 @@ void user_init_gme(void) {
     big = 1.e20;
  	
 	/* initialise the parameters */
-	for (i=1; i<=in_param.conds; i++)
+	for (i=1; i<=in_param->conds; i++)
 	{
 		donlp2_x[i] = 2.0;
 		low[i] = gme_ALOW;
 		up[i] = big;
 	}
 	
-	donlp2_x[in_param.conds+1] = 6.0;
-	low[in_param.conds+1] = gme_CLOW;
-	up[in_param.conds+1] = big;
-	donlp2_x[in_param.conds+2] = 10.0;
-	low[in_param.conds+2] = gme_DLOW;
-	up[in_param.conds+2] = big;
+	donlp2_x[in_param->conds+1] = 6.0;
+	low[in_param->conds+1] = gme_CLOW;
+	up[in_param->conds+1] = big;
+	donlp2_x[in_param->conds+2] = 10.0;
+	low[in_param->conds+2] = gme_DLOW;
+	up[in_param->conds+2] = big;
    
 
          analyt = TRUE;
@@ -649,7 +662,7 @@ void solchk_gme(void) {
     
    int i;
    for (i=0; i<n; i++)
-    {    in_param.parameters[in_param.cur_gene][i] = donlp2_x[i+1];}
+    {    in_param->parameters[in_param->cur_gene][i] = donlp2_x[i+1];}
        
    
     return;
@@ -667,47 +680,47 @@ void ef_gme(DDOUBLE donlp2_x[],DDOUBLE *fx) {
 	int i, j, k,k1;
 	
 	*fx = 0.0;
-	for (j=0; j<in_param.conds; j++)
+	for (j=0; j<in_param->conds; j++)
 	{	
-	   in_param.alphaii[j] = donlp2_x[j+1];
+	   in_param->alphaii[j] = donlp2_x[j+1];
                                          
 	 }
      
-         c = donlp2_x[in_param.conds+1];
-         d = donlp2_x[in_param.conds+2];
+         c = donlp2_x[in_param->conds+1];
+         d = donlp2_x[in_param->conds+2];
          
 	  
-	for(k1=0;k1<in_param.cur_num_probe; k1++)
+	for(k1=0;k1<in_param->cur_num_probe; k1++)
 	{        
                q=0.0;
 	     w=0.0;
 	     t3=0.0;	
                t2=0.0; 
         
-           for(i=0; i<in_param.conds; i++)
-	       in_param.alpha[i]=in_param.alphaii[i]*in_param.MB[k1][i];
+           for(i=0; i<in_param->conds; i++)
+	       in_param->alpha[i]=in_param->alphaii[i]*in_param->MB[k1][i];
 	                        	
-           for(i=0; i<in_param.conds; i++)
+           for(i=0; i<in_param->conds; i++)
 	       { 
                  
-                  q+=in_param.alpha[i];
+                  q+=in_param->alpha[i];
                  }
                    
 	  q+=c;
 		
-	  for(j=0; j<in_param.chips; j++)
+	  for(j=0; j<in_param->chips; j++)
 	      {
                  
                   t1=0.0;
-                  t3+=log(in_param.pm[k1][j+1]);
+                  t3+=log(in_param->pm[k1][j+1]);
 	           
-                  for(k=j*in_param.cur_num_alpha; k<(j+1)*in_param.cur_num_alpha; k++)
+                  for(k=j*in_param->cur_num_alpha; k<(j+1)*in_param->cur_num_alpha; k++)
 	          {
-                        t1+=in_param.alpha[k];
+                        t1+=in_param->alpha[k];
                     }
 			
-                  t2+=(t1)*log(in_param.pm[k1][j+1])-lgammafn(t1);
-	        w+=in_param.pm[k1][j+1];
+                  t2+=(t1)*log(in_param->pm[k1][j+1])-lgammafn(t1);
+	        w+=in_param->pm[k1][j+1];
 	      }
                 
               w+=d;
@@ -739,88 +752,88 @@ void egradf_gme(DDOUBLE donlp2_x[],DDOUBLE gradf[]) {
 
    
 	
-     for (j=0; j<in_param.conds+2; j++)
+     for (j=0; j<in_param->conds+2; j++)
 	    gradf[j+1] = 0.0;
 
-     for (j=0; j<in_param.conds; j++)
+     for (j=0; j<in_param->conds; j++)
 	 {	
-	       in_param.alphaii2[j] = donlp2_x[j+1];
+	       in_param->alphaii2[j] = donlp2_x[j+1];
 	 }
 	
-           c = donlp2_x[in_param.conds+1];
-	 d = donlp2_x[in_param.conds+2];
+           c = donlp2_x[in_param->conds+1];
+	 d = donlp2_x[in_param->conds+2];
 
-      for(k2=0; k2<in_param.cur_num_probe; k2++)
+      for(k2=0; k2<in_param->cur_num_probe; k2++)
 	   {
 		   
 	           q=0.0;
 		 w=0.0;
 		
-	         for(i=0; i<in_param.conds; i++)
-			   in_param.alpha2[i]=in_param.alphaii2[i]*in_param.MB[k2][i];
+	         for(i=0; i<in_param->conds; i++)
+			   in_param->alpha2[i]=in_param->alphaii2[i]*in_param->MB[k2][i];
 
 
-	         for(i=0; i<in_param.conds; i++)
+	         for(i=0; i<in_param->conds; i++)
 		     {  
               
-                           q+=in_param.alpha2[i];
+                           q+=in_param->alpha2[i];
                          }
 		   
 	          q+=c;
 		    
-                    for(j=0; j<in_param.chips; j++)
+                    for(j=0; j<in_param->chips; j++)
 	             
                        {
-                          w+=in_param.pm[k2][j+1];
+                          w+=in_param->pm[k2][j+1];
                         }
 		  
                     w+=d;
 		
 
-		 for(j=0; j<in_param.chips; j++)
+		 for(j=0; j<in_param->chips; j++)
 		    {
               
 		       t4=0.0;
 	                 t5=0.0;
 				
-                        for(k=j*in_param.cur_num_alpha; k<(j+1)*in_param.cur_num_alpha; k++)
+                        for(k=j*in_param->cur_num_alpha; k<(j+1)*in_param->cur_num_alpha; k++)
 			 
-                               t4+=in_param.alpha2[k];
-		           t5=log(in_param.pm[k2][1+j])-log(w)-digamma(t4)+digamma(q);
+                               t4+=in_param->alpha2[k];
+		           t5=log(in_param->pm[k2][1+j])-log(w)-digamma(t4)+digamma(q);
 		           
-                        for(k=j*in_param.cur_num_alpha; k<(j+1)*in_param.cur_num_alpha; k++)
+                        for(k=j*in_param->cur_num_alpha; k<(j+1)*in_param->cur_num_alpha; k++)
 		                   
-                                in_param.Dif[k2][k]=t5;
+                                in_param->Dif[k2][k]=t5;
 		     }
             
-		   gradf[in_param.conds+1] += log(d)+digamma(q)-digamma(c)-log(w);
+		   gradf[in_param->conds+1] += log(d)+digamma(q)-digamma(c)-log(w);
 		
-                       gradf[in_param.conds+2] += c/d-q/w;
+                       gradf[in_param->conds+2] += c/d-q/w;
       
 	}
             
                 
-    for(i=0; i<in_param.cur_num_probe; i++)
+    for(i=0; i<in_param->cur_num_probe; i++)
 	{
-              for(j=0;j<in_param.conds;j++)
+              for(j=0;j<in_param->conds;j++)
 			  
-                    in_param.G1[j]=in_param.Dif[i][j]*in_param.MB[i][j];
+                    in_param->G1[j]=in_param->Dif[i][j]*in_param->MB[i][j];
               
-              for(j=0;j<in_param.conds; j++)
+              for(j=0;j<in_param->conds; j++)
                  {
-                 	   in_param.G[i][j]=in_param.G1[j];
+                 	   in_param->G[i][j]=in_param->G1[j];
                  }
            }
              
 
 
-	for(i=0; i<in_param.conds; i++)
+	for(i=0; i<in_param->conds; i++)
 	{
-	       for(j=0;j<in_param.cur_num_probe; j++)
-		   gradf[i+1]+=in_param.G[j][i];
+	       for(j=0;j<in_param->cur_num_probe; j++)
+		   gradf[i+1]+=in_param->G[j][i];
 	}
 	
-        for (j=0; j<in_param.conds+2; j++)
+        for (j=0; j<in_param->conds+2; j++)
 	     gradf[j+1] = -gradf[j+1];
                
     
@@ -886,71 +899,71 @@ SEXP gme_c(SEXP PMmat, SEXP GTmat, SEXP PNmat, SEXP GNmat, SEXP ANmat, SEXP tota
 	PROTECT(dim = getAttrib(PMmat, R_DimSymbol));
        
 	PROTECT(dim11 =getAttrib(GTmat, R_DimSymbol));
-	in_param.chips =INTEGER(dim)[1]-1;
-          in_param.probes=INTEGER(dim)[0];
-     //  Rprintf("%d\n",in_param.probes);
-	in_param.genes = INTEGER(dim11)[0];
-          in_param.gtdim= INTEGER(dim11)[1];
-    //     Rprintf("%d\n",in_param.gtdim);        
-	in_param.data_pm = NUMERIC_POINTER(AS_NUMERIC(PMmat));
+	in_param->chips =INTEGER(dim)[1]-1;
+          in_param->probes=INTEGER(dim)[0];
+     //  Rprintf("%d\n",in_param->probes);
+	in_param->genes = INTEGER(dim11)[0];
+          in_param->gtdim= INTEGER(dim11)[1];
+    //     Rprintf("%d\n",in_param->gtdim);        
+	in_param->data_pm = NUMERIC_POINTER(AS_NUMERIC(PMmat));
        
-          in_param.data_GT = NUMERIC_POINTER(AS_NUMERIC(GTmat));
-          in_param.data_GN = INTEGER_POINTER(AS_INTEGER(GNmat)); 
+          in_param->data_GT = NUMERIC_POINTER(AS_NUMERIC(GTmat));
+          in_param->data_GN = INTEGER_POINTER(AS_INTEGER(GNmat)); 
 	      
-	in_param.data_PN = INTEGER_POINTER(AS_INTEGER(PNmat));
+	in_param->data_PN = INTEGER_POINTER(AS_INTEGER(PNmat));
             
-	in_param.data_AN = INTEGER_POINTER(AS_INTEGER(ANmat));
+	in_param->data_AN = INTEGER_POINTER(AS_INTEGER(ANmat));
              
          
-	in_param.saveflag = LOGICAL_POINTER(AS_LOGICAL(saveflag))[0];
+	in_param->saveflag = LOGICAL_POINTER(AS_LOGICAL(saveflag))[0];
      
-	in_param.eps = NUMERIC_POINTER(AS_NUMERIC(eps))[0];
-          in_param.numofgenes= INTEGER_POINTER(AS_INTEGER(totalgene))[0];
-         // in_param.numofisoform= INTEGER_POINTER(AS_INTEGER(totalisoform))[0];
+	in_param->eps = NUMERIC_POINTER(AS_NUMERIC(eps))[0];
+          in_param->numofgenes= INTEGER_POINTER(AS_INTEGER(totalgene))[0];
+         // in_param->numofisoform= INTEGER_POINTER(AS_INTEGER(totalisoform))[0];
 //////////////////////////////////////////////////////////
-   in_param.prctiles = NUMERIC_POINTER(AS_NUMERIC(prctiles));
-    in_param.num_prctile = INTEGER(nprc)[0];         
+   in_param->prctiles = NUMERIC_POINTER(AS_NUMERIC(prctiles));
+    in_param->num_prctile = INTEGER(nprc)[0];         
         
-          in_param.totalprobe=-1;
-          in_param.totalgene=-1;
+          in_param->totalprobe=-1;
+          in_param->totalgene=-1;
           numofalpha=0;
-          in_param.numofisoform=0;
-       for(j=0;j<in_param.numofgenes;j++)
+          in_param->numofisoform=0;
+       for(j=0;j<in_param->numofgenes;j++)
 	{
           
-            in_param.num_gene[j]=in_param.data_GN[j];
-            in_param.num_alpha[j]=in_param.data_AN[j];
-            numofalpha=numofalpha+in_param.num_alpha[j]*in_param.chips;
-            in_param.num_probe[j]=in_param.data_PN[j];
-           in_param.numofisoform +=in_param.num_alpha[j];
+            in_param->num_gene[j]=in_param->data_GN[j];
+            in_param->num_alpha[j]=in_param->data_AN[j];
+            numofalpha=numofalpha+in_param->num_alpha[j]*in_param->chips;
+            in_param->num_probe[j]=in_param->data_PN[j];
+           in_param->numofisoform +=in_param->num_alpha[j];
            
          }
-      //   Rprintf("num is %d\n",in_param.numofisoform);
+      //   Rprintf("num is %d\n",in_param->numofisoform);
        
 
       // double **PM;
-      PM=allocate_matrix(in_param.probes+1,in_param.chips+1);
+      PM=allocate_matrix(in_param->probes+1,in_param->chips+1);
  
-      for( i=0; i<in_param.probes; i++)  //pm of gene
+      for( i=0; i<in_param->probes; i++)  //pm of gene
 	{
-	    in_param.totalprobe++;
-	    for(j=0; j<in_param.chips+1; j++)
+	    in_param->totalprobe++;
+	    for(j=0; j<in_param->chips+1; j++)
 	     {
-		PM[i][j]=in_param.data_pm[j*in_param.probes+in_param.totalprobe];
+		PM[i][j]=in_param->data_pm[j*in_param->probes+in_param->totalprobe];
                     
 	     }
     
 	}
        // double **GT;
       
-       GTM=allocate_matrix(in_param.genes+1,in_param.gtdim);
+       GTM=allocate_matrix(in_param->genes+1,in_param->gtdim);
 
-       for(i=0; i<in_param.genes;i++) //corresponding of gene
+       for(i=0; i<in_param->genes;i++) //corresponding of gene
 	{	
-	     in_param.totalgene++;
-	     for(j=0;j<in_param.gtdim;j++)
+	     in_param->totalgene++;
+	     for(j=0;j<in_param->gtdim;j++)
 	     {
-		GTM[i][j]=in_param.data_GT[j*in_param.genes+in_param.totalgene];
+		GTM[i][j]=in_param->data_GT[j*in_param->genes+in_param->totalgene];
                    
 	      }
                
@@ -965,28 +978,28 @@ SEXP gme_c(SEXP PMmat, SEXP GTmat, SEXP PNmat, SEXP GNmat, SEXP ANmat, SEXP tota
        Rprintf("Model optimising now ");
        gme_calparameters();
 
-      //PROTECT(res = allocMatrix(REALSXP,numofalpha+2*in_param.numofgenes,1));
-      // in_param.outp = NUMERIC_POINTER(AS_NUMERIC(res));
-      // PROTECT(res = allocMatrix(REALSXP,numofalpha+2*in_param.numofgenes,1));
-    PROTECT(res = allocMatrix(REALSXP, (in_param.numofgenes+in_param.numofisoform)*(2+in_param.num_prctile), in_param.chips));
-     in_param.outp = NUMERIC_POINTER(AS_NUMERIC(res));
-    // PROTECT(res_isoform = allocMatrix(REALSXP, in_param.numofisoform*(2+in_param.num_prctile), in_param.chips));
-     //  in_param.outisoform = NUMERIC_POINTER(AS_NUMERIC(res_isoform));
+      //PROTECT(res = allocMatrix(REALSXP,numofalpha+2*in_param->numofgenes,1));
+      // in_param->outp = NUMERIC_POINTER(AS_NUMERIC(res));
+      // PROTECT(res = allocMatrix(REALSXP,numofalpha+2*in_param->numofgenes,1));
+    PROTECT(res = allocMatrix(REALSXP, (in_param->numofgenes+in_param->numofisoform)*(2+in_param->num_prctile), in_param->chips));
+     in_param->outp = NUMERIC_POINTER(AS_NUMERIC(res));
+    // PROTECT(res_isoform = allocMatrix(REALSXP, in_param->numofisoform*(2+in_param->num_prctile), in_param->chips));
+     //  in_param->outisoform = NUMERIC_POINTER(AS_NUMERIC(res_isoform));
      //  Rprintf("mzy\n");
-    // PROTECT(res_all = allocMatrix(REALSXP, (in_param.numofgenes+in_param.numofisoform)*(2+in_param.num_prctile), in_param.chips));
-      // in_param.outall = NUMERIC_POINTER(AS_NUMERIC(res_all));
+    // PROTECT(res_all = allocMatrix(REALSXP, (in_param->numofgenes+in_param->numofisoform)*(2+in_param->num_prctile), in_param->chips));
+      // in_param->outall = NUMERIC_POINTER(AS_NUMERIC(res_all));
 
 
-       //  t=(in_param.numofgenes*(2+in_param.num_prctile)*in_param.chips);
-       // t1=((in_param.numofgenes+in_param.numofisoform)*(2+in_param.num_prctile)*in_param.chips);
+       //  t=(in_param->numofgenes*(2+in_param->num_prctile)*in_param->chips);
+       // t1=((in_param->numofgenes+in_param->numofisoform)*(2+in_param->num_prctile)*in_param->chips);
       ////
     /*   loca=0;
-       for(i=0;i<in_param.numofgenes;i++)
+       for(i=0;i<in_param->numofgenes;i++)
        {
-             for(j=0;j<in_param.num_alpha[i]*in_param.chips+2;j++)
+             for(j=0;j<in_param->num_alpha[i]*in_param->chips+2;j++)
               {  
                                              
-		in_param.outp[loca] = in_param.parameters[i][j];
+		in_param->outp[loca] = in_param->parameters[i][j];
                     loca=loca+1;   
                           
               }
@@ -1002,9 +1015,9 @@ SEXP gme_c(SEXP PMmat, SEXP GTmat, SEXP PNmat, SEXP GNmat, SEXP ANmat, SEXP tota
       gtst=0;
 
 	//freemem_gme();
-      for(i=0;i<in_param.probes+1; i++)
+      for(i=0;i<in_param->probes+1; i++)
            Free(PM[i]);
-      for(i=0;i<in_param.genes+1; i++)
+      for(i=0;i<in_param->genes+1; i++)
           Free(GTM[i]);
           // vmaxget();
       Rprintf("Done.\n");
