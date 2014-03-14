@@ -17,7 +17,7 @@
 static gme_expparam *in_param = NULL;
 void gme_expparam_init() {
     if (NULL == in_param) {
-        in_param = (gme_expparam *) Calloc(1, gme_expparam);
+        in_param = (gme_expparam *) malloc(sizeof(gme_expparam));
     }
 }
 
