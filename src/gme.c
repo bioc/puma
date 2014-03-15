@@ -20,7 +20,7 @@ void gme_expparam_init() {
         in_param = (gme_expparam *) malloc(sizeof(gme_expparam));
     }
     if (NULL == in_param)
-            Rf_Error("in_param memory allocation failed: out of memory?");
+            Rf_error("in_param memory allocation failed: out of memory?");
 }
 
 void gme_expparam_free() {
