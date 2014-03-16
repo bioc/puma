@@ -1,6 +1,6 @@
 11 March 2014: puma 3.5.2
 
-1. Addition of gmhta and igmoExon functions
+1. Addition of gmhta  function
 2. Parallelization function gmhta and gmoExon
 3. Changed the way of calculate gene and transcript values. The original calculates in R ,and now is in C
 
