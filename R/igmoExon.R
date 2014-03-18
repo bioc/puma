@@ -1,56 +1,163 @@
-
-
-
- gmhta<-function(
-     object
+ igmoExon<-function(
+     cel.path
+     ,SampleNameTable
+     ,exontype = c("Human", "Mouse", "Rat")
      ,background=FALSE
      ,gsnorm=c("median", "none", "mean", "meanlog")
-    ,savepar=FALSE
+     ,savepar=FALSE
      ,eps=1.0e-6
-    ,addConstant = 0
+     ,addConstant = 0
+     ,condition=c("Yes","No")
      ,cl=NULL
      ,BatchFold=10
 )
-{  
-   
-    # show(date())
-   #  library(hta20hsaceviewtcdf)
-     if(!is.null(cl))
+{     
+    if(!is.null(cl))
 	     clusterEvalQ(cl, library(puma))
-     library(pumadata);          
-     chipnum<-length(sampleNames(object));
+    library(pumadata);
 
-         HTA_transcript_NO <- NULL
-            HTA_transcript_name <-    NULL  
-              HTA_probes_transcripts <- NULL
-             HTA_Location <-NULL
-            rm(HTA_transcript_NO);
-            rm(HTA_probes_transcripts);
-            rm(HTA_transcript_name);
-           rm(HTA_Location);
+   if(missing(cel.path)){
+	stop("'cel.path' is missing! Please give the path to your CEL files!")
+     }
+   
+   if(missing(SampleNameTable)){
+	stop("'SampleNameTable' is missing! Please give the path of the your sample table!")
+     }
+
+
+   setwd(cel.path);
+   desc <- read.table(SampleNameTable,header=TRUE,sep="\t",stringsAsFactors=FALSE)
+
+   celnames<-desc[,1];
+
+   condition_all<-desc[,2];
+
+   object_condition_names<-c();
+
+  
+
+    expr_g_all<-c()
+     se_g_all<-c()
+     prc5_g_all<-c()
+     prc25_g_all<-c()
+     prc50_g_all<-c()
+     prc75_g_all<-c()
+     prc95_g_all<-c()
+
+
+     expr_t_all<-c()
+     se_t_all<-c()
+     prc5_t_all<-c()
+     prc25_t_all<-c()
+     prc50_t_all<-c()
+     prc75_t_all<-c()
+     prc95_t_all<-c()
+  
+    
+for(i in c(1:max(condition_all))){   
+
+   
+
+      celname_condition=celnames[which(condition_all==i)]
+  
+   
+      object_condition<-read.celfiles(celname_condition);
+
+    if(condition[1]=="Yes"){
+         object_condition_names<-c(object_condition_names,celname_condition); 
+    }
+
+    if(condition[1]=="Yes"&&i==max(condition_all)){
+         object<-read.celfiles(object_condition_names);
+    }
+   if(condition[1]!="Yes"){
+        object<-object_condition;
+    }
+   
+    chipnum<-length(sampleNames(object_condition));
+    chipnum_all<-length(celnames);
+        
+              Human_transcript_NO <- NULL
+            Human_transcript_name <-    NULL  
+              Human_probes_transcripts <- NULL
+             Human_Location <-NULL
+            rm(Human_transcript_NO);
+            rm(Human_probes_transcripts);
+            rm(Human_transcript_name);
+           rm(Human_Location);
+
+              Mouse_transcript_NO <- NULL
+            Mouse_transcript_name <-    NULL  
+              Mouse_probes_transcripts <- NULL
+             Mouse_Location <-NULL
+            rm(Mouse_transcript_NO);
+            rm(Mouse_probes_transcripts);
+            rm(Mouse_transcript_name);
+           rm(Mouse_Location);
+
+        Rat_transcript_NO <- NULL
+            Rat_transcript_name <-    NULL  
+              Rat_probes_transcripts <- NULL
+             Rat_Location <-NULL
+            rm(Rat_transcript_NO);
+            rm(Rat_probes_transcripts);
+            rm(Rat_transcript_name);
+            rm(Rat_Location);
 
 ###load corresponding between gene and transcirpt and probes and alpha num of every gene
     
-   
-      cat('HTA type is Human');      
+    if(exontype[1]=="Human")                     
+       {   
+            cat('Exon type is Human');      
 
-      data(HTA_transcript_NO); 
-      Gene_T_NO =HTA_transcript_NO ;
+            data(Human_transcript_NO); 
+            Gene_T_NO =Human_transcript_NO ;
                
-      data(HTA_probes_transcripts);
-      Probes_A_NUM = HTA_probes_transcripts;
+            data(Human_probes_transcripts);
+            Probes_A_NUM = Human_probes_transcripts;
        
-      data(HTA_transcript_name)
-      transcript_name <- HTA_transcript_name;          
-      data(HTA_Location) 
-      location=HTA_Location  
-         
+            data(Human_transcript_name)
+            transcript_name <- Human_transcript_name;          
+           
+            data(Human_Location);
+            location=Human_Location;
             
          
-     
+       }else if(exontype[1]=="Mouse")
+         {  
+           cat('Exon type is Mouse');      
 
-       
-     
+            data(Mouse_transcript_NO); 
+            Gene_T_NO =Mouse_transcript_NO ;
+
+            data(Mouse_probes_transcripts);
+            Probes_A_NUM = Mouse_probes_transcripts;
+
+            data(Mouse_transcript_name)
+            transcript_name <- Mouse_transcript_name;
+            
+            data(Mouse_Location);
+            location=Mouse_Location;
+              
+
+        } else if(exontype[1]=="Rat")
+        {
+            cat('Exon type is Rat');      
+
+            data(Rat_transcript_NO); 
+            Gene_T_NO =Rat_transcript_NO ;
+               
+            data(Rat_probes_transcripts);
+            Probes_A_NUM = Rat_probes_transcripts;
+         
+            data(Rat_transcript_name)
+            transcript_name <- Rat_transcript_name; 
+
+            data(Rat_Location) 
+            location=Rat_Location
+
+       }
+   
 
     cat('\n');
  ###find pm of every gene######
@@ -58,8 +165,8 @@
 
 
 
-    All_index <- xy2indices(Gene_T_NO[,1],Gene_T_NO[,2],abatch=object);    ###pos_x and pos_y to indices
-    
+    #All_index <- xy2indices(Gene_T_NO[,1],Gene_T_NO[,2],abatch=object_condition);    ###pos_x and pos_y to indices
+    All_index <-Gene_T_NO[,2]*2560+Gene_T_NO[,1]+1
     Gene_T_INdex = cbind( Gene_T_NO[,3],All_index);  ###table of gene transcript index   
 
    
@@ -69,20 +176,20 @@
    {
     for (i in c(1:chipnum)){
      
-      m<-min(pm(object)[,i])
-      pm(object)[,i]<-pm(object)[,i]-m+1
+      m<-min(oligo:::pm(object_condition,target='probeset')[,i])
+      oligo:::pm(object_condition,target='probeset')[,i]<-oligo:::pm(object_condition,target='probeset')[,i]-m+1
       
     }
   }
 
- #   pm_g <-affy:::pm(object);                           ##pm of cel 
+    pm_g <- oligo:::pm(object_condition,target='probeset');                           ##pm of cel 
    
 
     Length_unique_index <- length(unique_index);
       
    if(chipnum==1)
    {
-       pm<-affy:::intensity(object)[unique_index]         ##nofind pm use 1 to substitute for one chips
+       pm <- pm_g[location]         ##nofind pm use 1 to substitute for one chips
        for (j in c(1:Length_unique_index))
        {
            if(is.na(pm[j]))
@@ -90,7 +197,7 @@
        }
    }else
    {  
-       pm<-affy:::intensity(object)[unique_index,]         ##nofind pm use 1 to substitute for multi chips
+       pm <- pm_g[location,]         ##nofind pm use 1 to substitute for multi chips
        for (j in c(1:Length_unique_index))
        {
            if(is.na(pm[j,2]))
@@ -110,8 +217,8 @@
    rm(unique_index)
 
    total_probes_everygene <- Probes_A_NUM[,1];    ##total num of probes for everygene
-   total_isoform<-dim(HTA_transcript_name)[1];
-   #rm(pm);
+   total_isoform<-dim(Human_transcript_name)[1];
+   rm(pm_g);
   
 
    
@@ -136,8 +243,9 @@
   rm(All_index)
 
   gc();
-  ####calculate pm_index and gt_index##########
-  prctiles <- 0.01*c(5, 25, 50, 75, 95);
+
+  ####optimise#####
+ prctiles <- 0.01*c(5, 25, 50, 75, 95);
   len_pc<-length(prctiles);
    pm_index <- c();
    gt_index <- c();
@@ -194,35 +302,24 @@
    if(is.null(cl))
    {
         ####optimise#####
-   
-       
-  
         res <-
   	      .Call(
   	  	"gme_c"
          	, pm
          	, Gene_T_INdex
-         	, unique_probes_everygene[i]
-         	, total_probes_everygene[i]
-         	, alpha_num_everygene[i]
+         	, unique_probes_everygene
+         	, total_probes_everygene
+         	, alpha_num_everygene
          	, Total_genes
                 , prctiles
   	       , len_pc
          	, savepar
          	, eps
   	 	)
-        
-         
-      
-      
    }else
    {
-       ################################################################
-
-
-  
-    cl_genes_num<-matrix(0,1,ncol=BatchFold*length(cl))
-    cl_genes_num_temp = trunc(Total_genes/(BatchFold*length(cl)));
+           cl_genes_num<-matrix(0,1,ncol=BatchFold*length(cl))
+          cl_genes_num_temp = trunc(Total_genes/(BatchFold*length(cl)));
    
   
      for (j in c(1:(BatchFold*length(cl)-1))){
@@ -231,13 +328,6 @@
      cl_genes_num[1,BatchFold*length(cl)]<-Total_genes-cl_genes_num_temp*(BatchFold*length(cl)-1)
 
 
-       ################################################################
-
-
-
-
-         
-        
 		paramsList<-list();   
 		if(length(cl)>1)
 		{
@@ -256,7 +346,6 @@
 			}
 		}
 		
-			
 		cat('start parallel compute...');	   
             temp_res <- clusterApplyLB(
 						 cl
@@ -288,14 +377,15 @@
 						, savepar
          					, eps
 						)
-       
+            
+
             cl_isoform_num<-c()
             for(i in 1:(BatchFold*length(cl))){
 
                cl_isoform_num[i]<-(length(temp_res[[i]][,1])-cl_genes_num[1,i]*7)/7
 
             }
-              
+
             expr_g<-c();
             se_g<-c();
             expr_t<-c();
@@ -331,14 +421,10 @@
                         prc95_t<-rbind(prc95_t,temp_res[[i]][(1+ cl_genes_num[1,i]*7+6*cl_isoform_num[i]):(cl_genes_num[1,i]*7+7*cl_isoform_num[i]),])
     
  		}
-    
+     
   }
 
 
-  if(!is.null(cl))
-  {
-	stopCluster(cl);
-  }
 
 
   if(is.null(cl)){
@@ -363,10 +449,31 @@
      prc75_t <- matrix(res_t[c((5*total_isoform+1):(6*total_isoform)),],total_isoform,chipnum)
      prc95_t <- matrix(res_t[c((6*total_isoform+1):(7*total_isoform)),],total_isoform,chipnum)
 
-}
+    }
+    
 
-     
+     expr_g_all<-cbind(expr_g_all,expr_g)
+     se_g_all<-cbind(se_g_all,se_g)
+     prc5_g_all<-cbind(prc5_g_all,prc5_g)
+     prc25_g_all<-cbind(prc25_g_all,prc25_g)
+     prc50_g_all<-cbind(prc50_g_all,prc50_g)
+     prc75_g_all<-cbind(prc75_g_all,prc75_g)
+     prc95_g_all<-cbind(prc95_g_all,prc95_g)
 
+     expr_t_all<-cbind(expr_t_all,expr_t)
+     se_t_all<-cbind(se_t_all,se_t)
+     prc5_t_all<-cbind(prc5_t_all,prc5_t)
+     prc25_t_all<-cbind(prc25_t_all,prc25_t)
+     prc50_t_all<-cbind(prc50_t_all,prc50_t)
+     prc75_t_all<-cbind(prc75_t_all,prc75_t)
+     prc95_t_all<-cbind(prc95_t_all,prc95_t)
+
+ }## done 
+
+  if(!is.null(cl))
+  {
+	stopCluster(cl);
+  }
 
 
  
@@ -389,57 +496,57 @@
  
 
  
+ 
   if (gsnorm[1]=="mean")
    {
-      expr_g <- as.data.frame(2^expr_g)
+      expr_g_all <- as.data.frame(2^expr_g_all)
      
-      chipm <- apply(expr_g,2,mean)
+      chipm <- apply(expr_g_all,2,mean)
       chipm <- chipm/chipm[1]
 
-      expr_g <- as.matrix(log2(expr_g))
+      expr_g_all <- as.matrix(log2(expr_g_all))
       for (i in 1:chipnum)
       {
-          expr_g[,i] <- expr_g[,i]-log2(chipm[i])
-          se_g[,i]<- se_g[,i]/chipm[i]
-          prc5_g[,i] <- prc5_g[,i]-log2(chipm[i])
-          prc25_g[,i] <- prc25_g[,i]-log2(chipm[i])
-          prc50_g[,i] <- prc50_g[,i]-log2(chipm[i])
-          prc75_g[,i] <- prc75_g[,i]-log2(chipm[i])
-          prc95_g[,i] <- prc95_g[,i]-log2(chipm[i])
- 
+          expr_g_all[,i] <- expr_g_all[,i]-log2(chipm[i])
+          se_g_all[,i]<- se_g[,i]/chipm[i]
+          prc5_g_all[,i] <- prc5_g_all[,i]-log2(chipm[i])
+          prc25_g_all[,i] <- prc25_g_all[,i]-log2(chipm[i])
+          prc50_g_all[,i] <- prc50_g_all[,i]-log2(chipm[i])
+          prc75_g_all[,i] <- prc75_g_all[,i]-log2(chipm[i])
+          prc95_g_all[,i] <- prc95_g_all[,i]-log2(chipm[i])
     }
   }else if (gsnorm[1]=="median")
     {
-       expr_g <- as.data.frame(2^expr_g)
+       expr_g_all <- as.data.frame(2^expr_g_all)
     
-       chipm <- apply(expr_g,2,median)
+       chipm <- apply(expr_g_all,2,median)
        chipm <- chipm/chipm[1]
 
-        expr_g <- as.matrix(log2(expr_g))
+        expr_g_all <- as.matrix(log2(expr_g_all))
         for (i in 1:chipnum)
         {
-          expr_g[,i] <- expr_g[,i]-log2(chipm[i])
-          se_g[,i]<- se_g[,i]/chipm[i]
-          prc5_g[,i] <- prc5_g[,i]-log2(chipm[i])
-          prc25_g[,i] <- prc25_g[,i]-log2(chipm[i])
-          prc50_g[,i] <- prc50_g[,i]-log2(chipm[i])
-          prc75_g[,i] <- prc75_g[,i]-log2(chipm[i])
-          prc95_g[,i] <- prc95_g[,i]-log2(chipm[i])
+          expr_g_all[,i] <- expr_g_all[,i]-log2(chipm[i])
+          se_g_all[,i]<- se_g[,i]/chipm[i]
+          prc5_g_all[,i] <- prc5_g_all[,i]-log2(chipm[i])
+          prc25_g_all[,i] <- prc25_g_all[,i]-log2(chipm[i])
+          prc50_g_all[,i] <- prc50_g_all[,i]-log2(chipm[i])
+          prc75_g_all[,i] <- prc75_g_all[,i]-log2(chipm[i])
+          prc95_g_all[,i] <- prc95_g_all[,i]-log2(chipm[i])
         }
   }else if (gsnorm[1]=="meanlog")
   {
-       chipm <- apply(expr_g,2,mean)
+       chipm <- apply(expr_g_all,2,mean)
         chipm <- chipm-chipm[1]
 
        for (i in 1:chipnum)
        {
-         expr_g[,i] <- expr_g[,i]-chipm[i]
-         se_g[,i]<- se_g[,i]/chipm[i]
-         prc5_g[,i] <- prc5_g[,i]-chipm[i]
-         prc25_g[,i] <- prc25_g[,i]-chipm[i]
-         prc50_g[,i] <- prc50_g[,i]-chipm[i]
-         prc75_g[,i] <- prc75_g[,i]-chipm[i]
-         prc95_g[,i] <- prc95_g[,i]-chipm[i]
+         expr_g_all[,i] <- expr_g_all[,i]-chipm[i]
+         se_g_all[,i]<- se_g[,i]/chipm[i]
+         prc5_g_all[,i] <- prc5_g_all[,i]-chipm[i]
+         prc25_g_all[,i] <- prc25_g_all[,i]-chipm[i]
+         prc50_g_all[,i] <- prc50_g_all[,i]-chipm[i]
+         prc75_g_all[,i] <- prc75_g_all[,i]-chipm[i]
+         prc95_g_all[,i] <- prc95_g_all[,i]-chipm[i]
       }
   }
 
@@ -449,79 +556,79 @@
 
   if (gsnorm[1]=="mean")
   {
-    expr_t <- as.data.frame(2^expr_t)
-    chipm <- apply(expr_t,2,mean)
+    expr_t_all <- as.data.frame(2^expr_t_all)
+    chipm <- apply(expr_t_all,2,mean)
     chipm <- chipm/chipm[1]
 
-    expr_t <- as.matrix(log2(expr_t))
+    expr_t_all <- as.matrix(log2(expr_t_all))
     for (i in 1:chipnum)
     {
-      expr_t[,i] <- expr_t[,i]-log2(chipm[i])
-      se_t[,i]<- se_t[,i]/chipm[i]
-      prc5_t[,i] <- prc5_t[,i]-log2(chipm[i])
-      prc25_t[,i] <- prc25_t[,i]-log2(chipm[i])
-      prc50_t[,i] <- prc50_t[,i]-log2(chipm[i])
-      prc75_t[,i] <- prc75_t[,i]-log2(chipm[i])
-      prc95_t[,i] <- prc95_t[,i]-log2(chipm[i])
+      expr_t_all[,i] <- expr_t_all[,i]-log2(chipm[i])
+      se_t_all[,i]<- se_g[,i]/chipm[i]
+      prc5_t_all[,i] <- prc5_t_all[,i]-log2(chipm[i])
+      prc25_t_all[,i] <- prc25_t_all[,i]-log2(chipm[i])
+      prc50_t_all[,i] <- prc50_t_all[,i]-log2(chipm[i])
+      prc75_t_all[,i] <- prc75_t_all[,i]-log2(chipm[i])
+      prc95_t_all[,i] <- prc95_t_all[,i]-log2(chipm[i])
     }
   }
  
  else if (gsnorm[1]=="median")
   {
-    expr_t <- as.data.frame(2^expr_t)
+    expr_t_all <- as.data.frame(2^expr_t_all)
     
-    chipm <- apply(expr_t,2,median)
+    chipm <- apply(expr_t_all,2,median)
     chipm <- chipm/chipm[1]
 
-    expr_t <- as.matrix(log2(expr_t))
+    expr_t_all <- as.matrix(log2(expr_t_all))
     for (i in 1:chipnum)
     {
-      expr_t[,i] <- expr_t[,i]-log2(chipm[i])
-      se_t[,i]<- se_t[,i]/chipm[i]
-      prc5_t[,i] <- prc5_t[,i]-log2(chipm[i])
-      prc25_t[,i] <- prc25_t[,i]-log2(chipm[i])
-      prc50_t[,i] <- prc50_t[,i]-log2(chipm[i])
-      prc75_t[,i] <- prc75_t[,i]-log2(chipm[i])
-      prc95_t[,i] <- prc95_t[,i]-log2(chipm[i])
+      expr_t_all[,i] <- expr_t_all[,i]-log2(chipm[i])
+      se_t_all[,i]<- se_g[,i]/chipm[i]
+      prc5_t_all[,i] <- prc5_t_all[,i]-log2(chipm[i])
+      prc25_t_all[,i] <- prc25_t_all[,i]-log2(chipm[i])
+      prc50_t_all[,i] <- prc50_t_all[,i]-log2(chipm[i])
+      prc75_t_all[,i] <- prc75_t_all[,i]-log2(chipm[i])
+      prc95_t_all[,i] <- prc95_t_all[,i]-log2(chipm[i])
     }
   }
   else if (gsnorm[1]=="meanlog")
   {
-    chipm <- apply(expr_t,2,mean)
+    chipm <- apply(expr_t_all,2,mean)
     chipm <- chipm-chipm[1]
 
     for (i in 1:chipnum)
     {
-      expr_t[,i] <- expr_t[,i]-chipm[i]
-      se_t[,i]<- se_t[,i]/chipm[i]
-      prc5_t[,i] <- prc5_t[,i]-chipm[i]
-      prc25_t[,i] <- prc25_t[,i]-chipm[i]
-      prc50_t[,i] <- prc50_t[,i]-chipm[i]
-      prc75_t[,i] <- prc75_t[,i]-chipm[i]
-      prc95_t[,i] <- prc95_t[,i]-chipm[i]
+      expr_t_all[,i] <- expr_t_all[,i]-chipm[i]
+      se_t_all[,i]<- se_g[,i]/chipm[i]
+      prc5_t_all[,i] <- prc5_t_all[,i]-chipm[i]
+      prc25_t_all[,i] <- prc25_t_all[,i]-chipm[i]
+      prc50_t_all[,i] <- prc50_t_all[,i]-chipm[i]
+      prc75_t_all[,i] <- prc75_t_all[,i]-chipm[i]
+      prc95_t_all[,i] <- prc95_t_all[,i]-chipm[i]
     }
   }
 
  
-  rownames(expr_t) <- transcript_name[,1];
+  rownames(expr_t_all) <- transcript_name[,1];
 
-  colnames(expr_t) <- sampleNames(object)
-  rownames(se_t) <- transcript_name[,1];
-  colnames(se_t) <- sampleNames(object)
+  colnames(expr_t_all) <- sampleNames(object)
+  rownames(se_t_all) <- transcript_name[,1];
+  colnames(se_t_all) <- sampleNames(object)
  
-  rownames(prc5_t) <- transcript_name[,1];
-  colnames(prc5_t) <- sampleNames(object)
-  rownames(prc25_t) <- transcript_name[,1];
-  colnames(prc25_t) <- sampleNames(object)
+  rownames(prc5_t_all) <- transcript_name[,1];
+  colnames(prc5_t_all) <- sampleNames(object)
+  rownames(prc25_t_all) <- transcript_name[,1];
+  colnames(prc25_t_all) <- sampleNames(object)
  
-  rownames(prc50_t) <- transcript_name[,1];
-  colnames(prc50_t) <- sampleNames(object);
+  rownames(prc50_t_all) <- transcript_name[,1];
+  colnames(prc50_t_all) <- sampleNames(object);
 
-  rownames(prc75_t) <- transcript_name[,1];
-  colnames(prc75_t) <- sampleNames(object)
+  rownames(prc75_t_all) <- transcript_name[,1];
+  colnames(prc75_t_all) <- sampleNames(object)
  
-  rownames(prc95_t) <- transcript_name[,1];
-  colnames(prc95_t) <- sampleNames(object)
+  rownames(prc95_t_all) <- transcript_name[,1];
+  colnames(prc95_t_all) <- sampleNames(object)
   
  rm(transcript_name);
  gc();  
@@ -532,8 +639,8 @@
   description <- description(object)
   return_exprReslt_t <- new(
 		"exprReslt"
-	,	exprs=log2((2^expr_t)+addConstant)
-	,	se.exprs=se_t
+	,	exprs=log2((2^expr_t_all)+addConstant)
+	,	se.exprs=se_t_all
   	,	phenoData = new(
 			"AnnotatedDataFrame"
 		,	data=pData(object)
@@ -541,11 +648,11 @@
 		)
 	# , notes=notes
 	)
-          prcfive(return_exprReslt_t) <- prc5_t
-	prctwfive(return_exprReslt_t) <- prc25_t
-	prcfifty(return_exprReslt_t) <- prc50_t
-	prcsevfive(return_exprReslt_t) <- prc75_t
-	prcninfive(return_exprReslt_t) <- prc95_t
+          prcfive(return_exprReslt_t) <- prc5_t_all
+	prctwfive(return_exprReslt_t) <- prc25_t_all
+	prcfifty(return_exprReslt_t) <- prc50_t_all
+	prcsevfive(return_exprReslt_t) <- prc75_t_all
+	prcninfive(return_exprReslt_t) <- prc95_t_all
   
   annotation(return_exprReslt_t) <- annotation(object)
   description(return_exprReslt_t) <- description(object)
@@ -554,21 +661,21 @@
 
 
 
-  rownames(expr_g) <-rownames(Probes_A_NUM);
-  colnames(expr_g) <- sampleNames(object)
-  rownames(se_g) <- rownames(Probes_A_NUM);
-  colnames(se_g) <- sampleNames(object)
+  rownames(expr_g_all) <-rownames(Probes_A_NUM);
+  colnames(expr_g_all) <- sampleNames(object)
+  rownames(se_g_all) <- rownames(Probes_A_NUM);
+  colnames(se_g_all) <- sampleNames(object)
   
-  rownames(prc5_g) <- rownames(Probes_A_NUM);
-  colnames(prc5_g) <- sampleNames(object)
-  rownames(prc25_g) <- rownames(Probes_A_NUM);
-  colnames(prc25_g) <- sampleNames(object)
-  rownames(prc50_g) <- rownames(Probes_A_NUM);
-  colnames(prc50_g) <- sampleNames(object)
-  rownames(prc75_g) <- rownames(Probes_A_NUM);
-  colnames(prc75_g) <- sampleNames(object)
-  rownames(prc95_g) <- rownames(Probes_A_NUM);
-  colnames(prc95_g) <- sampleNames(object)
+  rownames(prc5_g_all) <- rownames(Probes_A_NUM);
+  colnames(prc5_g_all) <- sampleNames(object)
+  rownames(prc25_g_all) <- rownames(Probes_A_NUM);
+  colnames(prc25_g_all) <- sampleNames(object)
+  rownames(prc50_g_all) <- rownames(Probes_A_NUM);
+  colnames(prc50_g_all) <- sampleNames(object)
+  rownames(prc75_g_all) <- rownames(Probes_A_NUM);
+  colnames(prc75_g_all) <- sampleNames(object)
+  rownames(prc95_g_all) <- rownames(Probes_A_NUM);
+  colnames(prc95_g_all) <- sampleNames(object)
 
 
 
@@ -579,8 +686,8 @@
 
   return_exprReslt_g <- new(
 		"exprReslt"
-	,	exprs=log2((2^expr_g)+addConstant)
-	,	se.exprs=se_g
+	,	exprs=log2((2^expr_g_all)+addConstant)
+	,	se.exprs=se_g_all
   	,	phenoData = new(
 			"AnnotatedDataFrame"
 		,	data=pData(object)
@@ -588,11 +695,11 @@
 		)
 	# , notes=notes
 	)
-          prcfive(return_exprReslt_g) <- prc5_g
-         	prctwfive(return_exprReslt_g) <- prc25_g
-	prcfifty(return_exprReslt_g) <- prc50_g
-	prcsevfive(return_exprReslt_g) <- prc75_g
-	prcninfive(return_exprReslt_g) <- prc95_g
+          prcfive(return_exprReslt_g) <- prc5_g_all
+         	prctwfive(return_exprReslt_g) <- prc25_g_all
+	prcfifty(return_exprReslt_g) <- prc50_g_all
+	prcsevfive(return_exprReslt_g) <- prc75_g_all
+	prcninfive(return_exprReslt_g) <- prc95_g_all
   
 
   annotation(return_exprReslt_g) <- annotation(object)
@@ -602,9 +709,9 @@
   rm(object);
   gc();
 
- 
 
- # show(date())
+
+
   return_exprReslt<-list(gene=return_exprReslt_g,transcript=return_exprReslt_t)
   
   return (return_exprReslt)
@@ -612,3 +719,4 @@
 
 
 }
+

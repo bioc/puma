@@ -12,6 +12,19 @@ citEntry(entry="Article",
   "In preparation")
 )
 
+citEntry(entry="Article",
+         author="Xuejun Liu,Zhenzhu Gao,Li Zhang",
+         title="puma3.0: improved uncertainty propagation methods for gene and transcirpt expression and analysis.",
+         journal=	"BMC Bioinformatics",
+         year=	"2013",
+         textVersion = paste(
+         "puma3.0: improved uncertainty propagation methods for gene and transcirpt expression and analysis.",
+         "(2013)",
+         "Xuejun Liu,Zhenzhu Gao,Li Zhang",
+         "BMC Bioinformatics")
+)
+
+
 citEntry(entry="Misc",
 	 author = personList(as.person("P. Spelluci")),
    	 title =   "ANSI-C version of donlp2()",
@@ -19,6 +32,8 @@ citEntry(entry="Misc",
          
          textVersion = "P. Spelluci. ANSI C-version of donlp2(). http://plato.asu.edu/ftp/donlp2/donlp2_intv_dyn.tar.gz."
 	)
+
+
 
 citFooter("This free open-source software implements academic
 research by the authors and co-workers. If you use it,

@@ -62,7 +62,7 @@ alter the interpretation of GeneChip data,Nucleic Acid Research 33(20):e175.
 # object<-ReadAffy("celnames")
 
 ##object@cdfName<-"hta20hsaceviewtcdf"
-#eset<-gmhta(object,gsnorm="none")
+#eset<-gmhta(object,gsnorm="none",cl=cl)
 
 }
 

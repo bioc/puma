@@ -72,7 +72,7 @@ probes to gene loci, transcripts, exons and ncRNAs. BMC Bioinformatics.2010.}
 
 ## use method gmoExon to calculate the expression levels and related confidence 
 ## of the measures for the example data
-#eset_gmoExon<-gmoExon(oligo_object.exon,exontype="Human",gsnorm="none")
+#eset_gmoExon<-gmoExon(oligo_object.exon,exontype="Human",gsnorm="none",cl=cl)
 
 }
 
