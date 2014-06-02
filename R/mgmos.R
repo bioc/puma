@@ -7,15 +7,17 @@ mgmos <- function(
 ,	eps=1.0e-6
 )
 {
+  
+if (class(object)[1]=='ExpressionFeatureSet'){                   # if the user use oligo package read the cel files
 
 	probes <- length(oligo:::probeNames(object))
 	  conds <- length(sampleNames(object));
 	genes <-length(unique(oligo:::probeNames(object)));
 
 	phis <- c(0,0,0)
-    prctiles <- 0.01*c(5, 25, 50, 75, 95);
+      prctiles <- 0.01*c(5, 25, 50, 75, 95);
 
-  pm_g<-oligo:::pm(object);
+     pm_g<-oligo:::pm(object);
           mm_g<-oligo:::mm(object);
           probe<-(oligo:::probeNames(object));   
 
@@ -54,6 +56,49 @@ mgmos <- function(
   	 , eps
   	 , PACKAGE="puma"
   	 )
+
+}else if (class(object)[1]=='AffyBatch')             ##if the user use the affy package loading the cel files 
+{
+
+   probes <- length(affy:::probeNames(object))
+	conds <- length(object)
+	genes <- length(featureNames(object))
+
+	phis <- c(0,0,0)
+    prctiles <- 0.01*c(5, 25, 50, 75, 95);
+  
+  if (background == TRUE)
+  {
+    for (i in c(1:conds)){
+      m<-min(c(min(affy:::pm(object)[,i]),min(affy:::mm(object)[,i])))
+      affy:::pm(object)[,i]<-affy:::pm(object)[,i]-m+1
+      affy:::mm(object)[,i]<-affy:::mm(object)[,i]-m+1
+    }
+  }
+
+  if (replaceZeroIntensities)
+  {
+    affy:::pm(object)[which(affy:::pm(object)==0)] <- 1
+    affy:::mm(object)[which(affy:::mm(object)==0)] <- 1
+  }
+
+  res <-
+  	.Call(
+  	  "mgmos_c"
+  	 , affy:::pm(object)
+  	 , affy:::mm(object)
+  	 , genes
+  	 , probeNames(object)
+  	 , phis
+  	 , prctiles
+  	 , length(prctiles)
+  	 , savepar
+  	 , eps
+  	 , PACKAGE="puma"
+  	 )
+
+
+}
 
   expr <- matrix(res[c(1:genes),],genes,conds)
   se <- matrix(res[c((genes+1):(2*genes)),],genes,conds)
@@ -116,6 +161,8 @@ mgmos <- function(
       prc95[,i] <- prc95[,i]-chipm[i]
     }
   }
+
+if (class(object)[1]=='ExpressionFeatureSet'){
   probe_names<-unique(probe);
 
   rownames(expr) <- probe_names
@@ -132,7 +179,23 @@ mgmos <- function(
   colnames(prc75) <- sampleNames(object)
   rownames(prc95) <- probe_names
   colnames(prc95) <- sampleNames(object)
-
+}else if (class(object)[1]=='AffyBatch')
+{
+    rownames(expr) <- featureNames(object)
+  colnames(expr) <- sampleNames(object)
+  rownames(se) <- featureNames(object)
+  colnames(se) <- sampleNames(object)
+  rownames(prc5) <- featureNames(object)
+  colnames(prc5) <- sampleNames(object)
+  rownames(prc25) <- featureNames(object)
+  colnames(prc25) <- sampleNames(object)
+  rownames(prc50) <- featureNames(object)
+  colnames(prc50) <- sampleNames(object)
+  rownames(prc75) <- featureNames(object)
+  colnames(prc75) <- sampleNames(object)
+  rownames(prc95) <- featureNames(object)
+  colnames(prc95) <- sampleNames(object)
+}
   phenodata <- phenoData(object)
   annotation <- annotation(object)
   description <- description(object)
