@@ -497,7 +497,7 @@
     for (i in 1:chipnum)
     {
       expr_t[,i] <- expr_t[,i]-log2(chipm[i])
-      se_t[,i]<- se_g[,i]/chipm[i]
+      se_t[,i]<- se_t[,i]/chipm[i]
       prc5_t[,i] <- prc5_t[,i]-log2(chipm[i])
       prc25_t[,i] <- prc25_t[,i]-log2(chipm[i])
       prc50_t[,i] <- prc50_t[,i]-log2(chipm[i])
@@ -517,7 +517,7 @@
     for (i in 1:chipnum)
     {
       expr_t[,i] <- expr_t[,i]-log2(chipm[i])
-      se_t[,i]<- se_g[,i]/chipm[i]
+      se_t[,i]<- se_t[,i]/chipm[i]
       prc5_t[,i] <- prc5_t[,i]-log2(chipm[i])
       prc25_t[,i] <- prc25_t[,i]-log2(chipm[i])
       prc50_t[,i] <- prc50_t[,i]-log2(chipm[i])
@@ -533,7 +533,7 @@
     for (i in 1:chipnum)
     {
       expr_t[,i] <- expr_t[,i]-chipm[i]
-      se_t[,i]<- se_g[,i]/chipm[i]
+      se_t[,i]<- se_t[,i]/chipm[i]
       prc5_t[,i] <- prc5_t[,i]-chipm[i]
       prc25_t[,i] <- prc25_t[,i]-chipm[i]
       prc50_t[,i] <- prc50_t[,i]-chipm[i]

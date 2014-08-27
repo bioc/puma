@@ -202,9 +202,9 @@
   	  	"gme_c"
          	, pm
          	, Gene_T_INdex
-         	, unique_probes_everygene[i]
-         	, total_probes_everygene[i]
-         	, alpha_num_everygene[i]
+         	, unique_probes_everygene
+         	, total_probes_everygene
+         	, alpha_num_everygene
          	, Total_genes
                 , prctiles
   	       , len_pc
