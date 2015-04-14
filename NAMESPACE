@@ -1,5 +1,7 @@
 useDynLib("puma")
-
+import(mclust)
+import(methods)
+import(oligo)
 importMethodsFrom(affy,barplot, boxplot,cdfName, hist, mm, "mm<-",
                   pm, "pm<-", pmindex, probeNames)
 
