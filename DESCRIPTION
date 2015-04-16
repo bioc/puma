@@ -1,7 +1,7 @@
 Package: puma
 Type: Package
 Title: Propagating Uncertainty in Microarray Analysis(including Affymetrix tranditional 3' arrays and exon arrays and Human Transcriptome Array 2.0)
-Version: 3.10.0
+Version: 3.11.0
 Date: 2014-04-4
 Author: Richard D. Pearson, Xuejun Liu, Magnus Rattray, Marta Milo, Neil D.
     Lawrence, Guido Sanguinetti, Li Zhang
