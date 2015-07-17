@@ -112,7 +112,7 @@
 
 
 
-  #  All_index <- affy:::xy2indices(Gene_T_NO[,1],Gene_T_NO[,2],abatch=object);    ###pos_x and pos_y to indices
+  #  All_index <- affy::xy2indices(Gene_T_NO[,1],Gene_T_NO[,2],abatch=object);    ###pos_x and pos_y to indices
      All_index<-Gene_T_NO[,2]*2560+Gene_T_NO[,1]+1
     Gene_T_INdex = cbind( Gene_T_NO[,3],All_index);  ###table of gene transcript index   
 
@@ -129,7 +129,7 @@
     }
   }
 
-    pm_g <- oligo:::pm(object,target='probeset');                           ##pm of cel 
+    pm_g <- oligo::pm(object,target='probeset');                           ##pm of cel 
    
 
     Length_unique_index <- length(unique_index);
@@ -424,7 +424,7 @@
 
 
    cat("\n")
-   cat("Gene and transcirpt expression values are returned.");
+   cat("Gene and transcirpt expression values are returned.\n");
 
 
  
@@ -432,12 +432,13 @@
  
   if (gsnorm[1]=="mean")
    {
-      expr_g <- as.data.frame(2^expr_g)
-     
-      chipm <- apply(expr_g,2,mean)
+      expr_temp <- as.data.frame(2^expr_g)
+      expr_temp <-as.matrix(expr_temp)
+      expr_temp[apply(is.infinite(expr_temp), FUN = any, 1), ] = exp(700)
+      
+      chipm <- apply(expr_temp,2,mean)
       chipm <- chipm/chipm[1]
-
-      expr_g <- as.matrix(log2(expr_g))
+      #expr_g <- as.matrix(log2(expr_g))
       for (i in 1:chipnum)
       {
           expr_g[,i] <- expr_g[,i]-log2(chipm[i])
@@ -447,7 +448,9 @@
           prc50_g[,i] <- prc50_g[,i]-log2(chipm[i])
           prc75_g[,i] <- prc75_g[,i]-log2(chipm[i])
           prc95_g[,i] <- prc95_g[,i]-log2(chipm[i])
-    }
+      }
+    rm(expr_temp);
+
   }else if (gsnorm[1]=="median")
     {
        expr_g <- as.data.frame(2^expr_g)
@@ -468,18 +471,23 @@
         }
   }else if (gsnorm[1]=="meanlog")
   {
+
        chipm <- apply(expr_g,2,mean)
         chipm <- chipm-chipm[1]
 
        for (i in 1:chipnum)
        {
-         expr_g[,i] <- expr_g[,i]-chipm[i]
+        if(i!=1)
+        {
+          expr_g[,i] <- expr_g[,i]-chipm[i]
           se_g[,i]<- se_g[,i]/chipm[i]
-         prc5_g[,i] <- prc5_g[,i]-chipm[i]
-         prc25_g[,i] <- prc25_g[,i]-chipm[i]
-         prc50_g[,i] <- prc50_g[,i]-chipm[i]
-         prc75_g[,i] <- prc75_g[,i]-chipm[i]
-         prc95_g[,i] <- prc95_g[,i]-chipm[i]
+          prc5_g[,i] <- prc5_g[,i]-chipm[i]
+          prc25_g[,i] <- prc25_g[,i]-chipm[i]
+          prc50_g[,i] <- prc50_g[,i]-chipm[i]
+          prc75_g[,i] <- prc75_g[,i]-chipm[i]
+          prc95_g[,i] <- prc95_g[,i]-chipm[i]
+        }
+         
       }
   }
 
@@ -489,11 +497,13 @@
 
   if (gsnorm[1]=="mean")
   {
-    expr_t <- as.data.frame(2^expr_t)
-    chipm <- apply(expr_t,2,mean)
-    chipm <- chipm/chipm[1]
+    expr_temp <- as.data.frame(2^expr_t)
+    expr_temp <-as.matrix(expr_temp)
+    expr_temp[apply(is.infinite(expr_temp), FUN = any, 1), ] = exp(700)
 
-    expr_t <- as.matrix(log2(expr_t))
+    chipm <- apply(expr_temp,2,mean)
+    chipm <- chipm/chipm[1]
+    #expr_t <- as.matrix(log2(expr_t))
     for (i in 1:chipnum)
     {
       expr_t[,i] <- expr_t[,i]-log2(chipm[i])
@@ -504,9 +514,8 @@
       prc75_t[,i] <- prc75_t[,i]-log2(chipm[i])
       prc95_t[,i] <- prc95_t[,i]-log2(chipm[i])
     }
-  }
- 
- else if (gsnorm[1]=="median")
+    rm(expr_temp);
+  } else if (gsnorm[1]=="median")
   {
     expr_t <- as.data.frame(2^expr_t)
     
@@ -524,21 +533,23 @@
       prc75_t[,i] <- prc75_t[,i]-log2(chipm[i])
       prc95_t[,i] <- prc95_t[,i]-log2(chipm[i])
     }
-  }
-  else if (gsnorm[1]=="meanlog")
+  }else if (gsnorm[1]=="meanlog")
   {
     chipm <- apply(expr_t,2,mean)
     chipm <- chipm-chipm[1]
 
     for (i in 1:chipnum)
     {
-      expr_t[,i] <- expr_t[,i]-chipm[i]
-      se_t[,i]<- se_t[,i]/chipm[i]
-      prc5_t[,i] <- prc5_t[,i]-chipm[i]
-      prc25_t[,i] <- prc25_t[,i]-chipm[i]
-      prc50_t[,i] <- prc50_t[,i]-chipm[i]
-      prc75_t[,i] <- prc75_t[,i]-chipm[i]
-      prc95_t[,i] <- prc95_t[,i]-chipm[i]
+      if(i!=1)
+        {
+          expr_t[,i] <- expr_t[,i]-chipm[i]
+          se_t[,i]<- se_t[,i]/chipm[i]
+          prc5_g[,i] <- prc5_g[,i]-chipm[i]
+          prc25_g[,i] <- prc25_g[,i]-chipm[i]
+          prc50_g[,i] <- prc50_g[,i]-chipm[i]
+          prc75_g[,i] <- prc75_g[,i]-chipm[i]
+          prc95_g[,i] <- prc95_g[,i]-chipm[i]
+        }
     }
   }
 
