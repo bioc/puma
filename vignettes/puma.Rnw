@@ -5,13 +5,14 @@
 %\VignettePackage{puma}
 %documentclass[12pt, a4paper]{article}
 
-\usepackage[utf8]{inputenc}
-\documentclass[12pt]{article}
 
-\usepackage{amsmath,pstricks}
-\usepackage{hyperref}
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
 \usepackage{float}
-\usepackage[authoryear,round]{natbib}
+\usepackage{hyperref}
+\usepackage[numbers,round]{natbib}
 
 \restylefloat{figure}
 
@@ -32,13 +33,14 @@
 
 \author{R. D. Pearson, X. Liu, M. Rattray, M. Milo, N. D. Lawrence\\
                           G. Sanguinetti, Li Zhang}
+\usepackage{Sweave}
 \begin{document}
 \title{puma User Guide}
 
 \maketitle
-
+\tableofcontents
 \sloppy
-\SweaveOpts{keep.source=TRUE}
+%\SweaveOpts{keep.source=TRUE}
 
 \section{Abstract}
 Most analyses of Affymetrix GeneChip data (including tranditional 3' arrays and exon arrays) are based on point estimates of expression levels and ignore the uncertainty of such estimates. By propagating uncertainty to downstream analyses we can improve results from microarray analyses. For the first time, the puma package makes a suite of uncertainty propagation methods available to a general audience. In additon to calculte gene expression from Affymetrix 3' arrays, puma also provides methods to process exon arrays and produces gene and isoform expression for alternative splicing study. puma also offers improvements in terms of scope and speed of execution over previously available uncertainty propagation methods. Included are summarisation, differential expression detection, clustering and PCA methods, together with useful plotting functions.
@@ -46,7 +48,7 @@ Most analyses of Affymetrix GeneChip data (including tranditional 3' arrays and 
 \section{Citing \puma}
 The \puma package is based on a large body of methodological research.
 Citing \puma in publications will usually involve citing one or more of
-the methodology papers \cite{mgmos, mmgmos, pumapca, briefings, pplr, pumaclust} that the software is based on as well as citing
+the methodology papers \cite{mgmos},\cite{mmgmos},\cite{pumapca},\cite{briefings},\cite{pplr},\cite{pumaclust},\cite{ipplr},\cite{pumaclustii} that the software is based on as well as citing
 the software package itself. For the methodology papers, see
 http://www.bioinf.manchester.ac.uk/resources/puma/.
 \puma makes use of the donlp2() function \cite{donlp2} by Peter Spellucci. The use of donlp2() must be acknowledged in any publication which contains results obtained with puma or parts of it. Citation of the author's name and netlib-source is suitable. The software
@@ -278,7 +280,7 @@ Besides the gmoExon,we also can  use igmoExon to calculate gene and transcript e
 \item[exontype] A string with value be one of "Human", "Mouse", "Rat", specifying the chip type of the data.
 \item[gnsorm] The way you want to normalized,and the value is one of "median", "none", "mean", "meanlog". 
 \item[condition] Yes or No. Choose Yes means  the \Rfunction{igmoExon} function separately calculate the gene expression values by the conditions and than combined the every condition's result,and normalized finally.Choose No means the \Rfunction{igmoExon} calulate the gene expression values as same as the \Rfunction{gmoExon} function.
-end{description}
+\end{description}
 
 Here are the two example as follows:
 
@@ -845,53 +847,7 @@ For non-factorial designed experiments, we will simply ignore columns (right to 
 There are examples of the automated creation of design and contrast matrices for increasingly complex experimental designs in the help pages for \Robject{createDesignMatrix} and \Robject{createContrastMatrix}.
 
 \newpage
-\bibliographystyle{plainnat}
-\begin{thebibliography}{10}
-	
-\bibitem[1]{mgmos}Milo,M., Niranjan,M., Holley,M.C., Rattray,M. and Lawrence,N.D. (2004)
-\newblock A probabilistic approach for summarising oligonucleotide gene expression data.
-\newblock Technical report available upon request.
-
-\bibitem[2]{mmgmos}Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2005)
-\newblock A tractable probabilistic model for Affymetrix probe-level analysis across multiple chips.
-\newblock Bioinformatics, 21:3637-3644.
-
-\bibitem[3]{pumapca}Sanguinetti,G., Milo,M., Rattray,M. and Lawrence, N.D. (2005)
-\newblock Accounting for probe-level noise in principal component analysis of microarray data.
-\newblock Bioinformatics, 21:3748-3754.
-
-\bibitem[4]{briefings}Rattray,M., Liu,X., Sanguinetti,G., Milo,M. and Lawrence,N.D. (2006)
-\newblock Propagating uncertainty in Microarray data analysis.
-\newblock Briefings in Bioinformatics, 7:37-47.
-
-\bibitem[5]{pplr}Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2006)
-\newblock Probe-level measurement error improves accuracy in detecting differential gene expression.
-\newblock Bioinformatics, 22:2107-2113.
-
-\bibitem[6]{pumaclust}Liu,X., Lin,K.K., Andersen,B., and Rattray,M. (2006)
-\newblock Including probe-level uncertainty in model-based gene expression clustering.
-\newblock BMC Bioinformatics, 8(98).
-
-
-\bibitem[7]{ipplr}Li Zhang, Xuejun Liu. (2009)
-\newblock An improved probabilistic model for finding differential gene expression.
-\newblock the 2nd BMEI 17-19 oct. 2009. Tianjin. China.
-
-
-\bibitem[8]{pumaclustii}Liu,X. and Rattray,M. (2009)
-\newblock Including probe-level measurement error in robust mixture clustering of replicated microarray gene expression.
-\newblock technical report available request.
-
-
-
-\bibitem[9]{donlp2}Peter Spellucci.
-\newblock DONLP2 code and accompanying documentation.
-\newblock Electronically available via http://plato.la.asu.edu/donlp2.html.
-
-\bibitem[10]{Choe:2005}Choe, S. E., Boutros, M., Michelson, A. M., Church, G. M. and Halfon, M. S. (2005)
-\newblock Preferred analysis methods for Affymetrix GeneChips revealed by a wholly defined control dataset
-\newblock   Genome Biol, 6:2:R16
-
-\end{thebibliography}
+\bibliographystyle{unsrt}
+\bibliography{puma}
 
 \end{document}
