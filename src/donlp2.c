@@ -319,7 +319,7 @@ void donlp2(void) {
         {
            // fprintf(stderr,"scaling variable %i is zero\n",i);
  REprintf("donlp2: call of user_eval with undefined mode\n");
-            _exit(1);
+            return;//////////////////////
         }
     }
     nres = n+nlin+nonlin ; 
@@ -418,13 +418,13 @@ void donlp2(void) {
     if ( taubnd <= 0 ) {
       //fprintf(stderr,"taubnd le zero is not allowed ");
       REprintf("donlp2: call of user_eval with undefined mode\n");
-      _exit(1);
+      return;//////////////////////
     }
     for ( i = 1 ; i<= n ; i++ ) {
       if ( o8opti_yy[i] != xsc[i] ) {
        // fprintf(stderr,"setup has changed xsc, not allowed");
       REprintf("donlp2: call of user_eval with undefined mode\n");
-        _exit(1);
+        return;//////////////////////
       }
     }
     /* preevaluation of gradients of linear functions    */
@@ -2271,7 +2271,7 @@ void o8opti(void)
            // fprintf(stdout," decrease delmin !\n ");    
             REprintf("decrease delmin\n");         
                  
-            _exit(1);
+            return;//////////////////////
           }
           if ( i > n  && (o8bind[2*i-1]+o8bind[2*i] == 1 ) )
           {
@@ -7335,7 +7335,7 @@ void esf(DDOUBLE donlp2_x[],DDOUBLE *fx)
         {
             //fprintf(stderr,"donlp2: bloc-call, function info invalid\n");
            REprintf("donlp2: bloc-call, function info invalid\n");
-            _exit(1);
+            return;//////////////////////
         }
     } 
     else 
@@ -7377,7 +7377,7 @@ void esgradf(DDOUBLE donlp2_x[],DDOUBLE gradf[])
         {
             //fprintf(stderr,"donlp2: bloc call with function info invalid\n");
             REprintf("donlp2: bloc call with function info invalid\n");
-            _exit(1);
+            return;//////////////////////
         }
     } 
     else 
@@ -7526,7 +7526,7 @@ IINTEGER j    ;
         {
            // fprintf(stderr,"donlp2: bloc call with function info invalid\n");
             REprintf("donlp2: bloc call with function info invalid\n");
-            _exit(1);
+            return;//////////////////////
         }   
      } 
      else 
@@ -7576,7 +7576,7 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
         {
            // fprintf(stderr,"donlp2: bloc call with function info invalid\n");
                 REprintf("donlp2: bloc call with function info invalid\n");
-            _exit(1);
+            return;//////////////////////
         }
     } 
     else 
@@ -7611,7 +7611,7 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
                 REprintf("donlp2: error in evaluating \n");
                 REprintf("nonlinear user function %i \n",liste[i]);
                 REprintf("during numerical differentiation \n");
-                _exit(1);
+                return;//////////////////////
               }
             }            
             for (j = 1 ; j <= n ; j++) 
@@ -7635,7 +7635,7 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
                REprintf("donlp2: error in evaluating \n");
                 REprintf("nonlinear user function %i \n",liste[i]);
                 REprintf("during numerical differentiation \n");
-                  _exit(1);
+                  return;//////////////////////
                 }
               }
               for ( i = 1 ; i <= liste[0] ; i++ )
@@ -7663,7 +7663,7 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
             REprintf("donlp2: error in evaluating \n");
                 REprintf("nonlinear user function %i \n",liste[i]);
                 REprintf("during numerical differentiation \n");
-                  _exit(1);
+                  return;//////////////////////
                 }
               }
                     
@@ -7677,7 +7677,7 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
                 REprintf("donlp2: error in evaluating \n");
                 REprintf("nonlinear user function %i \n",liste[i]);
                 REprintf("during numerical differentiation \n");
-                  _exit(1);
+                  return;//////////////////////
                 }
               }
 
@@ -7706,7 +7706,7 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
              REprintf("donlp2: error in evaluating \n");
                 REprintf("nonlinear user function %i \n",liste[i]);
                 REprintf("during numerical differentiation \n");
-                  _exit(1);
+                  return;//////////////////////
                 }
               }  
 
@@ -7719,7 +7719,7 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
                REprintf("donlp2: error in evaluating \n");
                 REprintf("nonlinear user function %i \n",liste[i]);
                 REprintf("during numerical differentiation \n");
-                  _exit(1);
+                  return;//////////////////////
                 }
               }  
                     
@@ -7734,7 +7734,7 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
                REprintf("donlp2: error in evaluating \n");
                 REprintf("nonlinear user function %i \n",liste[i]);
                 REprintf("during numerical differentiation \n");
-                  _exit(1);
+                  return;//////////////////////
                 }
               }  
 
@@ -7747,7 +7747,7 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
                REprintf("donlp2: error in evaluating \n");
                 REprintf("nonlinear user function %i \n",liste[i]);
                 REprintf("during numerical differentiation \n");
-                  _exit(1);
+                  return;//////////////////////
                 }
               }  
                                         
@@ -7763,7 +7763,7 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
                   REprintf("donlp2: error in evaluating \n");
                 REprintf("nonlinear user function %i \n",liste[i]);
                 REprintf("during numerical differentiation \n");
-                  _exit(1);
+                  return;//////////////////////
                 }
               }  
                                         
@@ -7776,7 +7776,7 @@ static DDOUBLE   d1,d2,d3,sd1,sd2,sd3,
             REprintf("donlp2: error in evaluating \n");
                 REprintf("nonlinear user function %i \n",liste[i]);
                 REprintf("during numerical differentiation \n");
-                  _exit(1);
+                  return;//////////////////////
                 }
               }  
 
@@ -7881,14 +7881,14 @@ IINTEGER* i1_malloc(IINTEGER size1, IINTEGER init)
     if (!array) {
        REprintf("ERROR: i1_malloc: memory error: malloc failed");
 
-        _exit(-1);
+        return array;  /*  change  */
     }
 
 #ifdef ARRAY_BORDER_CHECK
     /* setup array borders */
     if (i_borders_count > 2*ABC_NUM_1DARRAYS-4) {
         Rprintf("ERROR: ARRAYBORDERS: ABC_NUM_1DARRAYS is too small\n");
-	_exit(-1);
+	return array;  /*  change  */
     }	
     array[0] = i_unique;
     i_borders[2*i_borders_count] = &(array[0]);
@@ -7918,7 +7918,7 @@ void i1_free(IINTEGER* array)
     /* Check for null pointer */
     if (!array) {    
             REprintf("ERROR: i1_free: memory error: pointer is null");
-          _exit(-1);
+          return;
     }
 
     /* free the memory for the IINTEGER 1D array */
@@ -7942,20 +7942,20 @@ IINTEGER** i2_malloc(IINTEGER size1, IINTEGER size2, IINTEGER init)
     array = (IINTEGER**) malloc((size_t) size1*sizeof(IINTEGER*));
     if (!array) {
         REprintf("ERROR: d2_malloc: memory error: malloc failed");
-        _exit(-1);
+        return array; /*  change  */
     }
     for (i=0; i<size1; i++) {
         arraytemp = (IINTEGER*) malloc((size_t) (size2+2*ABC)*sizeof(IINTEGER));
         if (!arraytemp) {  
               REprintf("ERROR: d2_malloc: memory error: malloc failed"); 
-            _exit(-1);
+              return array; /*  change  */
         }
 	
 #ifdef ARRAY_BORDER_CHECK
         /* setup array borders */
         if (i_borders_count > 2*ABC_NUM_1DARRAYS-4) {
             Rprintf("ERROR: ARRAY_BORDERS_CHECK: ABC_NUM_1DARRAYS is too small\n");
-	    _exit(-1);
+	    return;
         }	
         arraytemp[0] = i_unique;
         i_borders[2*i_borders_count] = &(arraytemp[0]);
@@ -7985,7 +7985,7 @@ void i2_free(IINTEGER** array, IINTEGER size1)
     /* Check for null pointer */
     if (!array) {
          REprintf("ERROR: d2_free: memory error: pointer is null");
-        _exit(-1);
+        return;
     }
 
     /* free the memory for the IINTEGER 2D array piece by piece */
@@ -8011,14 +8011,14 @@ DDOUBLE* d1_malloc(IINTEGER size1, IINTEGER init)
     array = (DDOUBLE*) malloc((size_t) (size1+2*ABC)*sizeof(DDOUBLE));
     if (!array) {
         REprintf("ERROR: d1_malloc: memory error: malloc failed");
-        _exit(-1);
+        return array;/*  change  */
     }
 
 #ifdef ARRAY_BORDER_CHECK
     /* setup array borders */
     if (d_borders_count > 2*ABC_NUM_1DARRAYS-4) {
         Rprintf("ERROR: ARRAYBORDERS: ABC_NUM_1DARRAYS is too small\n");
-	_exit(-1);
+	return;
     }	
     array[0] = d_unique;
     d_borders[2*d_borders_count] = &(array[0]);
@@ -8046,7 +8046,7 @@ void d1_free(DDOUBLE* array)
     /* Check for null pointer */
     if (!array) {
         REprintf("ERROR: d1_free: memory error: pointer is null"); 
-        _exit(-1);
+        return;
     }
 
     /* free the memory for the DDOUBLE 1D array */
@@ -8071,7 +8071,7 @@ DDOUBLE** d2_malloc(IINTEGER size1, IINTEGER size2, IINTEGER init)
     if (!array) {
      
        REprintf("ERROR: d2_malloc: memory error: malloc failed"); 
-        _exit(-1);
+        return array;/*  change  */
     }
     for (i=0; i<size1; i++) {
 
@@ -8080,14 +8080,14 @@ DDOUBLE** d2_malloc(IINTEGER size1, IINTEGER size2, IINTEGER init)
         if (!arraytemp) {  
          
              REprintf("ERROR: d2_malloc: memory error: malloc failed");
-            _exit(-1);
+            return array;/*  change  */
         }
 
 #ifdef ARRAY_BORDER_CHECK
         /* setup array borders */
         if (d_borders_count > 2*ABC_NUM_1DARRAYS-4) {
             Rprintf("ERROR: ARRAY_BORDERS_CHECK: ABC_NUM_1DARRAYS is too small\n");
-	    _exit(-1);
+	    return;
         }	
         arraytemp[0] = d_unique;
         d_borders[2*d_borders_count] = &(arraytemp[0]);
@@ -8118,7 +8118,7 @@ void d2_free(DDOUBLE** array, IINTEGER size1)
     if (!array) {
       
          REprintf("ERROR: d2_free: memory error: pointer is null");
-        _exit(-1);
+        return;
     }
 
     /* free the memory for the DDOUBLE 2D array piece by piece */
@@ -8144,14 +8144,14 @@ LLOGICAL* l1_malloc(IINTEGER size1, IINTEGER init)
     if (!array) {
        
         REprintf("ERROR: l1_malloc: memory error: malloc failed");
-        _exit(-1);
+        return array;/*  change  */
     }
 
 #ifdef ARRAY_BORDER_CHECK
     /* setup array borders */
     if (i_borders_count > 2*ABC_NUM_1DARRAYS-4) {
         Rprintf("ERROR: ARRAYBORDERS: ABC_NUM_1DARRAYS is too small\n");
-	_exit(-1);
+	return;
     }	
     array[0] = i_unique;
     i_borders[2*i_borders_count] = &(array[0]);
@@ -8180,7 +8180,7 @@ void l1_free(LLOGICAL* array)
     if (!array) {
         
  REprintf("ERROR: l1_free: memory error: pointer is null");
-        _exit(-1);
+        return;
     }
 
     /* free the memory for the LLOGICAL 1D array */
@@ -8205,21 +8205,21 @@ LLOGICAL** l2_malloc(IINTEGER size1, IINTEGER size2, IINTEGER init)
     if (!array) {
       
  REprintf("ERROR: l2_malloc: memory error: malloc failed");
-        _exit(-1);
+        return array;/*  change  */
     }
     for (i=0; i<size1; i++) {
         arraytemp = (LLOGICAL*) malloc((size_t) (size2+2*ABC)*sizeof(LLOGICAL));
         if (!arraytemp) {  
             
  REprintf("ERROR: l2_malloc: memory error: malloc failed");
-            _exit(-1);
+            return array;/*  change  */
         }
 	
 #ifdef ARRAY_BORDER_CHECK
         /* setup array borders */
         if (i_borders_count > 2*ABC_NUM_1DARRAYS-4) {
             Rprintf("ERROR: ARRAY_BORDERS_CHECK: ABC_NUM_1DARRAYS is too small\n");
-	    _exit(-1);
+	    return;
         }	
         arraytemp[0] = i_unique;
         i_borders[2*i_borders_count] = &(arraytemp[0]);
@@ -8250,7 +8250,7 @@ void l2_free(LLOGICAL** array, IINTEGER size1)
     if (!array) {
       
  REprintf("ERROR: l2_malloc: memory error: malloc failed");
-        _exit(-1);
+        return;
     }
 
     /* free the memory for the LLOGICAL 2D array piece by piece */
