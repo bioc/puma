@@ -2,7 +2,7 @@
 \alias{gmhta}
 \title{ Compute gene and transcript expression values and standard deviatons from hta2.0 CEL Files }
 \description{
-   This function converts an object of \code{\link[affy:AffyBatch-class]{AffyBatch}} into an object of class 
+   This function converts an object of \code{\link[oligoClasses:FeatureSet-class]{FeatureSet}} into an object of class 
   \code{\link{exprReslt}} using the gamma model for hta2.0 chips. 
    This function obtains confidence of measures, standard deviation and 5, 
   25, 50, 75 and 95 percentiles, as well as the estimated expression levels.
@@ -20,7 +20,7 @@ gmhta(
 )	
 }
 \arguments{
-	\item{object}{an object of \code{\link[affy:AffyBatch-class]{AffyBatch}}}
+	\item{object}{an object of \code{\link[oligoClasses:FeatureSet-class]{FeatureSet}}}
           \item{background}{Logical value. If \code{TRUE}, perform background correction before applying gmhta.}
           \item{gsnorm}{character. specifying the algorithm of global scaling normalisation.}
 	\item{savepar}{Logical value. If \code{TRUE} the estimated parameters of the model are saved in file par\_gmhta.txt }
@@ -59,9 +59,7 @@ alter the interpretation of GeneChip data,Nucleic Acid Research 33(20):e175.
 ## The following scripts show the use of the method.
 #library(puma)
 ## load CEL files
-# object<-ReadAffy("celnames")
-
-##object@cdfName<-"hta20hsaceviewtcdf"
+# object<-read.celfiles("celnames")
 #eset<-gmhta(object,gsnorm="none",cl=cl)
 
 }

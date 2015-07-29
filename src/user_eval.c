@@ -83,7 +83,7 @@ void user_eval(DDOUBLE xvar[],IINTEGER mode) {
     if ( mode < -1 || mode  > 2 || mode == 0 ) { 
         //fprintf(stderr,"donlp2: call of user_eval with undefined mode\n");
           REprintf("donlp2: call of user_eval with undefined mode\n");
-        _exit(1);
+        return;
     }
     if ( mode == -1 ) {
         changed = FFALSE;

@@ -1,15 +1,18 @@
-% -*- mode: noweb; noweb-default-code-mode: R-mode; -*-
+%-*- mode: noweb; noweb-default-code-mode: R-mode; -*-
 %\VignetteIndexEntry{puma User Guide}
 %\VignetteKeywords{Preprocessing, Affymetrix, Clustering}
 %\VignetteDepends{Biobase, affy}
 %\VignettePackage{puma}
 %documentclass[12pt, a4paper]{article}
-\documentclass[12pt]{article}
 
-\usepackage{amsmath,pstricks}
-\usepackage{hyperref}
+
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
 \usepackage{float}
-\usepackage[authoryear,round]{natbib}
+\usepackage{hyperref}
+\usepackage[numbers,round]{natbib}
 
 \restylefloat{figure}
 
@@ -30,23 +33,25 @@
 
 \author{R. D. Pearson, X. Liu, M. Rattray, M. Milo, N. D. Lawrence\\
                           G. Sanguinetti, Li Zhang}
+\usepackage{Sweave}
 \begin{document}
 \title{puma User Guide}
 
 \maketitle
-
+\tableofcontents
 \sloppy
-\SweaveOpts{keep.source=TRUE}
+%\SweaveOpts{keep.source=TRUE}
 
 \section{Abstract}
-Most analyses of Affymetrix GeneChip data (including tranditional 3’ arrays and exon arrays) are based on point estimates of expression levels and ignore the uncertainty of such estimates. By propagating uncertainty to downstream analyses we can improve results from microarray analyses. For the first time, the puma package makes a suite of uncertainty propagation methods available to a general audience. In additon to calculte gene expression from Affymetrix 3’ arrays, puma also provides methods to process exon arrays and produces gene and isoform expression for alternative splicing study. puma also offers improvements in terms of scope and speed of execution over previously available uncertainty propagation methods. Included are summarisation, differential expression detection, clustering and PCA methods, together with useful plotting functions.
+Most analyses of Affymetrix GeneChip data (including tranditional 3' arrays and exon arrays) are based on point estimates of expression levels and ignore the uncertainty of such estimates. By propagating uncertainty to downstream analyses we can improve results from microarray analyses. For the first time, the puma package makes a suite of uncertainty propagation methods available to a general audience. In additon to calculte gene expression from Affymetrix 3' arrays, puma also provides methods to process exon arrays and produces gene and isoform expression for alternative splicing study. puma also offers improvements in terms of scope and speed of execution over previously available uncertainty propagation methods. Included are summarisation, differential expression detection, clustering and PCA methods, together with useful plotting functions.
 
 \section{Citing \puma}
 The \puma package is based on a large body of methodological research.
 Citing \puma in publications will usually involve citing one or more of
-the methodology papers \cite{mgmos, mmgmos, pumapca, briefings, pplr, pumaclust} that the software is based on as well as citing
+the methodology papers \cite{mgmos},\cite{mmgmos},\cite{pumapca},\cite{briefings},\cite{pplr},\cite{pumaclust},\cite{ipplr},\cite{pumaclustii} that the software is based on as well as citing
 the software package itself. For the methodology papers, see
-http://www.bioinf.manchester.ac.uk/resources/puma/. \puma makes use of the donlp2() function \cite{donlp2} by Peter Spellucci. The use of donlp2() must be acknowledged in any publication which contains results obtained with puma or parts of it. Citation of the author's name and netlib-source is suitable. The software
+http://www.bioinf.manchester.ac.uk/resources/puma/.
+\puma makes use of the donlp2() function \cite{donlp2} by Peter Spellucci. The use of donlp2() must be acknowledged in any publication which contains results obtained with puma or parts of it. Citation of the author's name and netlib-source is suitable. The software
 itself as well as the extension of PPLR to the multi-factorial case
 (the \Rfunction{pumaDE} function) can be cited as:
 
@@ -169,8 +174,8 @@ We can see from this phenotype data that this experiment has 2 factors (estrogen
 We will first use multi-mgMOS to create an expression set object from our raw data. This step is similar to using other summarisation methods such as MAS5.0 or RMA, and for comparison purposes we will also create an expression set object from our raw data using RMA. Note that the following lines of code are likely to take a significant amount of time to run, so if you in hurry and you have the \Rpackage{pumadata} library loaded simply type \Rfunction{data(eset\_oligo\_mmgmos)} and \Rfunction{data(eset\_oligo\_rma)} at the command prompt.
 
 <<eval=FALSE>>===
-eset_oligo_mmgmos <- mmgmos(oligo.estrogen, gsnorm="none")
-eset_oligo_rma <- rma(oligo.estrogen)
+eset_estrogen_mmgmos<-mmgmos(oligo.estrogen,gsnorm="none")
+eset_estrogen_rma<-rma(oligo.estrogen)
 @
 
 Note that we have \Rfunction{gsnorm="none"} in running mmgmos. The \Rfunction{gsnorm} option enables different global scaling (between array) normalizations to be applied to the data. We have chosen to use no global scaling normalization here so that we can highlight the need for such normalization (which we do below). The default option with \Rfunction{mmgmos} is to provide a median global scaling normalization, and this is generally recommended.
@@ -178,12 +183,12 @@ Note that we have \Rfunction{gsnorm="none"} in running mmgmos. The \Rfunction{gs
 Unlike many other methods, multi-mgMOS provides information about the expected uncertainty in the expression level, as well as a point estimate of the expression level.
 
 <<echo=FALSE,eval=TRUE>>=
-data(eset_oligo_mmgmos)
+data(eset_estrogen_mmgmos)
 @
 
-<<>>=
-exprs(eset_oligo_mmgmos)[1,]
-assayDataElement(eset_oligo_mmgmos,"se.exprs")[1,]
+<<eval=FALSE>>===
+exprs(eset_estrogen_mmgmos)[1,]
+assayDataElement(eset_estrogen_mmgmos,"se.exprs")[1,]
 @
 
 Here we can see the expression levels, and standard errors of those expression levels, for the first probe set of the \Robject{oligo.estrogen} data set.
@@ -191,7 +196,7 @@ Here we can see the expression levels, and standard errors of those expression l
 If we want to write out the expression levels and standard errors, to be used elsewhere, this can be done using the \Rfunction{write.reslts} function.
 
 <<eval=FALSE>>===
-write.reslts(eset_oligo_mmgmos, file="eset_oligo_mmgmos.rda")
+write.reslts(eset_estrogen_mmgmos, file="eset_estrogen_mmgmos.rda")
 @
 
 This code will create seven different comma-separated value (csv) files in the working directory. \Robject{eset\_estrogen\_exprs.csv} will contain expression levels. \Robject{eset\_estrogen\_se.csv} will contain standard errors. The other files contain different percentiles of the posterior distribution, which will only be of interest to expert users. For more details type \Rfunction{?write.reslts} at the R prompt.
@@ -208,7 +213,7 @@ The extraction of expression mean and standard deviation is the same as above.
 
 \subsubsection{\Rfunction{gmoExon} function}
 
-We use \Rfunction{gmoExon} function to calculate gene and transcript expression levels. First you have to install \Rpackage{oligo} packages for read exon arrays. Second,gmoExon needs to use the relationships between genes, transcripts and probes which we put into \Rpackage{pumadata} R package. You need to download the latest pumadata package, and type \Rfunction{biocLite("pumadata")}, R\function{library(pumadata)} at the R prompt to have it installed. 
+We use \Rfunction{gmoExon} function to calculate gene and transcript expression levels. First you have to install \Rpackage{oligo} packages for read exon arrays. Second,gmoExon needs to use the relationships between genes, transcripts and probes which we put into \Rpackage{pumadata} R package. You need to download the latest pumadata package, and type \Rfunction{biocLite("pumadata")}, \Rfunction{library(pumadata)} at the R prompt to have it installed. 
 
 The following scripts use example to show the use of \Rfunction{gmoExon} function.
 
@@ -222,24 +227,20 @@ oligo.exon<-read.celfiles(exonFilenames)
 And now we can can use the \Rfunction{gmoExon} function to calculate the gene and transcript expression levels.
 
 <<eval=FALSE>>===
-eset_gene_gmeExon<-gmoExon(oligo.exon,exontype="Human"
-                          ,GT="gene",gsnorm="none")
-eset_transcript_gmeExon<-gmoExon(oligo.exon,exontype="Human"
-                          ,GT="transcript",gsnorm="none")
+eset_gmoExon<-gmoExon(oligo.exon,exontype="Human",gsnorm="none")
 @
 
-Note that we have exontype="Human", GT="gene" and gsnorm="none" in running \Rfunction{gmoExon}. The exontype option enables gmoExon to be applied to Human,Mouse and Rat exon arrays. The GT option enables gmoExon to calculate gene and transcript expression levels. The gsnorm option enables different global scaling (between array) normalizations to be applied to the data. We have chosen to use no global scaling normalization here so that we can highlight the need for such normalization (which we do below). The default option with gmoExon is to provide a median global scaling normalization, and this is generally recommended.
+Note that we have exontype="Human", gsnorm="none" in running \Rfunction{gmoExon}. The exontype option enables gmoExon to be applied to Human,Mouse and Rat exon arrays. The gsnorm option enables different global scaling (between array) normalizations to be applied to the data. We have chosen to use no global scaling normalization here so that we can highlight the need for such normalization (which we do below). The default option with gmoExon is to provide a median global scaling normalization, and this is generally recommended.
 
 <<echo=FALSE,eval=TRUE>>=
-data(eset_gene_gmeExon)
-data(eset_transcript_gmeExon)
+data(eset_gmoExon)
 @
 
-<<>>=
-exprs(eset_gene_gmeExon)[1,]
-assayDataElement(eset_gene_gmeExon,"se.exprs")[1,]
-exprs(eset_transcript_gmeExon)[1,]
-assayDataElement(eset_transcript_gmeExon,"se.exprs")[1,]
+<<eval=FALSE>>===
+exprs(eset_gmoExon$gene)[1,]
+assayDataElement(eset_gmoExon$gene,"se.exprs")[1,]
+exprs(eset_gmoExon$transcript)[1,]
+assayDataElement(eset_gmoExon$transcript,"se.exprs")[1,]
 @
 
 Here we can see the gene and transcript expression levels, and standard errors of those expression levels, for the first mapped gene and transcripts of the oligo.exon data set
@@ -247,10 +248,24 @@ Here we can see the gene and transcript expression levels, and standard errors o
 If we want to write out the expression levels and standard errors, to be used elsewhere,this can be done using the write.reslts function.
 
 <<eval=FALSE>>===
-write.reslts(eset_gene_gmeExon, file="eset_gene_gmoExon.rda")
+write.reslts(eset_gmoExon$gene, file="eset_gmoExon_gene")
 @
 
-This code will create seven different comma-separated value (csv) files in the working directory. eset_gene_exprs.csv will contain gene expression levels. eset_gene_se.csv will contain gene standard errors. The other files contain different percentiles of the posterior distribution, which will only be of interest to expert users. For more details type ?write.reslts at the R prompt.
+This code will create seven different comma-separated value (csv) files in the working 
+directory. File \Robject{eset\_gmoExon\_gene\_exprs.csv} will contain gene expression levels. 
+\Robject{eset\_gmoExon\_gene\_se.csv} will contain gene standard errors. The other files contain
+different percentiles of the posterior distribution, which will only be of interest 
+to expert users. For more details type ?write.reslts at the R prompt.
+
+<<eval=FALSE>>===
+write.reslts(eset_gmoExon$transcript, file="eset_gmoExon_transcript")
+@
+
+This code will create seven different comma-separated value (csv) files in the working 
+directory. File \Robject{eset\_gmoExon\_transcript\_exprs.csv} will contain transcript expression levels.
+File \Robject{eset\_gmoExon\_transcript\_se.csv} will contain transcirpt standard errors. The other files
+contain different percentiles of the posterior distribution, which will only be of interest 
+to expert users. For more details type ?write.reslts at the R prompt.
 
 \subsubsection{\Rfunction{igmoExon} function}
    
@@ -259,31 +274,76 @@ Besides the gmoExon,we also can  use igmoExon to calculate gene and transcript e
 \begin{description}
 \item[cel.path]The directory where you put the CEL files.
 \item[SampleNameTable] It is a tab-separated   tablewith two columns,ordered by "Celnames","Condition".For our testing dataset,we can formulate the SampleNameTable like below:
-                        Celnames	Condition
-                        C006.CEL  	    1
-                        C021.CEL            1	    
-                        F023_POS.CEL  	    2
-                        F043_NEG.CEL	    2
-\item[exontype] A string with value be one of “Human”, “Mouse”, “Rat”, specifying the chip type of the data.
-\item[GT]  A string with value be one of “gene”, “transcript”,specifying gene or transcript expression to be calculated.
+	Celnames: \Robject{C006.CEL} \Robject{C021.CEL} \Robject{F023\_POS.CEL}  \Robject{FO43\_NEG.CEL} ;  
+	Condition: \Robject{1}        \Robject{1}        \Robject{2}              \Robject{2}
+                        
+\item[exontype] A string with value be one of "Human", "Mouse", "Rat", specifying the chip type of the data.
 \item[gnsorm] The way you want to normalized,and the value is one of "median", "none", "mean", "meanlog". 
 \item[condition] Yes or No. Choose Yes means  the \Rfunction{igmoExon} function separately calculate the gene expression values by the conditions and than combined the every condition's result,and normalized finally.Choose No means the \Rfunction{igmoExon} calulate the gene expression values as same as the \Rfunction{gmoExon} function.
-end{description}
+\end{description}
 
 Here are the two example as follows:
 
 <<eval=FALSE>>===
 cel.path<-"cel.path"  ## for example  cel.path<-"/home/gao/celData"  
 SampleNameTable<-"SampleNameTable" 
-eset_exon_gene<-igmoExon(cel.path="cel.path",SampleNameTable="SampleNameTable"
-                       , exontype="Human", GT="gene"
-                       , gsnorm="none", condition="Yes")
-eset_exon_transcript<-gmoExon(cel.path="cel.path",SampleNameTable="SampleNameTable"
-                       ,exontype="Human", GT="trasncript"
+eset_igmoExon<-igmoExon(cel.path="cel.path",SampleNameTable="SampleNameTable"
+                       , exontype="Human"
                        , gsnorm="none", condition="Yes")
 @
 
 And now we can use the same methods to get the gene and transcript levels by exprs and se.exprs.
+
+\subsection{Determining expression levels for Affymetrix hta2.0 arrays}
+
+We use \Rfunction{gmhta} function to calculate gene and transcript expression levels. First you have to install \Rpackage{oligo} packages for read hta2.0 arrays. Second,gmhta needs to use the relationships between genes, transcripts and probes which we put into \Rpackage{pumadata} R package. You need to download the latest pumadata package, and type \Rfunction{biocLite("pumadata")}, \Rfunction{library(pumadata)} at the R prompt to have it installed. 
+
+The following scripts use example to show the use of \Rfunction{gmhta} function.
+
+<<eval=FALSE>>===
+setwd(cel.path)   ## go to the directory where you put the CEL files.
+library(puma)
+library(oligo)
+oligo.hta<-read.celfiles(celFiles)
+eset_gmhta<-gmhta(oligo.hta,gsnorm="none")
+@
+
+Note that we have gsnorm="none" in running \Rfunction{gmhta}. The gsnorm option enables different global scaling (between array) normalizations to be applied to the data. We have chosen to use no global scaling normalization here so that we can highlight the need for such normalization (which we do below). The default option with gmhta is to provide a median global scaling normalization, and this is generally recommended.
+
+<<echo=FALSE,eval=TRUE>>=
+data(eset_gmhta)
+@
+
+<<eval=FALSE>>===
+exprs(eset_gmhta$gene)[2,]
+se.exprs(eset_gmhta$gene)[2,]
+exprs(eset_gmhta$transcript)[2,]
+se.exprs(eset_gmhta$transcript)[2,]
+@
+
+Here we can see the gene and transcript expression levels, and standard errors of those expression levels, for the first mapped gene and transcripts of the oligo.hta data set
+
+If we want to write out the expression levels and standard errors, to be used elsewhere,this can be done using the write.reslts function.
+
+<<eval=FALSE>>===
+write.reslts(eset_gmhta$gene, file="eset_gmhta_gene")
+@
+
+This code will create seven different comma-separated value (csv) files in the working 
+directory. File \Robject{eset\_gmhta\_gene\_exprs.csv} will contain gene expression levels.
+File \Robject{eset\_gmhta\_gene\_se.csv} will contain gene standard errors. The other files
+contain different percentiles of the posterior distribution, which will only be of interest 
+to expert users. For more details type ?write.reslts at the R prompt.
+
+<<eval=FALSE>>===
+write.reslts(eset_gmhta$transcript, file="eset_gmhta_transcript")
+@
+
+This code will create seven different comma-separated value (csv) files in the working 
+directory. File \Robject{eset\_gmhta\_transcript\_exprs.csv} will contain transcript expression levels.
+File \Robject{eset\_gmhta\_transcript\_se.csv} will contain transcript standard errors. The other files
+contain different percentiles of the posterior distribution, which will only be of interest 
+to expert users. For more details type ?write.reslts at the R prompt.
 
 \subsection{Determining gross differences between arrays}
 
@@ -329,7 +389,7 @@ plot(
 \end{figure}
 \setkeys{Gin}{width=0.8\textwidth}
 
-It can be seen from Figure \ref{pumapca_estrogen} that the first component appears to be separating the arrays by time, whereas the second component appears to be separating the arrays by presence or absence of estrogen. Note that grouping of the replicates is much tighter with multi-mgMOS/pumaPCA. With RMA/PCA, one of the absent.48 arrays appears to be closer to one of the absent.10 arrays than the other absent.48 array. This is not the case with multi-mgMOS/pumaPCA.
+It can be seen from Figure 1 that the first component appears to be separating the arrays by time, whereas the second component appears to be separating the arrays by presence or absence of estrogen. Note that grouping of the replicates is much tighter with multi-mgMOS/pumaPCA. With RMA/PCA, one of the absent.48 arrays appears to be closer to one of the absent.10 arrays than the other absent.48 array. This is not the case with multi-mgMOS/pumaPCA.
 
 The results from \Rfunction{pumaPCA} can be written out to a text (csv) file as follows:
 
@@ -354,7 +414,7 @@ boxplot(data.frame(exprs(eset_estrogen_rma)),main="Standard RMA")
 \end{figure}
 \setkeys{Gin}{width=0.8\textwidth}
 
-From Figure \ref{boxplots_estrogen} we can see that the expression levels of the time=10 arrays are generally lower than those of the time=48 arrays, when summarised using multi-mgMOS. Note that we do not see this with RMA because the quantile normalisation used in RMA will remove such differences. If we intend to look for genes which are differentially expressed between time 10 and 48, we will first need to normalise the mmgmos results.
+From Figure 2 we can see that the expression levels of the time=10 arrays are generally lower than those of the time=48 arrays, when summarised using multi-mgMOS. Note that we do not see this with RMA because the quantile normalisation used in RMA will remove such differences. If we intend to look for genes which are differentially expressed between time 10 and 48, we will first need to normalise the mmgmos results.
 
 \setkeys{Gin}{width=0.5\textwidth}
 \begin{figure}[H]
@@ -371,7 +431,7 @@ boxplot(data.frame(exprs(eset_estrogen_mmgmos_normd))
 \end{figure}
 \setkeys{Gin}{width=0.8\textwidth}
 
-Figure \ref{boxplots_estrogen_normd} shows the data after global median scaling normalisation. We can now see that the distributions of expression levels are similar across arrays. Note that the default option when running \Rfunction{mmgmos} is to apply a global median scaling normalization, so this separate normalization using \Rfunction{pumaNormalize} will generally not be needed.
+Figure 3 shows the data after global median scaling normalisation. We can now see that the distributions of expression levels are similar across arrays. Note that the default option when running \Rfunction{mmgmos} is to apply a global median scaling normalization, so this separate normalization using \Rfunction{pumaNormalize} will generally not be needed.
 
 \subsection{Identifying differentially expressed (DE) genes with PPLR method}
 \label{sec:PPLR}
@@ -438,7 +498,7 @@ plotErrorBars(eset_estrogen_rma, topLimmaIntGene)
 }
 \end{figure}
 
-The gene shown in Figure \ref{topgene_rmalimma} would appear to be a good candidate for a DE gene. There seems to be an increase in the expression of this gene due to the combination of the estrogen=absent and time=48 conditions. The within condition variance (i.e. between replicates) appears to be low, so it would seem that the effect we are seeing is real.
+The gene shown in Figure 4 would appear to be a good candidate for a DE gene. There seems to be an increase in the expression of this gene due to the combination of the estrogen=absent and time=48 conditions. The within condition variance (i.e. between replicates) appears to be low, so it would seem that the effect we are seeing is real.
 
 We will now look at this same gene, but showing both the expression level, and, crucially, the error bars of the expression levels, as determined by multi-mgMOS.
 
@@ -454,7 +514,7 @@ plotErrorBars(eset_estrogen_mmgmos_normd, topLimmaIntGene)
 }
 \end{figure}
 
-Figure \ref{topgene_mmgmoslimma} tells a somewhat different story from that shown in figure \ref{topgene_rmalimma}. Again, we see that the expected expression level for the absent:48 condition is higher than for other conditions. Also, we again see that the within condition variance of expected expression level is low (the two replicates within each condition have roughly the same value). However, from figure \ref{topgene_mmgmoslimma} we can now see that we actually have very little confidence in the expression level estimates (the error bars are large), particularly for the time=10 arrays. Indeed the error bars of absent:10 and present:10 both overlap with those of absent:48, indicating that the effect previously seen might actually be an artifact.
+Figure 5 tells a somewhat different story from that shown in figure 4. Again, we see that the expected expression level for the absent:48 condition is higher than for other conditions. Also, we again see that the within condition variance of expected expression level is low (the two replicates within each condition have roughly the same value). However, from figure 5 we can now see that we actually have very little confidence in the expression level estimates (the error bars are large), particularly for the time=10 arrays. Indeed the error bars of absent:10 and present:10 both overlap with those of absent:48, indicating that the effect previously seen might actually be an artifact.
 
 \setkeys{Gin}{width=0.5\textwidth}
 \begin{figure}[H]
@@ -468,7 +528,7 @@ plotErrorBars(eset_estrogen_mmgmos_normd, toppumaDEIntGene)
 }
 \end{figure}
 
-Finally, figure \ref{topgene_mmgmospumade} shows the gene determined by multi-mgMOS/PPLR to be most likely to be differentially expressed due to the interaction term. For this gene, there appears to be lower expression of this gene due to the combination of the estrogen=absent and time=48 conditions. Unlike with the gene shown in \ref{topgene_mmgmoslimma}, however, there is no overlap in the error bars between the genes in this condition, and those in other conditions. Hence, this would appear to be a better candidate for a DE gene.
+Finally, figure 6 shows the gene determined by multi-mgMOS/PPLR to be most likely to be differentially expressed due to the interaction term. For this gene, there appears to be lower expression of this gene due to the combination of the estrogen=absent and time=48 conditions. Unlike with the gene shown in 5, however, there is no overlap in the error bars between the genes in this condition, and those in other conditions. Hence, this would appear to be a better candidate for a DE gene.
 
 
 
@@ -573,7 +633,6 @@ If you have the ( pd.hg.u95a) and pd.hg.u95b annotation packages, you can do it 
 
 <<eval=FALSE>>=
 oligo.estrogen<-read.celfiles(celFiles,pkgname="pd.hg.u95a")
-oligo.estrogen.remapped<-read.celfiles(celFiles,pkgname="pd.hg.u95b")
 @
 
 One of the issues with using remapped CDFs is that many probesets in the remapped data have very few probes. This makes reliable estimation of the expression level of such probesets even more problematic than with the original mappings. Because of this, we believe that even greater attention should be given to the uncertainty in expression level measurements when using remapped CDFs than when using the original mappings. In this section we show how to apply the uncertainty propogation methods of puma to the re-analysis the estrogen data using a remapped CDF. Note that most of the commands in this section are the same as the commands in the previous section, showing how straight-forward it is to do such analysis in puma.
@@ -581,89 +640,13 @@ One of the issues with using remapped CDFs is that many probesets in the remappe
 To see the effect of the remapping, the following commands give the numbers of probes per probeset using the original, and the remapped CDFs:
 
 <<>>=
-table(table(probeNames(oligo.estrogen)))
-table(table(probeNames(oligo.estrogen.remapped)))
+table(table(oligo::probeNames(oligo.estrogen)))
 @
 
 Note that, while for the original mapping the vast majority of probesets have 16 probes, for the remapped CDF many probesets have less than 16 probes. With this particular CDF, probesets with less than 5 probes have been excluded, but this is not the same for all remapped CDFs.
 
 Analysis can then proceed essentially as before. In the following we will compare the use of mmgmos/pumaPCA/pumaDE with that of RMA/PCA/limma.
 
-\setkeys{Gin}{width=1\textwidth}
-\begin{figure}[H]
-\begin{center}
-<<fig=TRUE, width=10, height=5>>=
-eset_estrogen_mmgmos.remapped <- mmgmos(oligo.estrogen.remapped)
-eset_estrogen_rma.remapped <- rma(oligo.estrogen.remapped)
-
-pumapca_estrogen.remapped <- pumaPCA(eset_estrogen_mmgmos.remapped)
-pca_estrogen <- prcomp(t(exprs(eset_estrogen_rma.remapped)))
-
-par(mfrow=c(1,2))
-plot(pumapca_estrogen.remapped,legend1pos="right",legend2pos="top",main="pumaPCA")
-plot(
-	pca_estrogen$x
-,	xlab="Component 1"
-,	ylab="Component 2"
-,	pch=unclass(as.factor(pData(eset_estrogen_rma.remapped)[,1]))
-,	col=unclass(as.factor(pData(eset_estrogen_rma.remapped)[,2]))
-,	main="Standard PCA"
-)
-@
-\end{center}
-\caption{First two components after applying \Rfunction{pumapca} and \Rfunction{prcomp} to the \Robject{estrogen} data set processed by multi-mgMOS and RMA respectively, and using a remapped CDF.
-	\label{pumapca_estrogen_remapped}
-}
-\end{figure}
-\setkeys{Gin}{width=0.8\textwidth}
-
-Figure \ref{pumapca_estrogen_remapped} shows essentially the same story as Figure \ref{pumapca_estrogen}, namely that grouping of the replicates is much tighter with multi-mgMOS/pumaPCA than with RMA/PCA.
-
-\setkeys{Gin}{width=0.5\textwidth}
-\begin{figure}[H]
-\begin{center}
-<<fig=TRUE, width=5, height=5>>=
-eset_estrogen_comb.remapped <- pumaComb(eset_estrogen_mmgmos.remapped)
-pumaDERes.remapped <- pumaDE(eset_estrogen_comb.remapped)
-limmaRes.remapped <- calculateLimma(eset_estrogen_rma.remapped)
-
-topLimmaIntGene.remapped <- topGenes(limmaRes.remapped, contrast=7)
-toppumaDEIntGene.remapped <- topGenes(pumaDERes.remapped, contrast=7)
-
-plotErrorBars(eset_estrogen_rma.remapped, topLimmaIntGene.remapped)
-@
-\end{center}
-\caption{Expression levels (as calculated by RMA) for the gene determined most likely to be differentially expressed due to the interaction term in the remapped \Robject{estrogen} data set by RMA/limma
-	\label{topgene_rmalimma_remapped}
-}
-\end{figure}
-
-\setkeys{Gin}{width=0.5\textwidth}
-\begin{figure}[H]
-\begin{center}
-<<fig=TRUE, width=5, height=5>>=
-plotErrorBars(eset_estrogen_mmgmos.remapped, topLimmaIntGene.remapped)
-@
-\end{center}
-\caption{Expression levels (as calculated by mmgmos) for the gene determined most likely to be differentially expressed due to the interaction term in the remapped \Robject{estrogen} data set by RMA/limma
-	\label{topgene_mmgmoslimma_remapped}
-}
-\end{figure}
-
-\setkeys{Gin}{width=0.5\textwidth}
-\begin{figure}[H]
-\begin{center}
-<<fig=TRUE, width=5, height=5>>=
-plotErrorBars(eset_estrogen_mmgmos.remapped, toppumaDEIntGene.remapped)
-@
-\end{center}
-\caption{Expression levels (as calculated by mmgmos) for the gene determined most likely to be differentially expressed due to the interaction term in the remapped \Robject{estrogen} data set by mmgmos/pumaDE
-	\label{topgene_mmgmospumade_remapped}
-}
-\end{figure}
-@
-
-Figures \ref{topgene_rmalimma_remapped}, \ref{topgene_mmgmoslimma_remapped} and \ref{topgene_mmgmospumade_remapped} show essentially the same picture as Figures \ref{topgene_rmalimma}, \ref{topgene_mmgmoslimma} and \ref{topgene_mmgmospumade}, namely that the gene identified by mmgmos/pumaDE would appear to be a better candidate for a DE gene, than the gene identified by RMA/limma.
 
 \newpage
 \section{\Rpackage{puma} for \Rpackage{limma} users}
@@ -767,6 +750,39 @@ cl<-makeCluster(c("node01","node01","node02" ,"node02"
 ,"node03" ,"node03" ,"node04" ,"node04"), type = "SOCK")
 @
 
+\subsubsection{Parallelisation of gmhta}
+
+To use the parallel functionality of gmhta you also need to create a snow “cluster”.This can be done with the following commands:
+
+<<eval=FALSE>>=
+library(snow)
+cl<-makeCluster(c("node01","node02","node03","node04"),type = "SOCK")
+@
+
+You can then run gmhta with the created cluster, as in the following example:
+
+<<eval=FALSE>>=
+library(puma)
+library(oligo)
+object<-read.celfiles("filename.CEL")
+eset<-gmhta(object,gsnorm="none",cl=cl)
+@
+
+To run gmhta on multi-core machine, use a makeCluster command such as the following:
+
+<<eval=FALSE>>=
+ibrary(snow)
+cl<-makeCluster(c("loaclhost","localhost"),type = "SOCK")
+@
+
+Finally, to run on multi-cores of a multi-node cluster, a command such as the following can be used:
+
+<<eval=FALSE>>=
+library(snow)
+cl<-makeCluster(c("node01","node01","node02" ,"node02"
+,"node03" ,"node03" ,"node04" ,"node04"), type = "SOCK")
+@
+
 
 \subsection{Parallel processing using MPI}
 
@@ -831,63 +847,7 @@ For non-factorial designed experiments, we will simply ignore columns (right to 
 There are examples of the automated creation of design and contrast matrices for increasingly complex experimental designs in the help pages for \Robject{createDesignMatrix} and \Robject{createContrastMatrix}.
 
 \newpage
-\bibliographystyle{plainnat}
-\begin{thebibliography}{10}
-	
-\bibitem{mgmos}
-Milo,M., Niranjan,M., Holley,M.C., Rattray,M. and Lawrence,N.D. (2004)
-\newblock A probabilistic approach for summarising oligonucleotide gene expression data.
-\newblock Technical report available upon request.
-
-\bibitem{mmgmos}
-Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2005)
-\newblock A tractable probabilistic model for Affymetrix probe-level analysis across multiple chips.
-\newblock Bioinformatics, 21:3637-3644.
-
-\bibitem{pumapca}
-Sanguinetti,G., Milo,M., Rattray,M. and Lawrence, N.D. (2005)
-\newblock Accounting for probe-level noise in principal component analysis of microarray data.
-\newblock Bioinformatics, 21:3748-3754.
-
-\bibitem{briefings}
-Rattray,M., Liu,X., Sanguinetti,G., Milo,M. and Lawrence,N.D. (2006)
-\newblock Propagating uncertainty in Microarray data analysis.
-\newblock Briefings in Bioinformatics, 7:37-47.
-
-\bibitem{pplr}
-Liu,X., Milo,M., Lawrence,N.D. and Rattray,M. (2006)
-\newblock Probe-level measurement error improves accuracy in detecting differential gene expression.
-\newblock Bioinformatics, 22:2107-2113.
-
-\bibitem{pumaclust}
-Liu,X., Lin,K.K., Andersen,B., and Rattray,M. (2006)
-\newblock Including probe-level uncertainty in model-based gene expression clustering.
-\newblock BMC Bioinformatics, 8(98).
-
-
-\bibitem{ipplr}
-Li Zhang, Xuejun Liu. (2009)
-\newblock An improved probabilistic model for finding differential gene expression.
-\newblock the 2nd BMEI 17-19 oct. 2009. Tianjin. China.
-
-
-\bibitem{pumaclustii}
-Liu,X. and Rattray,M. (2009)
-\newblock Including probe-level measurement error in robust mixture clustering of replicated microarray gene expression.
-\newblock technical report available request.
-
-
-
-\bibitem{donlp2}
-Peter Spellucci.
-\newblock DONLP2 code and accompanying documentation.
-\newblock Electronically available via http://plato.la.asu.edu/donlp2.html.
-
-% \bibitem{Choe:2005}
-% Choe, S. E., Boutros, M., Michelson, A. M., Church, G. M. and Halfon, M. S. (2005)
-% \newblock Preferred analysis methods for Affymetrix GeneChips revealed by a wholly defined control dataset
-% \newblock   Genome Biol, 6:2:R16
-
-\end{thebibliography}
+\bibliographystyle{unsrt}
+\bibliography{puma}
 
 \end{document}

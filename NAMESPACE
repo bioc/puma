@@ -1,9 +1,8 @@
 useDynLib("puma")
 import(mclust)
 import(methods)
-import(oligo)
-importMethodsFrom(affy,barplot, boxplot,cdfName, hist, mm, "mm<-",
-                  pm, "pm<-", pmindex, probeNames)
+
+importMethodsFrom(affy,barplot, boxplot,cdfName, hist)
 
 importFrom(affy, AllButCelsForReadAffy, cleancdfname, read.probematrix,
            ReadAffy, rma)
@@ -17,8 +16,10 @@ importMethodsFrom(Biobase, "annotation<-", "description<-", exprs, "exprs<-",
 
 importFrom(Biobase, assayDataElement, "assayDataElement<-")
 
-
+importMethodsFrom(oligo, mm, "mm<-",
+                  pm, "pm<-", pmindex, probeNames)
+importFrom(oligo, read.celfiles)              
 import(affyio)
-
+import(oligoClasses)
 ##export everything that does not start with a .
 exportPattern("^[^\\.]")
