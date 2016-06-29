@@ -176,13 +176,13 @@ for(i in c(1:max(condition_all))){
    {
     for (i in c(1:chipnum)){
      
-      m<-min(oligo:::pm(object_condition,target='probeset')[,i])
-      oligo:::pm(object_condition,target='probeset')[,i]<-oligo:::pm(object_condition,target='probeset')[,i]-m+1
+      m<-min(oligo::pm(object_condition,target='probeset')[,i])
+      oligo::pm(object_condition,target='probeset')[,i]<-oligo::pm(object_condition,target='probeset')[,i]-m+1
       
     }
   }
 
-    pm_g <- oligo:::pm(object_condition,target='probeset');                           ##pm of cel 
+    pm_g <- oligo::pm(object_condition,target='probeset');                           ##pm of cel 
    
 
     Length_unique_index <- length(unique_index);
@@ -564,7 +564,7 @@ for(i in c(1:max(condition_all))){
     for (i in 1:chipnum)
     {
       expr_t_all[,i] <- expr_t_all[,i]-log2(chipm[i])
-      se_t_all[,i]<- se_g[,i]/chipm[i]
+      se_t_all[,i]<- se_t[,i]/chipm[i]
       prc5_t_all[,i] <- prc5_t_all[,i]-log2(chipm[i])
       prc25_t_all[,i] <- prc25_t_all[,i]-log2(chipm[i])
       prc50_t_all[,i] <- prc50_t_all[,i]-log2(chipm[i])
@@ -584,7 +584,7 @@ for(i in c(1:max(condition_all))){
     for (i in 1:chipnum)
     {
       expr_t_all[,i] <- expr_t_all[,i]-log2(chipm[i])
-      se_t_all[,i]<- se_g[,i]/chipm[i]
+      se_t_all[,i]<- se_t[,i]/chipm[i]
       prc5_t_all[,i] <- prc5_t_all[,i]-log2(chipm[i])
       prc25_t_all[,i] <- prc25_t_all[,i]-log2(chipm[i])
       prc50_t_all[,i] <- prc50_t_all[,i]-log2(chipm[i])
@@ -600,7 +600,7 @@ for(i in c(1:max(condition_all))){
     for (i in 1:chipnum)
     {
       expr_t_all[,i] <- expr_t_all[,i]-chipm[i]
-      se_t_all[,i]<- se_g[,i]/chipm[i]
+      se_t_all[,i]<- se_t[,i]/chipm[i]
       prc5_t_all[,i] <- prc5_t_all[,i]-chipm[i]
       prc25_t_all[,i] <- prc25_t_all[,i]-chipm[i]
       prc50_t_all[,i] <- prc50_t_all[,i]-chipm[i]
