@@ -112,8 +112,9 @@ In this section we introduce the main functions of the \Rpackage{puma} package b
 The recommended way to install \Rpackage{puma} is to use the \Rfunction{biocLite} function available from the bioconductor website. Installing in this way should ensure that all appropriate dependencies are met.
 
 << eval=FALSE >>===
-source("http://www.bioconductor.org/biocLite.R")
-biocLite("puma")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("puma")
 @
 
 \subsection{Loading the package and getting help}
@@ -674,8 +675,9 @@ This parallel processing capability has been built in to the \puma package, maki
 If you do not already have the package \Rpackage{snow} installed, install this using the following commands:
 
 << eval=FALSE >>==
-source("http://bioconductor.org/biocLite.R")
-biocLite("snow")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("snow")
 @
 
 \subsubsection{Parallelisation of pumaComb}
