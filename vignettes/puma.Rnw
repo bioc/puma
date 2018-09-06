@@ -214,7 +214,7 @@ The extraction of expression mean and standard deviation is the same as above.
 
 \subsubsection{\Rfunction{gmoExon} function}
 
-We use \Rfunction{gmoExon} function to calculate gene and transcript expression levels. First you have to install \Rpackage{oligo} packages for read exon arrays. Second,gmoExon needs to use the relationships between genes, transcripts and probes which we put into \Rpackage{pumadata} R package. You need to download the latest pumadata package, and type \Rfunction{biocLite("pumadata")}, \Rfunction{library(pumadata)} at the R prompt to have it installed. 
+We use \Rfunction{gmoExon} function to calculate gene and transcript expression levels. First you have to install \Rpackage{oligo} packages for read exon arrays. Second,gmoExon needs to use the relationships between genes, transcripts and probes which we put into \Rpackage{pumadata} R package. You need to download the latest pumadata package, and type \Rfunction{BiocManager::install("pumadata")}, \Rfunction{library(pumadata)} at the R prompt to have it installed. 
 
 The following scripts use example to show the use of \Rfunction{gmoExon} function.
 
@@ -297,7 +297,7 @@ And now we can use the same methods to get the gene and transcript levels by exp
 
 \subsection{Determining expression levels for Affymetrix hta2.0 arrays}
 
-We use \Rfunction{gmhta} function to calculate gene and transcript expression levels. First you have to install \Rpackage{oligo} packages for read hta2.0 arrays. Second,gmhta needs to use the relationships between genes, transcripts and probes which we put into \Rpackage{pumadata} R package. You need to download the latest pumadata package, and type \Rfunction{biocLite("pumadata")}, \Rfunction{library(pumadata)} at the R prompt to have it installed. 
+We use \Rfunction{gmhta} function to calculate gene and transcript expression levels. First you have to install \Rpackage{oligo} packages for read hta2.0 arrays. Second,gmhta needs to use the relationships between genes, transcripts and probes which we put into \Rpackage{pumadata} R package. You need to download the latest pumadata package, and type \Rfunction{BiocManager::install("pumadata")}, \Rfunction{library(pumadata)} at the R prompt to have it installed. 
 
 The following scripts use example to show the use of \Rfunction{gmhta} function.
 
