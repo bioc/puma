@@ -109,7 +109,7 @@ In this section we introduce the main functions of the \Rpackage{puma} package b
 
 \subsection{Installing the \Rpackage{puma} package}
 
-The recommended way to install \Rpackage{puma} is to use the \Rfunction{biocLite} function available from the bioconductor website. Installing in this way should ensure that all appropriate dependencies are met.
+The recommended way to install \Rpackage{puma} is to use the \Rfunction{install} function available via the BiocManager package. Installing in this way should ensure that all appropriate dependencies are met.
 
 << eval=FALSE >>===
 if (!requireNamespace("BiocManager", quietly=TRUE))

@@ -3,7 +3,7 @@ Type: Package
 Title: Propagating Uncertainty in Microarray Analysis(including
         Affymetrix tranditional 3' arrays and exon arrays and Human
         Transcriptome Array 2.0)
-Version: 3.23.2
+Version: 3.23.3
 Date: 2015-7-29
 Author: Richard D. Pearson, Xuejun Liu, Magnus Rattray, Marta Milo, Neil D.
     Lawrence, Guido Sanguinetti, Li Zhang
