@@ -323,7 +323,15 @@ setClass("exprReslt"
 		prctwfive="matrix",
 		prcfifty="matrix",
 		prcsevfive="matrix",
-		prcninfive="matrix"
+		prcninfive="matrix",
+		exprs="matrix",   #this
+		se.exprs="matrix",
+		description="MIAME",
+		annotation="character",
+		notes="character",
+		cdfName="character",
+		nrow="numeric",
+		ncol="numeric"
 	)
 ,	prototype=list(
 		prcfive=matrix(nr=0,nc=0),
