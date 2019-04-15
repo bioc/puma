@@ -153,9 +153,9 @@ void freemem_mmgmos()
 void calparameters()
 {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 	int niter = 1, nx;
 	double fstart;
 	int p, i, j;
@@ -261,7 +261,7 @@ void calexpression()
 	double secdrv, firstdrv;
 	double t1, ym, aym, yym;
 	double temp;
-	FILE *pf=NULL;
+	/* FILE *pf=NULL; */
 	
 	/*pf=fopen("result.txt", "wt");*/
 	
@@ -360,9 +360,9 @@ void calexpression()
 void workout_mgmos()
 {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 	int p, i, j;
 	double aa, alphaii, c, d_mgmos;
 	double mu_Gauss, var_Gauss, mu_truncGauss, var_truncGauss, kk;
@@ -617,9 +617,9 @@ SEXP mgmos_c(SEXP PMmat, SEXP MMmat, SEXP ngenes, SEXP probeNames, SEXP phis, SE
 /* **************************************************************************** */
 void user_init_size_mmgmos(void) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
-    #include "o8cons.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
+    /* #include "o8cons.h" */
     #undef   X
 
 
@@ -652,12 +652,12 @@ void user_init_size_mmgmos(void) {
 /* **************************************************************************** */
 void user_init_mmgmos(void) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
-    #include "o8cons.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
+    /* #include "o8cons.h" */
     #undef   X
     
-    static IINTEGER i,j;
+    static IINTEGER i;
 
     silent = TRUE;
 /*    intakt = TRUE;*/
@@ -727,7 +727,7 @@ void user_init_mmgmos(void) {
 /* **************************************************************************** */
 void setup_mmgmos(void) {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
    
     return;
@@ -738,9 +738,9 @@ void setup_mmgmos(void) {
 /* **************************************************************************** */
 void solchk_mmgmos(void) {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 
     IINTEGER i;
     
@@ -1047,10 +1047,10 @@ void econgrad_mmgmos(IINTEGER liste[], IINTEGER shift ,  DDOUBLE donlp2_x[],
 /* **************************************************************************** */
 void eval_extern_mmgmos(IINTEGER mode) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 
     return;
 }
