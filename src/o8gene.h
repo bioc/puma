@@ -20,7 +20,7 @@ tm10 = 1.e-10,tm9 = 1.e-9,tm8 = 1.e-8,tm7 = 1.e-7,tm6 = 1.e-6,tm5 = 1.e-5,
 tm4 = 1.e-4,tm3 = 1.e-3,tm2 = 1.e-2,tm1 = 1.e-1,tp1 = 1.e1,tp2 = 1.e2,
 tp3 = 1.e3,tp4 = 1.e4 ;
         
-static IINTEGER  qpterm,fcount,qpitma;
+static IINTEGER  qpterm,qpitma;
 
 static IINTEGER  ndual,mi,me,iq;
 static DDOUBLE   *np,rnorm,rlow,**xj,
