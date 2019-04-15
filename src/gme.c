@@ -259,13 +259,14 @@ double  ** allocate_matrix(int m,int n)
 void gme_calparameters()
 {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
-    #include "o8cons.h"
-	int niter = 1, nx;
-	double fstart;
+    /* #include "o8cons.h" */
+	/* int niter = 1; */
+	int nx;
+	/* double fstart; */
 	int p, i, j;
-	int finishflag = 1;
+	/* int finishflag = 1; */
      
   	fstart = HUGE_VAL;
 	
@@ -344,14 +345,14 @@ double gme_pmerfc(double x)    /* complementary error function */
 
 void calexpression_gene()
 {
-	int p, i, j, k, q,px,cal_j,cal_i,cal_index,temp_i,temp_j,maph_i,mal,mb_x,t,mm,mut_x,mut_y,index;
+	int p, i, j,cal_j,cal_i,cal_index,temp_i,temp_j,maph_i,mal,mb_x,t,mm,mut_x,mut_y,index;
 	int mc_i,mc_j,mc_index1,mc_index2,s,hi,hj,k_end,D1_start,D1_end,mn,jj,nn,m;
-	double  alphai, c, d,alpha_temp,kk_gene;
+	double c, d,kk_gene;
 	double mu_Gauss, var_Gauss, mu_truncGauss, var_truncGauss, kk;
 	double temp,dif2_alpha,qt;
 	double real_alpha,total_alpha_onechip,kk_isoform ;
 	int index_for_cal=-0;
-    int xxx=(2+in_param->num_prctile)*in_param->numofgenes*in_param->chips;
+    /* int xxx=(2+in_param->num_prctile)*in_param->numofgenes*in_param->chips; */
 	
 	in_param->totalprobe = -1;
     pmst=0;
@@ -574,9 +575,9 @@ void calexpression_gene()
 void user_init_size_gme(void){
    
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
-    #include "o8cons.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
+    /* #include "o8cons.h" */
     #undef   X
 
     
@@ -602,9 +603,9 @@ void user_init_size_gme(void){
 /* **************************************************************************** */
 void user_init_gme(void) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
-    #include "o8cons.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
+    /* #include "o8cons.h" */
     #undef   X
     
     static IINTEGER i;
@@ -648,7 +649,7 @@ void user_init_gme(void) {
 /* **************************************************************************** */
 void setup_gme(void) {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
 
     return;
@@ -745,7 +746,7 @@ void ef_gme(DDOUBLE donlp2_x[],DDOUBLE *fx) {
 /* **************************************************************************** */
 void egradf_gme(DDOUBLE donlp2_x[],DDOUBLE gradf[]) {
     #define  X extern
-    #include "o8fuco.h"
+    /* #include "o8fuco.h" */
     #undef   X
        
     int i, j, k,k2;
@@ -849,7 +850,7 @@ void egradf_gme(DDOUBLE donlp2_x[],DDOUBLE gradf[]) {
 void econ_gme(IINTEGER type, IINTEGER liste[], DDOUBLE donlp2_x[], DDOUBLE con[], 
               LLOGICAL err[]) {
     #define  X extern
-    #include "o8fuco.h"
+    /* #include "o8fuco.h" */
     #undef   X
    
     return;
@@ -873,10 +874,10 @@ void econgrad_gme(IINTEGER liste[], IINTEGER shift ,  DDOUBLE donlp2_x[],
 /* **************************************************************************** */
 void eval_extern_gme(IINTEGER mode) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 
 
 
@@ -888,13 +889,13 @@ SEXP gme_c(SEXP PMmat, SEXP GTmat, SEXP PNmat, SEXP GNmat, SEXP ANmat, SEXP tota
 	void R_CheckUserInterrupt(void);
        
 
-          SEXP dim=NULL;
+    SEXP dim=NULL;
 	SEXP dim11=NULL;
 	SEXP res=NULL;
-    SEXP res_isoform=NULL;
+    /* SEXP res_isoform=NULL; */
    
         
-	int i, j,t,t1;
+	int i, j;
                     
 	initialparams_gme();
 	
