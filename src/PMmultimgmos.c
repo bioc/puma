@@ -146,10 +146,11 @@ void freemem_mmgmospm()
 void pmcalparameters()
 {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
-    #include "o8cons.h"
-	int niter = 1, nx;
+    /* #include "o8cons.h" */
+	int niter = 1;
+	int nx;
 	double fstart;
 	int p, i, j;
 	int finishflag = 0;
@@ -381,9 +382,9 @@ SEXP pmmmgmos_c(SEXP PMmat, SEXP ngenes, SEXP probeNames,SEXP prctiles, SEXP npr
 /* **************************************************************************** */
 void user_init_size_mmgmospm(void) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
-    #include "o8cons.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
+    /* #include "o8cons.h" */
     #undef   X
 
   
@@ -417,12 +418,12 @@ void user_init_size_mmgmospm(void) {
 /* **************************************************************************** */
 void user_init_mmgmospm(void) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
-    #include "o8cons.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
+    /* #include "o8cons.h" */
     #undef   X
     
-    static IINTEGER i,j;
+    static IINTEGER i;
 
     silent = TRUE;
 /*    intakt = TRUE;*/
@@ -471,7 +472,7 @@ void user_init_mmgmospm(void) {
 /* **************************************************************************** */
 void setup_mmgmospm(void) {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
    
     return;
@@ -482,9 +483,9 @@ void setup_mmgmospm(void) {
 /* **************************************************************************** */
 void solchk_mmgmospm(void) {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 
     IINTEGER i;
     
@@ -627,7 +628,7 @@ void econ_mmgmospm(IINTEGER type, IINTEGER liste[], DDOUBLE donlp2_x[], DDOUBLE 
 void econgrad_mmgmospm(IINTEGER liste[], IINTEGER shift ,  DDOUBLE donlp2_x[],
                DDOUBLE **grad) {
     #define  X extern
-    #include "o8fuco.h"
+    /* #include "o8fuco.h" */
     #undef   X
     return;
 }
@@ -638,12 +639,12 @@ void econgrad_mmgmospm(IINTEGER liste[], IINTEGER shift ,  DDOUBLE donlp2_x[],
 /* **************************************************************************** */
 void eval_extern_mmgmospm(IINTEGER mode) {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
 
 
-    #include "o8fint.h"
+    /* #include "o8fint.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 
     return;
 }
