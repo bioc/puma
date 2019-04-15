@@ -153,9 +153,9 @@ double fmaxn(double *x, int n)
 void workout_comb0()
 {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 	int i, j;
      
 	for (i=0; i<in_param.genes; i++)
@@ -178,9 +178,9 @@ void workout_comb0()
 void workout_comb1()
 {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 	int i, j, k,num_c;
     	double exp_c[MAX_NUM_REPLICATE], var_c[MAX_NUM_REPLICATE], x_temp[MAX_NUM_COND];
     	double v[MAX_NUM_COND], temp, tempx, foptold, fopt, lamda10[MAX_NUM_COND];
@@ -403,9 +403,9 @@ SEXP bcomb_c(SEXP Mmat, SEXP Stdmat, SEXP rep, SEXP method, SEXP conds, SEXP nsa
 /* **************************************************************************** */
 void user_init_size_pplr(void) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
-    #include "o8cons.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
+    /* #include "o8cons.h" */
     #undef   X
 
 
@@ -433,15 +433,15 @@ void user_init_size_pplr(void) {
 /* **************************************************************************** */
 void user_init_pplr(void) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
-    #include "o8cons.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
+    /* #include "o8cons.h" */
     #undef   X
     
     static IINTEGER i,j, num_c;
-    double exp_c[MAX_NUM_REPLICATE], var_c[MAX_NUM_REPLICATE], x_temp[MAX_NUM_COND];
+    double exp_c[MAX_NUM_REPLICATE], x_temp[MAX_NUM_COND];
     double v[MAX_NUM_COND];
-    double mu_temp[MAX_NUM_COND], lam_temp[MAX_NUM_COND];
+    /* double mu_temp[MAX_NUM_COND], lam_temp[MAX_NUM_COND]; */
 
     silent = TRUE;
 /*    intakt = TRUE;*/
@@ -515,7 +515,7 @@ void user_init_pplr(void) {
 /* **************************************************************************** */
 void setup_pplr(void) {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
    
     return;
@@ -526,9 +526,9 @@ void setup_pplr(void) {
 /* **************************************************************************** */
 void solchk_pplr(void) {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 
     IINTEGER i, j, num_c;
     double sig_ret, mu_ret, tau_ret;
@@ -573,7 +573,7 @@ void solchk_pplr(void) {
 /* **************************************************************************** */
 void ef_pplr(DDOUBLE donlp2_x[],DDOUBLE *fx) {
     #define  X extern
-    #include "o8fuco.h"
+    /* #include "o8fuco.h" */
     #undef   X
 
 	int i, j;
@@ -723,10 +723,10 @@ void econgrad_pplr(IINTEGER liste[], IINTEGER shift ,  DDOUBLE donlp2_x[],
 /* **************************************************************************** */
 void eval_extern_pplr(IINTEGER mode) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 
     return;
 }
