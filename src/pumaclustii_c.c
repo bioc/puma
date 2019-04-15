@@ -245,14 +245,14 @@ double fmaxn(double *x, int n)
 void workout_pumaclustii()
 {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 	int i, j, k, iter;
    	double *pi_k=NULL, **A=NULL, **temp1=NULL;
 	double ***wn=NULL, ***wn2=NULL, **alpha_u=NULL, **beta_u=NULL, **alpha_eta=NULL, **beta_eta=NULL;
 	double **t1=NULL, *t2=NULL, ***mu_w=NULL, ***sig_w=NULL, ***mu_t=NULL, ***sig_t=NULL;
-	double  *exprs=NULL, *vars=NULL, temp, *temp2=NULL, temp3, **t3=NULL, *t4=NULL;
+	double  *exprs=NULL, *vars=NULL, temp, temp3, **t3=NULL, *t4=NULL;
 	double *a1=NULL, *a2=NULL, *a3=NULL, *a4=NULL, *a5=NULL, *a6=NULL, *a7=NULL, *a8=NULL, *a9=NULL;
 	int K_nz, K_nz_t, n_hat, iit;
 	double F_max, F0, F, Ft0, Ft, max_A, F_t;
@@ -589,14 +589,22 @@ void workout_pumaclustii()
 				
 			F = 0.0;
 			for (i=0; i<in_param.genes; i++)
+			{
 				for (j=0; j<in_param.maxcls; j++)
+				{
 					if (pi_k[j]>0.0)
+					{
 						F += in_param.q_kn[i][j]*(A[i][j]-log(maxD(1.0e-18,in_param.q_kn[i][j])));
+					}
+				}
 				F = F-n_hat*temp/2.0-K_nz*log(in_param.genes/12.0)/2.0-K_nz*(n_hat+1)/2.0;
+			}
 			
 			iter++;
             if(in_param.verbose)
-    			Rprintf("K_nz: %d iter: %d F: %f\n", K_nz, iter, F);
+			{
+				Rprintf("K_nz: %d iter: %d F: %f\n", K_nz, iter, F);
+			}
 			
 			if (F-F0<absD(in_param.eps*F) || K_nz<in_param.mincls)
 			{
@@ -938,9 +946,9 @@ SEXP pumaclustii_c(SEXP Mmat, SEXP Stdmat, SEXP conds, SEXP reps, SEXP mincls, S
 /* **************************************************************************** */
 void user_init_size_pumaclustii(void) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
-    #include "o8cons.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
+    /* #include "o8cons.h" */
     #undef   X
 
 
@@ -964,12 +972,12 @@ void user_init_size_pumaclustii(void) {
 /* **************************************************************************** */
 void user_init_pumaclustii(void) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
-    #include "o8cons.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
+    /* #include "o8cons.h" */
     #undef   X
     
-    static IINTEGER j;
+    /* static IINTEGER j; */
 
     silent = TRUE;
 /*    intakt = TRUE;*/
@@ -1021,9 +1029,9 @@ void setup_pumaclustii(void) {
 /* **************************************************************************** */
 void solchk_pumaclustii(void) {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 
 	if (in_param.var_flag == 1)
 	{
@@ -1138,7 +1146,7 @@ void econ_pumaclustii(IINTEGER type, IINTEGER liste[], DDOUBLE donlp2_x[], DDOUB
 void econgrad_pumaclustii(IINTEGER liste[], IINTEGER shift ,  DDOUBLE donlp2_x[],
                DDOUBLE **grad) {
     #define  X extern
-    #include "o8fuco.h"
+    /* #include "o8fuco.h" */
     #undef   X
     return;
 }
@@ -1149,10 +1157,10 @@ void econgrad_pumaclustii(IINTEGER liste[], IINTEGER shift ,  DDOUBLE donlp2_x[]
 /* **************************************************************************** */
 void eval_extern_pumaclustii(IINTEGER mode) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 
     return;
 }
