@@ -61,10 +61,10 @@ void user_eval(DDOUBLE xvar[],IINTEGER mode) {
 /* ************************************************************************ */
     
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
     
     void    eval_extern(IINTEGER mode);
     DDOUBLE* d1_malloc(IINTEGER size1, IINTEGER init); 
