@@ -147,9 +147,9 @@ double fmaxn_ipplr(double *x, int n)
 void workout0()
 {
        #define  X extern
-       #include "o8comm.h"
+       /* #include "o8comm.h" */
        #undef   X
-       #include "o8cons.h"
+       /* #include "o8cons.h" */
 
         int i, j,k,  num_c;
         double exp_c[MAX_NUM_REPLICATE], var_c[MAX_NUM_REPLICATE];
@@ -252,7 +252,7 @@ void workout0()
                       in_param.lamda_m = alpha1/beta1;
 		
 
-		   while(fmaxn_ipplr(diff_mu1,in_param.conds)>in_param.eps||fmaxn_ipplr(diff_lamda,in_param.conds)>in_param.eps&&n<2000)
+		   while((fmaxn_ipplr(diff_mu1,in_param.conds)>in_param.eps)||(fmaxn_ipplr(diff_lamda,in_param.conds)>in_param.eps)&& (n<2000))
 		       {
                          n++;
 			      
@@ -268,10 +268,11 @@ void workout0()
                          }
 
 
-                            temp=0.0;                           
+                         temp=0.0;                           
                          for(j=0;j<in_param.chips;j++)
-			    temp+=(x_sq[j]+in_param.mu1sq[in_param.replicates[j]-1]-2.0*x_exp[j]*in_param.mu1[in_param.replicates[j]-1])/2.0;
-                            
+						 {
+							temp+=(x_sq[j]+in_param.mu1sq[in_param.replicates[j]-1]-2.0*x_exp[j]*in_param.mu1[in_param.replicates[j]-1])/2.0; 
+						 }
                             alpha1=in_param.alpha0+in_param.chips/2.0;
                             beta1=in_param.beta0+temp;
                             in_param.lamda_m=alpha1/beta1;
@@ -389,9 +390,9 @@ SEXP hcomb_c(SEXP Mmat, SEXP Stdmat, SEXP rep,  SEXP conds,  SEXP max_num,  SEXP
 /* **************************************************************************** */
 void user_init_size_ipplr(void) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
-    #include "o8cons.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
+    /* #include "o8cons.h" */
     #undef   X
 
    /* problem dimension n = dim(donlp2_x),
@@ -413,9 +414,9 @@ void user_init_size_ipplr(void) {
 void user_init_ipplr(void)
 {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
-    #include "o8cons.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
+    /* #include "o8cons.h" */
     #undef   X
 
     static IINTEGER i;
@@ -454,7 +455,7 @@ void user_init_ipplr(void)
 /* **************************************************************************** */
 void setup_ipplr(void) {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
 
     return;
@@ -465,9 +466,9 @@ void setup_ipplr(void) {
 /* **************************************************************************** */
 void solchk_ipplr(void) {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 
     in_param.mu0 = donlp2_x[1];
     in_param.eta0 = donlp2_x[2];
@@ -571,10 +572,10 @@ void econgrad_ipplr(IINTEGER liste[], IINTEGER shift ,  DDOUBLE donlp2_x[],
 /* **************************************************************************** */
 void eval_extern_ipplr(IINTEGER mode) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 
     return;
 }
