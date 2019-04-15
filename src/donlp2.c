@@ -467,8 +467,8 @@ void o8st(void) {
     void o8msg    (IINTEGER num);
     void user_eval(DDOUBLE xvar[],IINTEGER mode);
 
-    static IINTEGER  i,j,k;
-    static DDOUBLE   tol1 ,bd0,infiny,gxi,hxi,term;
+    static IINTEGER  i,j;
+    static DDOUBLE   tol1,term;
     static time_t   tim;
     
     epsmac = pow(two,-20);
@@ -2073,13 +2073,13 @@ void o8opti(void)
     void    newx ( DDOUBLE donlp2_x[], DDOUBLE u[], IINTEGER itstep, DDOUBLE **accinf,
                    LLOGICAL *cont ) ;
 
-    static IINTEGER  l,l0,i,j,k,csssig,csirup,csreg,cschgx;
+    static IINTEGER  l0,i,j,k,csssig,csirup,csreg,cschgx;
 	int local_n;
     static IINTEGER  csmdph;
     static DDOUBLE   delsig,delx,sum,term;
     static DDOUBLE   umin,term1,scfh,unorm;
     static DDOUBLE   compl,del1;
-    static IINTEGER  iumin,rank0,nr0,csdifx,clwold;
+    static IINTEGER  rank0,nr0,csdifx,clwold;
     static IINTEGER  nrbas;
     static DDOUBLE   eps,delold,uminsc,fac,slackn,tauqp0,denom;
     static LLOGICAL  nperm,qpnew,etaini;
@@ -2087,7 +2087,7 @@ void o8opti(void)
     static LLOGICAL  viobnd ;
     /* end added feature */
     /* new form of constraint evaluation */
-    static LLOGICAL eval_err;
+    /* static LLOGICAL eval_err; */
     /* added feature user interrupt */
     static LLOGICAL cont ;
     /* initialization */
@@ -4120,11 +4120,11 @@ void o8dird(void)
     DDOUBLE o8sc3(IINTEGER n,IINTEGER m,IINTEGER j,DDOUBLE **a,DDOUBLE b[]);
     
     static IINTEGER  i;
-    static DDOUBLE   term,term1;
+    static DDOUBLE  term;
 
     /* compute directional derivative of Zangwill function */
     
-    L100:
+    /* L100: */
 
     dirder = o8sc1(1,n,gradf,d)*scf;
     
@@ -4409,7 +4409,7 @@ void o8eval(DDOUBLE sigact,DDOUBLE *sigres,LLOGICAL *reject,LLOGICAL *error)
         DDOUBLE **mat, DDOUBLE donlp2_x[]);
     void    user_eval(DDOUBLE xvar[],IINTEGER mode);
     
-    static IINTEGER  i,j;
+    static IINTEGER  i;
     static DDOUBLE   term , denom ;
     /* liste as a formal placeholder, not used here since type of call to */
     /* escon is 1                                                         */
@@ -5024,7 +5024,7 @@ void o8elim(void) {
     DDOUBLE  o8vecn(IINTEGER nl,IINTEGER nm,DDOUBLE donlp2_x[]);
     void o8msg(IINTEGER num);
     static IINTEGER  n1,n2;  
-    static IINTEGER  i,j,k,l,i1,icur,ipiv;
+    static IINTEGER  i,j,k,i1,icur,ipiv;
     static DDOUBLE   sum,term,dalpha,dbeta,qrii;
     static DDOUBLE   curle;
     
@@ -5752,8 +5752,7 @@ void o8qpdu(void)
     
     static DDOUBLE   infe1,s1,s2,tiny,
                     my,zz,ss,su,t,t1,t2,f,fmax,psid,c1,c2,cdiag,term,
-                    su1,su2,condr,infiny,term1,term2,
-                    diff0;
+                    su1,su2,condr,infiny,term1,diff0;
     static IINTEGER  i,j,k,ip,l,incr,nosucc;
     static LLOGICAL  wlow;
 
@@ -6415,7 +6414,7 @@ void o8qpdu(void)
         }
         /* compute new weights for the penalty-function */
         
-        L500:
+        /* L500: */
 
         for (i = 1 ; i <= 2*nres ; i++) 
         {
@@ -7150,7 +7149,7 @@ void o8dlcd(IINTEGER ai[],IINTEGER l) {
             r[j][i] = r[j][i+1];
         }
     }
-    L20:
+    /* L20: */
 
     ai[iq]    = ai[iq+1];
     ud1[iq]   = ud1[iq+1];
@@ -7875,7 +7874,7 @@ IINTEGER* i1_malloc(IINTEGER size1, IINTEGER init)
     /* then initize the allocated array to zero.                    */   
 
     IINTEGER* array;
-    IINTEGER i,j;
+    IINTEGER i;
     
     array = (IINTEGER*) malloc((size_t) (size1+2*ABC)*sizeof(IINTEGER));
     if (!array) {
@@ -7913,7 +7912,7 @@ IINTEGER* i1_malloc(IINTEGER size1, IINTEGER init)
 /**********************************************************************/
 void i1_free(IINTEGER* array) 
 {
-    IINTEGER i;
+    /* IINTEGER i; */
 
     /* Check for null pointer */
     if (!array) {    
@@ -8006,7 +8005,7 @@ DDOUBLE* d1_malloc(IINTEGER size1, IINTEGER init)
     /* then initize the allocated array to zero.                    */   
 
     DDOUBLE* array;
-    IINTEGER i,j;
+    IINTEGER i;
     
     array = (DDOUBLE*) malloc((size_t) (size1+2*ABC)*sizeof(DDOUBLE));
     if (!array) {
@@ -8041,7 +8040,7 @@ DDOUBLE* d1_malloc(IINTEGER size1, IINTEGER init)
 /**********************************************************************/
 void d1_free(DDOUBLE* array) 
 {
-    IINTEGER i;
+    /* IINTEGER i; */
 
     /* Check for null pointer */
     if (!array) {
@@ -8138,7 +8137,7 @@ LLOGICAL* l1_malloc(IINTEGER size1, IINTEGER init)
     /* then initize the allocated array to zero.                    */   
 
     LLOGICAL* array;
-    IINTEGER i,j;
+    IINTEGER i;
     
     array = (LLOGICAL*) malloc((size_t) (size1+2*ABC)*sizeof(LLOGICAL));
     if (!array) {
@@ -8174,7 +8173,7 @@ LLOGICAL* l1_malloc(IINTEGER size1, IINTEGER init)
 /**********************************************************************/
 void l1_free(LLOGICAL* array) 
 {
-    IINTEGER i;
+    /* IINTEGER i; */
 
     /* Check for null pointer */
     if (!array) {
