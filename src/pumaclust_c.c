@@ -159,9 +159,9 @@ void calMU(double **mujd, double *clsig, int nstart)
 void workout()
 {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 	int i, j, k, iter;
     	double foptold, fopt, *loga=NULL, *exprs=NULL, *vars=NULL, temp;
         /*FILE *pf=NULL;*/
@@ -306,9 +306,9 @@ SEXP pumaclust_c(SEXP Mmat, SEXP Stdmat, SEXP clusters, SEXP centers, SEXP clsig
 /* **************************************************************************** */
 void user_init_size_pumaclust(void) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
-    #include "o8cons.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
+    /* #include "o8cons.h" */
     #undef   X
 
 
@@ -328,9 +328,9 @@ void user_init_size_pumaclust(void) {
 /* **************************************************************************** */
 void user_init_pumaclust(void) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
-    #include "o8cons.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
+    /* #include "o8cons.h" */
     #undef   X
     
     static IINTEGER j;
@@ -365,7 +365,7 @@ void user_init_pumaclust(void) {
 /* **************************************************************************** */
 void setup_pumaclust(void) {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
    
     return;
@@ -376,12 +376,12 @@ void setup_pumaclust(void) {
 /* **************************************************************************** */
 void solchk_pumaclust(void) {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 
 	int i, j, k;
-	double t1, t2, **mujd=NULL, expr_temp, var_temp;
+	/* double t1, t2, **mujd=NULL, expr_temp, var_temp; */
 	
 	mujd = (double**)R_alloc(in_param.clusters, sizeof(double*));
 	for (i=0; i<in_param.clusters; i++)
@@ -503,7 +503,7 @@ void econ_pumaclust(IINTEGER type, IINTEGER liste[], DDOUBLE donlp2_x[], DDOUBLE
 void econgrad_pumaclust(IINTEGER liste[], IINTEGER shift ,  DDOUBLE donlp2_x[],
                DDOUBLE **grad) {
     #define  X extern
-    #include "o8fuco.h"
+    /* #include "o8fuco.h" */
     #undef   X
     return;
 }
@@ -514,10 +514,10 @@ void econgrad_pumaclust(IINTEGER liste[], IINTEGER shift ,  DDOUBLE donlp2_x[],
 /* **************************************************************************** */
 void eval_extern_pumaclust(IINTEGER mode) {
     #define  X extern
-    #include "o8comm.h"
-    #include "o8fint.h"
+    /* #include "o8comm.h" */
+    /* #include "o8fint.h" */
     #undef   X
-    #include "o8cons.h"
+    /* #include "o8cons.h" */
 
     return;
 }
