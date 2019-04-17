@@ -2,7 +2,7 @@
 /*                                  o8comm.h                                    */
 /* **************************************************************************** */
                                       
-/* #include "o8fuco.h" */
+#include "o8fuco.h"
     
 X RREAL      runtim;
 X RREAL      optite;
