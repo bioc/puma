@@ -146,18 +146,17 @@ void freemem_mmgmospm()
 void pmcalparameters()
 {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     #undef   X
     /* #include "o8cons.h" */
 	int niter = 1;
-	int nx;
 	double fstart;
 	int p, i, j;
 	int finishflag = 0;
      
   	fstart = HUGE_VAL;
 	
-	nx = in_param.conds+2;
+	int nx = in_param.conds+2;
 	
 	
 	while (1)
@@ -382,7 +381,7 @@ SEXP pmmmgmos_c(SEXP PMmat, SEXP ngenes, SEXP probeNames,SEXP prctiles, SEXP npr
 /* **************************************************************************** */
 void user_init_size_mmgmospm(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     /* #include "o8fint.h" */
     /* #include "o8cons.h" */
     #undef   X
@@ -418,7 +417,7 @@ void user_init_size_mmgmospm(void) {
 /* **************************************************************************** */
 void user_init_mmgmospm(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     /* #include "o8fint.h" */
     /* #include "o8cons.h" */
     #undef   X
@@ -483,7 +482,7 @@ void setup_mmgmospm(void) {
 /* **************************************************************************** */
 void solchk_mmgmospm(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     #undef   X
     /* #include "o8cons.h" */
 
@@ -504,7 +503,7 @@ void solchk_mmgmospm(void) {
 /* **************************************************************************** */
 void ef_mmgmospm(DDOUBLE donlp2_x[],DDOUBLE *fx) {
     #define  X extern
-    #include "o8fuco.h"
+    /* #include "o8fuco.h" */
     #undef   X
 
 	double alphaii[MAX_NUM_COND]={0.0}, c, d, t11, t22;
@@ -558,7 +557,7 @@ void ef_mmgmospm(DDOUBLE donlp2_x[],DDOUBLE *fx) {
 /* **************************************************************************** */
 void egradf_mmgmospm(DDOUBLE donlp2_x[],DDOUBLE gradf[]) {
     #define  X extern
-    #include "o8fuco.h"
+    /* #include "o8fuco.h" */
     #undef   X
 
 	double alphaii[MAX_NUM_COND]={0.0}, c, d, t1;
@@ -617,7 +616,7 @@ void egradf_mmgmospm(DDOUBLE donlp2_x[],DDOUBLE gradf[]) {
 void econ_mmgmospm(IINTEGER type, IINTEGER liste[], DDOUBLE donlp2_x[], DDOUBLE con[], 
               LLOGICAL err[]) {
     #define  X extern
-    #include "o8fuco.h"
+    /* #include "o8fuco.h" */
     #undef   X
 
     return;
