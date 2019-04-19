@@ -266,7 +266,7 @@ void donlp2(void) {
     
     /*  user_init must initialize analyt, epsdif, del0, tau0 ,                */
     /*  low, up, and the gradients of the linear constraints, if any          */
-    /*  (stored in gres[1:n][j], j=1,nlin)
+    /* (stored in gres[1:n][j], j=1,nlin) */
     /*  bloc                                                                  */
     /*  analyt and if analyt = FFALSE then also epsfcn , taubnd , viobnd ,     */
     /*  difftype                                                              */
@@ -468,7 +468,7 @@ void o8st(void) {
     void user_eval(DDOUBLE xvar[],IINTEGER mode);
 
     static IINTEGER  i,j;
-    static DDOUBLE   tol1,term;
+    static DDOUBLE   tol1,term, infiny;
     static time_t   tim;
     
     epsmac = pow(two,-20);
@@ -2076,7 +2076,7 @@ void o8opti(void)
     static IINTEGER  l0,i,j,k,csssig,csirup,csreg,cschgx;
 	int local_n;
     static IINTEGER  csmdph;
-    static DDOUBLE   delsig,delx,sum,term;
+    static DDOUBLE   delsig,delx,sum,term, iumin;
     static DDOUBLE   umin,term1,scfh,unorm;
     static DDOUBLE   compl,del1;
     static IINTEGER  rank0,nr0,csdifx,clwold;
