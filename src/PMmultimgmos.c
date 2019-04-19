@@ -156,7 +156,7 @@ void pmcalparameters()
      
   	fstart = HUGE_VAL;
 	
-	int nx = in_param.conds+2;
+	/* int nx = in_param.conds+2; */
 	
 	
 	while (1)
