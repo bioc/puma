@@ -178,7 +178,7 @@ void workout_comb0()
 void workout_comb1()
 {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     #undef   X
     /* #include "o8cons.h" */
 	int i, j, k,num_c;
@@ -403,7 +403,7 @@ SEXP bcomb_c(SEXP Mmat, SEXP Stdmat, SEXP rep, SEXP method, SEXP conds, SEXP nsa
 /* **************************************************************************** */
 void user_init_size_pplr(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     /* #include "o8fint.h" */
     /* #include "o8cons.h" */
     #undef   X
@@ -433,7 +433,7 @@ void user_init_size_pplr(void) {
 /* **************************************************************************** */
 void user_init_pplr(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     /* #include "o8fint.h" */
     /* #include "o8cons.h" */
     #undef   X
@@ -526,7 +526,7 @@ void setup_pplr(void) {
 /* **************************************************************************** */
 void solchk_pplr(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     #undef   X
     /* #include "o8cons.h" */
 
