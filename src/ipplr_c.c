@@ -147,7 +147,7 @@ double fmaxn_ipplr(double *x, int n)
 void workout0()
 {
        #define  X extern
-       /* #include "o8comm.h" */
+       #include "o8comm.h"
        #undef   X
        /* #include "o8cons.h" */
 
@@ -390,7 +390,7 @@ SEXP hcomb_c(SEXP Mmat, SEXP Stdmat, SEXP rep,  SEXP conds,  SEXP max_num,  SEXP
 /* **************************************************************************** */
 void user_init_size_ipplr(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     /* #include "o8fint.h" */
     /* #include "o8cons.h" */
     #undef   X
@@ -414,7 +414,7 @@ void user_init_size_ipplr(void) {
 void user_init_ipplr(void)
 {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     /* #include "o8fint.h" */
     /* #include "o8cons.h" */
     #undef   X
@@ -466,7 +466,7 @@ void setup_ipplr(void) {
 /* **************************************************************************** */
 void solchk_ipplr(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     #undef   X
     /* #include "o8cons.h" */
 
