@@ -153,17 +153,17 @@ void freemem_mmgmos()
 void calparameters()
 {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     #undef   X
     /* #include "o8cons.h" */
-	int niter = 1, nx;
+	int niter = 1;
 	double fstart;
 	int p, i, j;
 	int finishflag = 0;
      
   	fstart = HUGE_VAL;
 	
-	nx = in_param.conds+in_param.chips+2;
+	/* nx = in_param.conds+in_param.chips+2; */
 	
 	
 	while (1)
@@ -617,7 +617,7 @@ SEXP mgmos_c(SEXP PMmat, SEXP MMmat, SEXP ngenes, SEXP probeNames, SEXP phis, SE
 /* **************************************************************************** */
 void user_init_size_mmgmos(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     /* #include "o8fint.h" */
     /* #include "o8cons.h" */
     #undef   X
@@ -652,7 +652,7 @@ void user_init_size_mmgmos(void) {
 /* **************************************************************************** */
 void user_init_mmgmos(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     /* #include "o8fint.h" */
     /* #include "o8cons.h" */
     #undef   X
@@ -738,7 +738,7 @@ void setup_mmgmos(void) {
 /* **************************************************************************** */
 void solchk_mmgmos(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     #undef   X
     /* #include "o8cons.h" */
 
@@ -770,7 +770,7 @@ void ef_mmgmos(DDOUBLE donlp2_x[],DDOUBLE *fx) {
 
 	double alphaii[MAX_NUM_COND]={0.0}, c, d_mmgmos, t1, t2;
 	double ym[MAX_NUM_PROBE]={0.0}, aym[MAX_NUM_PROBE]={0.0}, alphas[MAX_NUM_CHIP]={0.0}, a_mos[MAX_NUM_CHIP]={0.0};
-	double s5[MAX_NUM_PROBE]={0.0};
+	/* double s5[MAX_NUM_PROBE]={0.0}; */
 	int i, j, k, p;
 	
 	*fx = 0.0;
