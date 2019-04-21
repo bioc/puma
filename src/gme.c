@@ -263,14 +263,13 @@ void gme_calparameters()
     #undef   X
     /* #include "o8cons.h" */
 	/* int niter = 1; */
-	int nx;
-	/* double fstart; */
+	double fstart;
 	int p, i, j;
 	/* int finishflag = 1; */
      
   	fstart = HUGE_VAL;
 	
-	nx = in_param->conds+2;
+	/* nx = in_param->conds+2; */
     
 	
 	
@@ -575,7 +574,7 @@ void calexpression_gene()
 void user_init_size_gme(void){
    
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     /* #include "o8fint.h" */
     /* #include "o8cons.h" */
     #undef   X
@@ -603,7 +602,7 @@ void user_init_size_gme(void){
 /* **************************************************************************** */
 void user_init_gme(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     /* #include "o8fint.h" */
     /* #include "o8cons.h" */
     #undef   X
