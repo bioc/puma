@@ -245,14 +245,14 @@ double fmaxn(double *x, int n)
 void workout_pumaclustii()
 {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     #undef   X
     /* #include "o8cons.h" */
 	int i, j, k, iter;
    	double *pi_k=NULL, **A=NULL, **temp1=NULL;
 	double ***wn=NULL, ***wn2=NULL, **alpha_u=NULL, **beta_u=NULL, **alpha_eta=NULL, **beta_eta=NULL;
 	double **t1=NULL, *t2=NULL, ***mu_w=NULL, ***sig_w=NULL, ***mu_t=NULL, ***sig_t=NULL;
-	double  *exprs=NULL, *vars=NULL, temp, temp3, **t3=NULL, *t4=NULL;
+	double  *exprs=NULL, *vars=NULL, temp, *temp2, temp3, **t3=NULL, *t4=NULL;
 	double *a1=NULL, *a2=NULL, *a3=NULL, *a4=NULL, *a5=NULL, *a6=NULL, *a7=NULL, *a8=NULL, *a9=NULL;
 	int K_nz, K_nz_t, n_hat, iit;
 	double F_max, F0, F, Ft0, Ft, max_A, F_t;
@@ -946,7 +946,7 @@ SEXP pumaclustii_c(SEXP Mmat, SEXP Stdmat, SEXP conds, SEXP reps, SEXP mincls, S
 /* **************************************************************************** */
 void user_init_size_pumaclustii(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     /* #include "o8fint.h" */
     /* #include "o8cons.h" */
     #undef   X
@@ -972,7 +972,7 @@ void user_init_size_pumaclustii(void) {
 /* **************************************************************************** */
 void user_init_pumaclustii(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     /* #include "o8fint.h" */
     /* #include "o8cons.h" */
     #undef   X
@@ -1018,7 +1018,7 @@ void user_init_pumaclustii(void) {
 /* **************************************************************************** */
 void setup_pumaclustii(void) {
     #define  X extern
-    #include "o8comm.h"
+    /* #include "o8comm.h" */
     #undef   X
    
     return;
@@ -1029,7 +1029,7 @@ void setup_pumaclustii(void) {
 /* **************************************************************************** */
 void solchk_pumaclustii(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     #undef   X
     /* #include "o8cons.h" */
 
