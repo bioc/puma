@@ -159,7 +159,7 @@ void calMU(double **mujd, double *clsig, int nstart)
 void workout()
 {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     #undef   X
     /* #include "o8cons.h" */
 	int i, j, k, iter;
@@ -306,7 +306,7 @@ SEXP pumaclust_c(SEXP Mmat, SEXP Stdmat, SEXP clusters, SEXP centers, SEXP clsig
 /* **************************************************************************** */
 void user_init_size_pumaclust(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     /* #include "o8fint.h" */
     /* #include "o8cons.h" */
     #undef   X
@@ -328,7 +328,7 @@ void user_init_size_pumaclust(void) {
 /* **************************************************************************** */
 void user_init_pumaclust(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     /* #include "o8fint.h" */
     /* #include "o8cons.h" */
     #undef   X
@@ -376,12 +376,12 @@ void setup_pumaclust(void) {
 /* **************************************************************************** */
 void solchk_pumaclust(void) {
     #define  X extern
-    /* #include "o8comm.h" */
+    #include "o8comm.h"
     #undef   X
     /* #include "o8cons.h" */
 
 	int i, j, k;
-	/* double t1, t2, **mujd=NULL, expr_temp, var_temp; */
+	double **mujd=NULL;
 	
 	mujd = (double**)R_alloc(in_param.clusters, sizeof(double*));
 	for (i=0; i<in_param.clusters; i++)
