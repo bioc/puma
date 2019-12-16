@@ -1,6 +1,7 @@
 useDynLib("puma")
 import(mclust)
 import(methods)
+S3method(plot, puma)
 
 importMethodsFrom(affy,barplot, boxplot,cdfName, hist)
 
