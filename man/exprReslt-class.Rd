@@ -40,7 +40,7 @@
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("exprReslt", ...)}.
 }
-\section{Slots}{
+\section{Fields}{
   \describe{
   \item{\code{prcfive}:}{Object of class "matrix" representing the 5 percentile of the 
     observed expression levels. This is a matrix with columns representing patients or cases and 

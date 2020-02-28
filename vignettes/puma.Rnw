@@ -1,3 +1,4 @@
+% !Rnw weave = knitr
 %-*- mode: noweb; noweb-default-code-mode: R-mode; -*-
 %\VignetteIndexEntry{puma User Guide}
 %\VignetteKeywords{Preprocessing, Affymetrix, Clustering}
