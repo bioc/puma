@@ -58,7 +58,7 @@ function (e = NULL, se = NULL, efile = NULL, sefile = NULL, subset = NULL,
     names(res[[3]]) <- paste(1:clusters)
     rownames(res[[4]]) <- rownames(e)
     colnames(res[[4]]) <- paste(1:clusters)
-    return(list(cluster = res[[1]], centers = res[[2]], centersigs = res[[3]], 
+    return(list(clusters = res[[1]], centers = res[[2]], centersigs = res[[3]], 
         likelipergene = res[[4]], bic = res[[5]]))
 }
 
