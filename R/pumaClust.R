@@ -3,7 +3,7 @@ function (e = NULL, se = NULL, efile = NULL, sefile = NULL, subset = NULL,
     gsnorm = FALSE, clusters = 10, iter.max = 100, nstart = 10, eps = 1e-06, 
     del0 = 0.01) 
 {
-    if(class(e)=="exprReslt" || class(e)=="ExpressionSet")
+    if(class(e)=="exprReslt" | class(e)=="ExpressionSet")
 	{
 		se <- assayDataElement(e,"se.exprs")
 		e <- exprs(e)
@@ -58,7 +58,7 @@ function (e = NULL, se = NULL, efile = NULL, sefile = NULL, subset = NULL,
     names(res[[3]]) <- paste(1:clusters)
     rownames(res[[4]]) <- rownames(e)
     colnames(res[[4]]) <- paste(1:clusters)
-    return(list(clusters = res[[1]], centers = res[[2]], centersigs = res[[3]], 
+    return(list(cluster = res[[1]], centers = res[[2]], centersigs = res[[3]], 
         likelipergene = res[[4]], bic = res[[5]]))
 }
 
