@@ -110,7 +110,7 @@ plotErrorBars <- function(
 		jitterCount <- jitterCount + numInLevel
 	}
 	if(is.na(jitterWidth))
-		jitterWidth <- (max(xValues) - min(xValues))/100
+		jitterWidth <- (as.numeric(max(xValues)) - as.numeric(min(xValues)))/100
 	xValuesJittered <- xValues + (xJitters * jitterWidth)
 	# xValues <- rep(1:5,each=3)
 	# xValues <- 1:length(arrays)
