@@ -65,6 +65,7 @@ probes to gene loci, transcripts, exons and ncRNAs. BMC Bioinformatics.2010.}
 \seealso{ Related class \code{\link{exprReslt-class}} }
 
 \examples{
+if(FALSE){
 ## The following scripts show the use of the method.
 ## load CEL files
 # cel.path<-cel.path;
@@ -73,5 +74,6 @@ probes to gene loci, transcripts, exons and ncRNAs. BMC Bioinformatics.2010.}
                    # , SampleNameTable="SampleNameTable"
                    # , exontype="Human"
                    # , gsnorm="none", condition="Yes",cl=cl)
+}
 }
 \keyword{manip}

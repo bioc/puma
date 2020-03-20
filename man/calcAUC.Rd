@@ -20,15 +20,15 @@ calcAUC(scores, truthValues, includedProbesets = 1:length(truthValues))
 \author{ Richard D. Pearson }
 \seealso{Related methods \code{\link{plotROC}} and \code{\link{numFP}}.}
 \examples{
-class1a <- rnorm(1000,0.2,0.1)
-class2a <- rnorm(1000,0.6,0.2)
-class1b <- rnorm(1000,0.3,0.1)
-class2b <- rnorm(1000,0.5,0.2)
-scores_a <- c(class1a, class2a)
-scores_b <- c(class1b, class2b)
-classElts <- c(rep(FALSE,1000), rep(TRUE,1000))
-print(calcAUC(scores_a, classElts))
-print(calcAUC(scores_b, classElts))
+#class1a <- rnorm(1000,0.2,0.1)
+#class2a <- rnorm(1000,0.6,0.2)
+#class1b <- rnorm(1000,0.3,0.1)
+#class2b <- rnorm(1000,0.5,0.2)
+#scores_a <- c(class1a, class2a)
+#scores_b <- c(class1b, class2b)
+#classElts <- c(rep(FALSE,1000), rep(TRUE,1000))
+#print(calcAUC(scores_a, classElts))
+#print(calcAUC(scores_b, classElts))
 
 }
 \keyword{manip}

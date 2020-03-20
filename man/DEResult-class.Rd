@@ -105,6 +105,7 @@
   Related methods \code{\link{pumaDE}}, \code{\link{calculateLimma}}, \code{\link{calculateFC}} or \code{\link{calculateTtest}}.
 }
 \examples{
+if(FALSE){
 ## Create an example DEResult object
 #	Next 4 lines commented out to save time in package checks, and saved version used
 # if (require(affydata)) {
@@ -137,5 +138,6 @@ topGeneIDs(esetDE, 3, direction="down")
 
 ## save the expression results into files
 write.reslts(esetDE, file="example")
+}
 }
 \keyword{classes}

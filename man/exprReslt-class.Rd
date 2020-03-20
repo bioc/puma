@@ -108,6 +108,7 @@ Class \code{"ExpressionSet"}, directly.
   Related method \code{\link{mmgmos}} and related class \code{\link[Biobase:class.ExpressionSet]{ExpressionSet}}.
 }
 \examples{
+if(FALSE){
 ## load example data from package affydata
 #	Next 4 lines commented out to save time in package checks, and saved version used
 # if (require(affydata)) {
@@ -118,5 +119,6 @@ data(eset_mmgmos)
 
 ## save the expression results into files
 write.reslts(eset_mmgmos, file="example")
+}
 }
 \keyword{classes}

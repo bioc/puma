@@ -20,6 +20,8 @@ matrixDistance(
 \author{ Richard D. Pearson }
 \seealso{Related class \code{\link{pumaPCA}}}
 \examples{
+if(FALSE){
 	show(matrixDistance(matrix(1,2,2),matrix(2,2,2)))
+}
 }
 \keyword{manip}

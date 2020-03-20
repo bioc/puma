@@ -19,6 +19,7 @@ numFP(scores, truthValues, TPRate = 0.5)
 \author{ Richard D. Pearson }
 \seealso{Related methods \code{\link{plotROC}} and \code{\link{calcAUC}}.}
 \examples{
+if(FALSE){
 class1a <- rnorm(1000,0.2,0.1)
 class2a <- rnorm(1000,0.6,0.2)
 class1b <- rnorm(1000,0.3,0.1)
@@ -28,5 +29,6 @@ scores_b <- c(class1b, class2b)
 classElts <- c(rep(FALSE,1000), rep(TRUE,1000))
 print(numFP(scores_a, classElts))
 print(numFP(scores_b, classElts))
+}
 }
 \keyword{manip}

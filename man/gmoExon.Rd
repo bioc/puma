@@ -65,6 +65,7 @@ probes to gene loci, transcripts, exons and ncRNAs. BMC Bioinformatics.2010.}
 \seealso{ Related class \code{\link{exprReslt-class}} }
 
 \examples{
+if(FALSE){
 ## The following scripts show the use of the method.
 ## load CEL files
 # celFiles<-c("SR20070419HEX01.CEL", "SR20070419HEX02.CEL","SR20070419HEX06.CEL","SR20070419HEX07.CEL)
@@ -73,7 +74,7 @@ probes to gene loci, transcripts, exons and ncRNAs. BMC Bioinformatics.2010.}
 ## use method gmoExon to calculate the expression levels and related confidence 
 ## of the measures for the example data
 #eset_gmoExon<-gmoExon(oligo_object.exon,exontype="Human",gsnorm="none",cl=cl)
-
+}
 }
 
 \keyword{manip}

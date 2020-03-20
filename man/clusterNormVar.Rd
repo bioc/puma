@@ -19,9 +19,9 @@ clusterNormVar(x)
 \author{ Xuejun Liu,  Magnus Rattray }
 \seealso{ See Also as \code{\link{pumaClust}} and \code{\link{pumaClustii}} }
 \examples{
-data(Clust.exampleE)
-data(Clust.exampleStd)
-Clust.exampleVar<-Clust.exampleStd^2
-Clust.exampleStd.centered<-t(apply(cbind(Clust.exampleE,Clust.exampleVar), 1, clusterNormVar))
+#data(Clust.exampleE)
+#data(Clust.exampleStd)
+#Clust.exampleVar<-Clust.exampleStd^2
+#Clust.exampleStd.centered<-t(apply(cbind(Clust.exampleE,Clust.exampleVar), 1, clusterNormVar))
 }
 \keyword{ manip }

@@ -37,9 +37,9 @@ gene expression, Bioinformatics, 22:2107-2113.}
 \author{ Xuejun Liu, Marta Milo, Neil D. Lawrence, Magnus Rattray }
 \seealso{Related methods \code{\link{pumaComb}}, \code{\link{mmgmos}} and \code{\link{pplr}}}
 \examples{
-  data(exampleE)
-  data(exampleStd)
-  r<-bcomb(exampleE,exampleStd,replicates=c(1,1,1,2,2,2),method="map")
+#  data(exampleE)
+#  data(exampleStd)
+#  r<-bcomb(exampleE,exampleStd,replicates=c(1,1,1,2,2,2),method="map")
 }
 \keyword{ manip }
 \keyword{ models }

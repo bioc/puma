@@ -46,6 +46,7 @@ plotROC(
 \author{ Richard D. Pearson }
 \seealso{Related method \code{\link{calcAUC}}}
 \examples{
+if(FALSE){
 	class1a <- rnorm(1000,0.2,0.1)
 	class2a <- rnorm(1000,0.6,0.2)
 	class1b <- rnorm(1000,0.3,0.1)
@@ -55,5 +56,6 @@ plotROC(
 	scores <- list(scores_a, scores_b)
 	classElts <- c(rep(FALSE,1000), rep(TRUE,1000))
 	plotROC(scores, classElts)
+}
 }
 \keyword{hplot}

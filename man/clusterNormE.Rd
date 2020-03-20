@@ -19,7 +19,7 @@ clusterNormE(x)
 \author{ Xuejun Liu,  Magnus Rattray }
 \seealso{ See Also as \code{\link{pumaClust}} and \code{\link{pumaClustii}} }
 \examples{
-data(Clust.exampleE)
-Clust.exampleE.centered<-t(apply(Clust.exampleE, 1, clusterNormE))
+#data(Clust.exampleE)
+#Clust.exampleE.centered<-t(apply(Clust.exampleE, 1, clusterNormE))
 }
 \keyword{ manip }

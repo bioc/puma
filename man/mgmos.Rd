@@ -55,6 +55,7 @@ http://plato.la.asu.edu/donlp2.html}
 
 \seealso{ Related class \code{\link{exprReslt-class}} and related method \code{\link{mmgmos}}}
 \examples{
+if(FALSE){
 ## Code commented out to speed up checks
 ## load example data from package affydata
 # if (require(pumadata)&&require(puma)){ 
@@ -63,5 +64,6 @@ http://plato.la.asu.edu/donlp2.html}
 # of the measures for the example data
   #  eset<-mgmos(oligo.estrogen,gsnorm="none")
 #}
+}
 }
 \keyword{manip}

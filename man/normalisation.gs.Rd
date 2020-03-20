@@ -21,9 +21,11 @@ normalisation.gs(x)
 \author{ Xuejun Liu, Marta Milo, Neil D. Lawrence, Magnus Rattray }
 \seealso{ See Also as \code{\link{bcomb}} and \code{\link{hcomb}} }
 \examples{
+if(FALSE){
 data(exampleE)
 exampleE.normalised<-normalisation.gs(exampleE)
 data(Clust.exampleE)
 Clust.exampleE.normalised<-normalisation.gs(Clust.exampleE)
+}
 }
 \keyword{ manip }

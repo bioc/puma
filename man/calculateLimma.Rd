@@ -25,16 +25,16 @@ The \code{eset} argument must be supplied, and must be a valid \code{\link[Bioba
 \author{ Richard D. Pearson }
 \seealso{Related methods \code{\link{pumaDE}}, \code{\link{calculateTtest}}, \code{\link{calculateFC}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}} and class \code{\link{DEResult}}}
 \examples{
-if (require(affydata)) {
-	data(Dilution)
-	eset_rma <- affy:::rma(Dilution)
-	#	Next line used so eset_rma only has information about the liver factor
-	#	The scanner factor will thus be ignored, and the two arrays of each level
-	#	of the liver factor will be treated as replicates
-	pData(eset_rma) <- pData(eset_rma)[,1, drop=FALSE]
-	limmaRes <- calculateLimma(eset_rma)
-	topGeneIDs(limmaRes,numberOfGenes=6)
-	plotErrorBars(eset_rma, topGenes(limmaRes))
-}
+#if (require(affydata)) {
+#	data(Dilution)
+#	eset_rma <- affy:::rma(Dilution)
+#	#	Next line used so eset_rma only has information about the liver factor
+#	#	The scanner factor will thus be ignored, and the two arrays of each level
+#	#	of the liver factor will be treated as replicates
+#	pData(eset_rma) <- pData(eset_rma)[,1, drop=FALSE]
+#	limmaRes <- calculateLimma(eset_rma)
+#	topGeneIDs(limmaRes,numberOfGenes=6)
+#	plotErrorBars(eset_rma, topGenes(limmaRes))
+#}
 }
 \keyword{manip}

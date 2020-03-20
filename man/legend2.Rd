@@ -139,6 +139,7 @@ legend2(x, y = NULL, legend, fill = NULL, col = par("col"),
   \code{\link[graphics]{legend}}
 }
 \examples{
+if(FALSE){
 x <- seq(-pi, pi, len = 65)
 plot(x, sin(x), type = "l", ylim = c(-1.2, 1.8), col = 3, lty = 2)
 points(x, cos(x), pch = 3, col = 4)
@@ -148,5 +149,6 @@ title("legend(..., lty = c(2, -1, 1), pch = c(-1,3,4), merge = TRUE)",
 legend2(-1, 1.9, c("sin", "cos", "tan"), col = c(3,4,6),
        text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4),
        merge = TRUE, bg = 'gray90', seg.len=6)
+}
 }
 \keyword{aplot}

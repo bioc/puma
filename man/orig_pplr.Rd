@@ -38,10 +38,12 @@ gene expression, Bioinformatics, 22(17):2107-13.}
 \author{ Xuejun Liu, Marta Milo, Neil D. Lawrence, Magnus Rattray }
 \seealso{ Related method \code{\link{bcomb}} }
 \examples{
+if(FALSE){
   data(exampleE)
   data(exampleStd)
   r<-bcomb(exampleE,exampleStd,replicates=c(1,1,1,2,2,2),method="map")
   p<-orig_pplr(r,1,2)
+}
 }
 \keyword{ manip }
 \keyword{ models }

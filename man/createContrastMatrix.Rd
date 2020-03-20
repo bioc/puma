@@ -40,13 +40,14 @@ For non-factorial designed experiments, we will simply ignore columns (right to 
 	Related methods \code{\link{createDesignMatrix}} and \code{\link{pumaDE}}
 }
 \examples{
+if(FALSE){
 # This is a simple example based on a real data set. Note that this is an "unbalanced" design, the "level" factor has two replicates of the "twenty" condition, but only one replicate of the "ten" condition. Also note that the second factor, "batch" is not used in the design or contrast matrices, as we don't have every combination of the levels of "level" and "batch" (there is no array for level=twenty and batch=B).
 
 #	Next 4 lines commented out to save time in package checks, and saved version used
-# if (require(affydata)) {
-#	data(Dilution)
-#	eset_mmgmos <- mmgmos(Dilution)
-# }
+ if (require(affydata)) {
+	data(Dilution)
+	eset_mmgmos <- mmgmos(Dilution)
+ }
 data(eset_mmgmos)
 createContrastMatrix(eset_mmgmos)
 
@@ -148,9 +149,9 @@ colnames(createContrastMatrix(eset12))
 colnames(createContrastMatrix(eset13))
 
 # "Un-analysable" data set - all arrays are from the same class - gives an error.  Note that we've commented this out so that we don't get errors which would make the package fail the Bioconductor checks!
-# createContrastMatrix(eset14)
+createContrastMatrix(eset14)
 # "Non-factorial" data set - there are no arrays for fac1="b" and fac2=2. In this case only the first factor (fac1) is used.
 createContrastMatrix(eset15)
-
+}
 }
 \keyword{manip}

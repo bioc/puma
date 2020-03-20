@@ -16,6 +16,7 @@ numOfFactorsToUse(eset)
 \author{ Richard D. Pearson }
 \seealso{Related methods \code{\link{createDesignMatrix}} and  \code{\link{createContrastMatrix}}}
 \examples{
+if(FALSE){
 	#	Next 4 lines commented out to save time in package checks, and saved version used
     # if (require(affydata)) {
 	#	data(Dilution)
@@ -23,5 +24,6 @@ numOfFactorsToUse(eset)
 	# }
 	data(eset_mmgmos)
 	numOfFactorsToUse(eset_mmgmos)
+}
 }
 \keyword{manip}

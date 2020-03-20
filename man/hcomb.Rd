@@ -40,9 +40,11 @@ gene expression, Bioinformatics, 22(17):2107-13.
 \author{ Li Zhang, Xuejun Liu }
 \seealso{ Related method  \code{\link{pumaCombImproved}}, \code{\link{mmgmos}} and \code{\link{pplr}}}
 \examples{
+if(FALSE){
   data(exampleE)
   data(exampleStd)
   r<-hcomb(exampleE,exampleStd,replicates=c(1,1,1,2,2,2))
+}
 }
 \keyword{ manip }
 \keyword{ models }

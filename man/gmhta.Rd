@@ -56,12 +56,14 @@ alter the interpretation of GeneChip data,Nucleic Acid Research 33(20):e175.
 \seealso{ Related class \code{\link{exprReslt-class}} }
 
 \examples{
+if(FALSE){
 ## The following scripts show the use of the method.
 #library(puma)
 ## load CEL files
 # object<-read.celfiles("celnames")
 #eset<-gmhta(object,gsnorm="none",cl=cl)
 
+}
 }
 
 \keyword{manip}
