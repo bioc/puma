@@ -24,7 +24,7 @@ The \code{eset} argument must be supplied, and must be a valid \code{\link[Bioba
 }
 \author{ Richard D. Pearson }
 \seealso{Related methods \code{\link{pumaDE}}, \code{\link{calculateLimma}}, \code{\link{calculateFC}}, \code{\link{createDesignMatrix}} and \code{\link{createContrastMatrix}} and class \code{\link{DEResult}}}
-examples{
+\examples{
 #	eset_test <- new("ExpressionSet", exprs=matrix(rnorm(400,8,2),100,4))
 #	pData(eset_test) <- data.frame("class"=c("A", "A", "B", "B"))
 #	TtestRes <- calculateTtest(eset_test)
