@@ -25,7 +25,7 @@ void gme_expparam_init() {
 
 void gme_expparam_free() {
     if (NULL != in_param) {
-        Free(in_param);
+        free(in_param);
     }
 }
 
@@ -243,9 +243,9 @@ double  ** allocate_matrix(int m,int n)
 {
 	int i,j;
 	double **c=NULL;
-	c=(double **)Calloc(m,double);
+	c=(double **)calloc(m, sizeof(double*));
        for(i=0;i<m;i++)
-              c[i]=(double *)Calloc(n,double);
+              c[i]=(double *)calloc(n, sizeof(double));
 	for(i=0;i<m;i++)
 	{	
 		for(j=0;j<n;j++)

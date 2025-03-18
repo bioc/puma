@@ -135,11 +135,11 @@ void freemem_mmgmospm()
 	int j;
 	
 	for (j=0; j<in_param.genes; j++)
-		if (in_param.parameters[j] != NULL) Free(in_param.parameters[j]);
+		if (in_param.parameters[j] != NULL) free(in_param.parameters[j]);
         
-	if (in_param.parameters != NULL) Free(in_param.parameters);
+	if (in_param.parameters != NULL) free(in_param.parameters);
 
-	if (in_param.probesets != NULL) Free(in_param.probesets);
+	if (in_param.probesets != NULL) free(in_param.probesets);
 }
 
 
