@@ -139,14 +139,14 @@ void freemem_mmgmos()
 	int j;
 	
 	for (j=0; j<in_param.genes; j++)
-		if (in_param.parameters[j] != NULL) Free(in_param.parameters[j]);
-	if (in_param.parameters != NULL) Free(in_param.parameters);
+		if (in_param.parameters[j] != NULL) free(in_param.parameters[j]);
+	if (in_param.parameters != NULL) free(in_param.parameters);
 
-	if (in_param.paramphi != NULL) Free(in_param.paramphi);
+	if (in_param.paramphi != NULL) free(in_param.paramphi);
 	
 	
-	if (in_param.replicates != NULL) Free(in_param.replicates);
-	if (in_param.probesets != NULL) Free(in_param.probesets);
+	if (in_param.replicates != NULL) free(in_param.replicates);
+	if (in_param.probesets != NULL) free(in_param.probesets);
 }
 
 
@@ -604,7 +604,7 @@ SEXP mgmos_c(SEXP PMmat, SEXP MMmat, SEXP ngenes, SEXP probeNames, SEXP phis, SE
 	Rprintf("Model optimising ");
 	workout_mgmos();
 
-/*	if (in_param.probesets != NULL) Free(in_param.probesets);
+/*	if (in_param.probesets != NULL) free(in_param.probesets);
 */	
 	Rprintf("Done.\n");
 	UNPROTECT(2);

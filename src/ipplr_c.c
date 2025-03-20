@@ -84,10 +84,10 @@ void allocatemem_ipplr()
 
 void freemem_ipplr()
 {
-	if (in_param.expr != NULL) Free(in_param.expr);
-	if (in_param.var != NULL) Free(in_param.var);
-	if (in_param.mu1 != NULL) Free(in_param.mu1);
-	if (in_param.mu1sq != NULL) Free(in_param.mu1sq);
+	if (in_param.expr != NULL) free(in_param.expr);
+	if (in_param.var != NULL) free(in_param.var);
+	if (in_param.mu1 != NULL) free(in_param.mu1);
+	if (in_param.mu1sq != NULL) free(in_param.mu1sq);
 
 }
 

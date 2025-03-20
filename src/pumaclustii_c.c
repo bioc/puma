@@ -105,22 +105,22 @@ int *CallocI(long s)
 
 void FreeD(double *p)
 {
-	if (p != NULL) Free(p);
+	if (p != NULL) free(p);
 }
 
 void FreeDD(double **p)
 {
-	if (p != NULL) Free(p);
+	if (p != NULL) free(p);
 }
 
 void FreeDDD(double ***p)
 {
-	if (p != NULL) Free(p);
+	if (p != NULL) free(p);
 }
 
 void FreeI(int *p)
 {
-	if (p != NULL) Free(p);
+	if (p != NULL) free(p);
 }
 
 void allocatemem_pumaclustii()
@@ -192,7 +192,7 @@ void freemem_pumaclustii()
 	FreeDD(in_param.cmu_best);
 	FreeDD(in_param.cmu);
 	FreeDD(in_param.csig_best);
-	//if (in_param.pj != NULL) Free(in_param.pj);
+	//if (in_param.pj != NULL) free(in_param.pj);
 }
 
 double maxD(double x, double y)

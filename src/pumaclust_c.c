@@ -91,9 +91,9 @@ void freemem_pumaclust()
 {
 	int i;
 	for (i=0; i<in_param.genes; i++)
-		if (in_param.pjPerData[i] != NULL) Free(in_param.pjPerData[i]);
-	if (in_param.pjPerData != NULL) Free(in_param.pjPerData);
-	if (in_param.pj != NULL) Free(in_param.pj);
+		if (in_param.pjPerData[i] != NULL) free(in_param.pjPerData[i]);
+	if (in_param.pjPerData != NULL) free(in_param.pjPerData);
+	if (in_param.pj != NULL) free(in_param.pj);
 }
 
 /*double mean(double *x, int len)
@@ -246,9 +246,9 @@ void workout()
         /*fprintf(pf,"%f\n",sqrt(1.0/in_param.lamda_m));*/
 	
         /*fclose(pf);*/
-/*	if (loga != NULL) Free(loga);
-	if (exprs != NULL) Free(exprs);
-	if (vars != NULL) Free(vars);
+/*	if (loga != NULL) free(loga);
+	if (exprs != NULL) free(exprs);
+	if (vars != NULL) free(vars);
 */}
 
 SEXP pumaclust_c(SEXP Mmat, SEXP Stdmat, SEXP clusters, SEXP centers, SEXP clsig, SEXP eps, SEXP del0)
@@ -394,8 +394,8 @@ void solchk_pumaclust(void) {
 	    for (j=0; j<in_param.chips; j++)
 	        in_param.centers[j*in_param.clusters+k] = mujd[k][j];
     
-/*	for (i=0; i<in_param.clusters; i++) Free(mujd[i]);
-	Free(mujd);
+/*	for (i=0; i<in_param.clusters; i++) free(mujd[i]);
+	free(mujd);
 */
     return;
 }
@@ -439,8 +439,8 @@ void ef_pumaclust(DDOUBLE donlp2_x[],DDOUBLE *fx) {
 	}
 	*fx = -*fx;
 
-/*	for (i=0; i<in_param.clusters; i++) Free(mujd[i]);
-	Free(mujd);
+/*	for (i=0; i<in_param.clusters; i++) free(mujd[i]);
+	free(mujd);
 */	
     return;
 }
@@ -480,8 +480,8 @@ void egradf_pumaclust(DDOUBLE donlp2_x[],DDOUBLE gradf[]) {
 		}
 	}
 
-/*	for (i=0; i<in_param.clusters; i++) Free(mujd[i]);
-	Free(mujd);
+/*	for (i=0; i<in_param.clusters; i++) free(mujd[i]);
+	free(mujd);
 */
     return;
 }

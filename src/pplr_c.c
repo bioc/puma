@@ -90,12 +90,12 @@ void allocatemem_pplr()
   
 void freemem_pplr()
 {
-	if (in_param.expr != NULL) Free(in_param.expr);
-	if (in_param.var != NULL) Free(in_param.var);
+	if (in_param.expr != NULL) free(in_param.expr);
+	if (in_param.var != NULL) free(in_param.var);
 	if (in_param.method > 0)
 	{
-		if (in_param.mu1 != NULL) Free(in_param.mu1);
-		if (in_param.mu1sq != NULL) Free(in_param.mu1sq);
+		if (in_param.mu1 != NULL) free(in_param.mu1);
+		if (in_param.mu1sq != NULL) free(in_param.mu1sq);
 	}
 }
 
@@ -355,9 +355,9 @@ void workout_comb1()
 	}
 	PutRNGstate();
         /*fclose(pf);*/
-/*	Free(sample_x);
-	Free(logy);
-	Free(w_param);
+/*	free(sample_x);
+	free(logy);
+	free(w_param);
 */}
 
 SEXP bcomb_c(SEXP Mmat, SEXP Stdmat, SEXP rep, SEXP method, SEXP conds, SEXP nsample, SEXP eps)
