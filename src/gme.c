@@ -234,9 +234,9 @@ void freemem_gme()
     int j;
     for(j=0;j<in_param->numofgenes;j++)
     {
-         if(in_param->parameters[j]!=NULL) Free(in_param->parameters[j]);
+         if(in_param->parameters[j]!=NULL) free(in_param->parameters[j]);
     }
-    if(in_param->parameters!=NULL) Free(in_param->parameters);
+    if(in_param->parameters!=NULL) free(in_param->parameters);
 }
 
 double  ** allocate_matrix(int m,int n) 
@@ -1018,9 +1018,9 @@ SEXP gme_c(SEXP PMmat, SEXP GTmat, SEXP PNmat, SEXP GNmat, SEXP ANmat, SEXP tota
 
 	//freemem_gme();
       for(i=0;i<in_param->probes+1; i++)
-           Free(PM[i]);
+           free(PM[i]);
       for(i=0;i<in_param->genes+1; i++)
-          Free(GTM[i]);
+          free(GTM[i]);
           // vmaxget();
       Rprintf("Done.\n");
       UNPROTECT(3);
